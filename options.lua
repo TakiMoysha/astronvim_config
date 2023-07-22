@@ -7,6 +7,7 @@ return {
     wrap = false,
   },
   g = {
-    
+    autoformat_enabled = false,
+    ui_notification_enabled = false
   }
 }
