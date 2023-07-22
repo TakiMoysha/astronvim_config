@@ -8,6 +8,6 @@ return {
   },
   g = {
     autoformat_enabled = false,
-    ui_notification_enabled = false
+    ui_notifications_enable = false
   }
 }

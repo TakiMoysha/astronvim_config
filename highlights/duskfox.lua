@@ -4,9 +4,6 @@ return {
   -- plugins = {
   --   {
   --     "EdenEast/nightfox.nvim",
-  --     init = function()
-  --       vim.g.nightfox_style = "duskfox"
-  --     end,
   --   }
   -- }
 }

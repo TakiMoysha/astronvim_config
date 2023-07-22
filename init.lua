@@ -1,7 +1,4 @@
 return {
-  update = {
-    pin_plugins = nil,
-  },
   colorscheme = "duskfox",
   options = {
     opt = {
@@ -17,9 +14,6 @@ return {
     underline = true,
     virtual_text = true,
   },
-  plugins = {
-    { "EdenEast/nightfox.nvim" },
-
   
   --   ["cmp"] = function(config)
   --     return {}
@@ -52,7 +46,7 @@ return {
   --       },
   --     }
   --   end,
-  },
+  -- },
   lazy = {
     defaults = { lazy = true },
     performance = {
