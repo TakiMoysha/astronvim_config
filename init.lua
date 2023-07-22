@@ -1,24 +1,11 @@
 return {
   colorscheme = "duskfox",
-  options = {
-    opt = {
-      clipboard = "",
-      colorcolumn = "80,100",
-      spell = false ,
-      spellang = { "en_US", "ru_RU" },
-      timeoutlen = 500,
-      undofile = false
-    }
-  },
   diagnostics = {
-    underline = true,
+    -- underline = true,
     virtual_text = true,
   },
-  
-  --   ["cmp"] = function(config)
-  --     return {}
-  --   end,
-  --   ["heirline"] = function(config)
+ 
+ --   ["heirline"] = function(config)
   --     return {
   --       -- Status line:
   --       {
@@ -61,27 +48,5 @@ return {
         }
       }
     }
-  },
-  lsp = {
-    servers = {
-      "tsserver",
-      "denols",
-      "vuels",
-      "rust_analyzer",
-    },
-    -- config = {
-    --   denols = function(opts)
-    --     opts.root_dir = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
-    --     return opts
-    --   end,
-    --   tsserver = function(opts)
-    --     opts.root_dir = require("lspconfig.util").root_pattern("package.json")
-    --     return opts
-    --   end,
-    --   eslint = function(opts)
-    --     opts.root_dir = require("lspconfig.util").root_pattern("package.json")
-    --     return opts
-    --   end,
-    -- }, 
-  },
+  }
 };
