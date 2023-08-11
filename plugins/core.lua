@@ -23,5 +23,17 @@ return {
       }
       return opts
     end,
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = function(_, opts)
+      opts.file_ignore_patterns = {
+        "**/node_modules/*",
+        "**/yarn.lock",
+        ".git/.*",
+        ".cache/.*",
+      }
+      return opts
+    end
   }
 }
