@@ -1,9 +1,7 @@
 return {
   opt = {
-    clipboard = "",
+    -- clipboard = "",
     colorcolumn = "80,100",
-    -- spell = false ,
-    -- spellang = { "en_US", "ru_RU" },
     timeoutlen = 500,
     undofile = false,
     relativenumber = true,
