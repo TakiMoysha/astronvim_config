@@ -11,6 +11,6 @@ return {
   },
   g = {
     autoformat_enabled = false,
-    ui_notifications_enable = false
-  }
+    ui_notifications_enable = false,
+  },
 }

@@ -1,21 +1,18 @@
 local utils = require "astronvim.utils"
+
 return {
+  { "EdenEast/nightfox.nvim" },
+  { "wakatime/vim-wakatime", lazy = false },
   {
-    "AstroNvim/astrocommunity",
-    { import = "astrocommunity.pack.toml" },
-    { import = "astrocommunity.pack.rust" },
-    { import = "astrocommunity.pack.python-ruff" },
-    { import = "astrocommunity.pack.vue" },
-    { import = "astrocommunity.pack.typescript" },
-    -- { import = "astrocommunity.pack.typescript-all-in-one" },
-    { import = "astrocommunity.pack.astro" },
-    { import = "astrocommunity.pack.docker" },
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "neovim/nvim-lspconfig" },
   },
-  { 
+
+  {
     "Exafunction/codeium.vim",
     event = "User AstroFile",
     config = function()
-      vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+      vim.keymap.set("i", "<C-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
       vim.keymap.set("n", "<leader>;", function()
         if vim.g.codeium_enabled == true then
           vim.cmd "CodeiumDisable"
@@ -23,10 +20,19 @@ return {
           vim.cmd "CodeiumEnable"
         end
       end, { noremap = true, desc = "Toggle Codeium active" })
-    end
+    end,
   },
-  { "EdenEast/nightfox.nvim" },
-  { "wakatime/vim-wakatime", lazy = false },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+    event = "User AstroFile",
+    cmd = { "TodoQuickFix" },
+    keys = {
+      { "<leader>fd", "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
+    },
+  },
+
   {
     "goolord/alpha-nvim",
     opts = function(_, opts)
@@ -41,24 +47,5 @@ return {
       }
       return opts
     end,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    opts = function(_, opts)
-      opts.defaults.file_ignore_patterns = {
-        "node_modules",
-        "package%-lock.json",
-        "yarn.lock",
-        ".git",
-        ".cache",
-      }
-      return opts
-    end
-  },
-  {
-    "rcarriga/nvim-notify",
-    opts =  {
-      top_down = false,
-    }
   },
 }
