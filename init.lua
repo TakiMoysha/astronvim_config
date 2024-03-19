@@ -7,10 +7,4 @@ return {
     underline = true,
     virtual_text = true,
   },
-
-  plugins = {
-    init = {
-      
-    }
-  }
 }

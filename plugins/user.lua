@@ -2,11 +2,6 @@ return {
   { "EdenEast/nightfox.nvim" },
   { "wakatime/vim-wakatime", lazy = false },
   {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "neovim/nvim-lspconfig" },
-  },
-
-  {
     "Exafunction/codeium.vim",
     event = "User AstroFile",
     config = function()
