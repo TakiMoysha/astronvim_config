@@ -4,8 +4,8 @@ return {
       {
         name = "@vue/typescript-plugin",
         location = "/usr/lib/node_modules/@vue/typescript-plugin",
-        languages = { "typescript", "javascript", "vue" },
-      },
+        languages = { "vue", },
+      }
     },
   },
   filetypes = {
