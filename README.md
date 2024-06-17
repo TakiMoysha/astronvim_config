@@ -25,4 +25,4 @@ Required software:
 
 ## Shortcuts
 
--
+- 

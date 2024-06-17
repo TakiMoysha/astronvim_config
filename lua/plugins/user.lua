@@ -6,42 +6,16 @@ return {
   { "EdenEast/nightfox.nvim" },
   { "wakatime/vim-wakatime", lazy = false },
   {
-    "Exafunction/codeium.vim",
-    event = "User AstroFile",
-    config = function()
-      vim.keymap.set("i", "<C-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
-      vim.keymap.set("n", "<leader>;", function()
-        if vim.g.codeium_enabled == true then
-          vim.cmd "CodeiumDisable"
-        else
-          vim.cmd "CodeiumEnable"
-        end
-      end, { noremap = true, desc = "Toggle Codeium active" })
-    end,
-  },
-  {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
     event = "User AstroFile",
     cmd = { "TodoQuickFix" },
     keys = {
-      { "<leader>fd", "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
+      { "<Leader>fd", "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
     },
   },
 
-  -- == Examples of Adding Plugins ==
-
-  -- "andweeb/presence.nvim",
-  -- {
-  --   "ray-x/lsp_signature.nvim",
-  --   event = "BufRead",
-  --   config = function() require("lsp_signature").setup() end,
-  -- },
-
-  -- == Examples of Overriding Plugins ==
-
-  -- customize alpha options
   {
     "goolord/alpha-nvim",
     opts = function(_, opts)
