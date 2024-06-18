@@ -14,5 +14,5 @@ return {
   { import = "astrocommunity.pack.astro" },
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.just" },
-  { import = "astrocommunity.completion.codeium-vim" },
+  -- { import = "astrocommunity.completion.codeium-vim" },
 }
