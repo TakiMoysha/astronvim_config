@@ -12,7 +12,7 @@ return {
     features = {
       autoformat = true, -- enable or disable auto formatting on start
       codelens = true, -- enable/disable codelens refresh on start
-      inlay_hints = false, -- enable/disable inlay hints on start
+      inlay_hints = true, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
     -- customize lsp formatting options
@@ -72,6 +72,24 @@ return {
           desc = "Refresh codelens (buffer)",
           callback = function(args)
             if require("astrolsp").config.features.codelens then vim.lsp.codelens.refresh { bufnr = args.buf } end
+          end,
+        },
+      },
+      no_insert_inlay_hints = {
+        cond = vim.lsp.inlay_hint and "textDocument/inlayHint" or false,
+        {
+          event = "InsertEnter",
+          desc = "Disable inlay hints (buffer)",
+          callback = function(args)
+            local filter = { bufnr = args.buf }
+            if vim.lsp.inlay_hint.is_enabled(filter) then
+              -- vim.notify("Inlay hints disabled", vim.log.levels.INFO, { title = "AstroLSP" })
+              vim.lsp.inlay_hint.enable(false, filter)
+              vim.api.nvim_create_autocmd(
+                "InsertLeave",
+                { buffer = args.buf, once = true, callback = function() vim.lsp.inlay_hint.enable(true, filter) end }
+              )
+            end
           end,
         },
       },

@@ -16,6 +16,7 @@ mv ~/.cache/nvim ~/.cache/nvim.bak
 Required software:
 
 - ripgrep - for telescope
+- xlip / wl-clipboard - clipboard for x11/wayland
 
 ## Command
 
@@ -24,5 +25,7 @@ Required software:
 - `:TodoQuickFix` - show todo quickfix
 
 ## Shortcuts
-
 - 
+
+## References
+1. https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
