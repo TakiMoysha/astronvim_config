@@ -17,6 +17,9 @@ Required software:
 
 - ripgrep - for telescope
 - xlip / wl-clipboard - clipboard for x11/wayland
+- fd - for virtual env
+
+> venv-selector don't find default poetry venvs (~/.cache/pypoetry/virtualenvs). So, i set `poetry config virtualenvs.in-project true`
 
 ## Command
 
