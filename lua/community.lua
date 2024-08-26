@@ -15,5 +15,6 @@ return {
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },
+  { import = "astrocommunity.recipes.neovide" },
   -- { import = "astrocommunity.completion.codeium-vim" },
 }
