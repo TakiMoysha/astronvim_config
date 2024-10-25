@@ -1,9 +1,37 @@
 return {
   {
     "AstroNvim/astrolsp",
+    optional = true,
+    ---@type AstroLSPOpts
     opts = {
+      ---@diagnostic disable: missing-fields
       config = {
-        ruff = { on_attach = function(client) client.server_capabilities.hoverProvider = false end },
+        basedpyright = {
+          before_init = function(_, config)
+            if not config.settings then config.settings = {} end
+            if not config.settings.python then config.settings.python = {} end
+            -- config.settings.python.pythonPath = vim.fn.exepath "python"
+          end,
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = "basic",
+                autoImportCompletions = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedImport = "none",
+                  reportUnusedFunction = "none",
+                  reportUnusedVariable = "none",
+                  reportGeneralTypeIssues = "none",
+                  reportOptionalMemberAccess = "none",
+                  reportOptionalSubscript = "none",
+                  reportPrivateImportUsage = "none",
+                },
+              },
+            },
+          },
+
+          ruff = { on_attach = function(client) client.server_capabilities.hoverProvider = false end },
+        },
       },
     },
   },
@@ -20,7 +48,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "ruff" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "basedpyright", "ruff" })
     end,
   },
   {
@@ -31,7 +59,6 @@ return {
         function(v) return not vim.tbl_contains({ "black", "isort" }, v) end,
         opts.ensure_installed
       )
-      -- require("astrocore").list_insert_unique(opts.ensure_installed, { "black", "isort" })
     end,
   },
   {
@@ -47,14 +74,14 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "ruff", "black", "isort", "debugpy" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(
+        opts.ensure_installed,
+        { "ruff", "basedpyright", "black", "isort", "debugpy" }
+      )
       opts.ensure_installed = vim.tbl_filter(
         function(v) return not vim.tbl_contains({ "black", "isort" }, v) end,
         opts.ensure_installed
       )
-      -- opts.ensure_installed =
-      --   require("astrocore").list_insert_unique(opts.ensure_installed, { "ruff", "black", "isort", "debugpy" })
     end,
   },
   {
@@ -79,9 +106,7 @@ return {
       auto_refresh = true,
       search = false,
       -- search_venv_managers = true,
-      poetry_path = "/home/takimoysha/.cache/pypoetry/virtualenvs",
       name = { "venv", "env", ".venv" },
-      changed_venv_hooks = {},
     },
     cmd = "VenvSelect",
   },
