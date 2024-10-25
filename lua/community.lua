@@ -7,7 +7,7 @@ return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.toml" },
-  { import = "astrocommunity.pack.python-ruff" },
+  -- { import = "astrocommunity.pack.python-ruff" },
   -- { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.vue" },
@@ -16,5 +16,6 @@ return {
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },
   { import = "astrocommunity.recipes.neovide" },
+  { import = "astrocommunity.docker.lazydocker" },
   -- { import = "astrocommunity.completion.codeium-vim" },
 }

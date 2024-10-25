@@ -66,21 +66,4 @@ return {
       },
     },
   },
-  {
-    "linux-cultist/venv-selector.nvim",
-    opts = {
-      debug=true,
-      auto_refresh = true,
-      search = false,
-      -- search_venv_managers = true,
-      poetry_path = "/home/takimoysha/.cache/pypoetry/virtualenvs",
-      name = { "venv", "env", ".venv" },
-      changed_venv_hooks = {
-        require("venv-selector.hooks").basedpyright,
-      },
-    },
-    keys = {
-      { "<leader>lv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" },
-    },
-  },
 }
