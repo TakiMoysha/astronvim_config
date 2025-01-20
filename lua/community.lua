@@ -11,6 +11,7 @@ return {
   { import = "astrocommunity.pack.rust" },
   -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
   -- { import = "astrocommunity.pack.vue" }, -- -> plugins/javascript.lua
+  { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.astro" },
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
