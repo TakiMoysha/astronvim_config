@@ -32,3 +32,4 @@ Required software:
 
 ## References
 1. https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
+2. https://astronvim.lazyman.dev
