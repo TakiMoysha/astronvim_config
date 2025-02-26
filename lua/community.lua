@@ -16,6 +16,7 @@ return {
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },
+  { import = "astrocommunity.pack.sql" },
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.docker.lazydocker" },
   -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua

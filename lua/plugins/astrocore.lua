@@ -57,12 +57,15 @@ return {
           end,
           desc = "Close buffer from tabline",
         },
-        -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
-        -- ["<Leader>b"] = { desc = "Buffers" },
 
-        -- setting a mapping to false will disable it
-        -- ["<C-S>"] = false,
+        -- #Executor
+        ["F2"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
+        ["<Leader>Ex"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
+        ["<Leader>Es"] = { "<Cmd>ExecutorSetCommand<CR>", desc = "Set command" },
+        ["<Leader>Et"] = { "<Cmd>ExecutorToggleDetail<CR>", desc = "Toggle Detail" },
+        ["<Leader>ES"] = { "<Cmd>ExecutorSwapToSplit<CR>", desc = "Swap to Split" },
+        ["<Leader>EP"] = { "<Cmd>ExecutorSwapToPopup<CR>", desc = "Swap to Popup" },
+        ["<Leader>E"] = { desc = "Executor" },
       },
     },
   },

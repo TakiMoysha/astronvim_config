@@ -12,7 +12,7 @@ return {
     event = "User AstroFile",
     cmd = { "TodoQuickFix" },
     keys = {
-      { "<Leader>fd", "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
+      -- { "<Leader>fd", "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
     },
   },
 

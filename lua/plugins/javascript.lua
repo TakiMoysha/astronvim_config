@@ -1,6 +1,7 @@
+---@type LazySpec
 return {
   { import = "astrocommunity.pack.typescript" },
-  { import = "astrocommunity.pack.typescript-deno" },
+  -- { import = "astrocommunity.pack.typescript-deno" },
   { import = "astrocommunity.pack.vue" },
   {
     "AstroNvim/astrolsp",
@@ -15,10 +16,10 @@ return {
           root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
           single_file_support = false,
         },
-        vtsls = {
-          root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
-          single_file_support = false,
-        },
+        -- vtsls = {
+        --   root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
+        --   single_file_support = false,
+        -- },
       },
     },
   },
