@@ -59,8 +59,8 @@ return {
         },
 
         -- #Executor
-        ["F2"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
-        ["<Leader>Ex"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
+        ["<F2>"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
+        ["<Leader>Ee"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
         ["<Leader>Es"] = { "<Cmd>ExecutorSetCommand<CR>", desc = "Set command" },
         ["<Leader>Et"] = { "<Cmd>ExecutorToggleDetail<CR>", desc = "Toggle Detail" },
         ["<Leader>ES"] = { "<Cmd>ExecutorSwapToSplit<CR>", desc = "Swap to Split" },
