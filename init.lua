@@ -22,11 +22,11 @@ require "polish"
 -- vim.api.nvim_create_autocmd("VimEnter", {
 --   callback = function()
 --     vim.notify("1: " .. vim.fn.argv())
-    --     if vim.g.neovide then
-    -- local rs = require "resession"
-    -- local last_session = rs.list()[0]
-    -- vim.notify("Resession: ", vim.log.levels.INFO)
-    -- rs.load(last_session)
-    -- end
+--     if vim.g.neovide then
+-- local rs = require "resession"
+-- local last_session = rs.list()[0]
+-- vim.notify("Resession: ", vim.log.levels.INFO)
+-- rs.load(last_session)
+-- end
 --   end,
 -- })

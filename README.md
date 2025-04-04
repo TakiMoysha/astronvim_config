@@ -15,9 +15,9 @@ mv ~/.cache/nvim ~/.cache/nvim.bak
 
 Required software:
 
-- ripgrep - for telescope
-- xlip / wl-clipboard - clipboard for x11/wayland
-- fd - for virtual env
+- `ripgrep` - for telescope
+- `xlip` / `wl-clipboard` - clipboard for x11/wayland
+- `fd` - for virtual env
 
 > venv-selector don't find default poetry venvs (~/.cache/pypoetry/virtualenvs). So, i set `poetry config virtualenvs.in-project true`
 
@@ -28,8 +28,10 @@ Required software:
 - `:TodoQuickFix` - show todo quickfix
 
 ## Shortcuts
-- 
+
+-
 
 ## References
+
 1. https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
 2. https://astronvim.lazyman.dev

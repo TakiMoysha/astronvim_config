@@ -12,6 +12,7 @@ return {
             if not config.settings.python then config.settings.python = {} end
             config.settings.python.pythonPath = vim.fn.exepath "python"
           end,
+
           settings = {
             basedpyright = {
               -- analysis = {
@@ -44,7 +45,9 @@ return {
             },
           },
 
-          ruff = { on_attach = function(client) client.server_capabilities.hoverProvider = false end },
+          ruff = {
+            on_attach = function(client) client.server_capabilities.hoverProvider = false end,
+          },
         },
       },
     },
@@ -116,11 +119,10 @@ return {
       },
     },
     opts = {
-      debug = false,
       auto_refresh = true,
-      search = false,
-      -- search_venv_managers = true,
-      name = { "venv", "env", ".venv" },
+      -- search = true,
+      -- -- search_venv_managers = true,
+      -- name = { "venv", "env", ".venv" },
     },
     cmd = "VenvSelect",
   },
