@@ -5,6 +5,7 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.snippet.nvim-snippets" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.toml" },
   -- { import = "astrocommunity.pack.python-ruff" }, -- -> plugins/python.lua
@@ -19,5 +20,6 @@ return {
   { import = "astrocommunity.pack.sql" },
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.docker.lazydocker" },
+  { import = "astrocommunity.editing-support.multicursors-nvim" },
   -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua
 }

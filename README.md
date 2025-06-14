@@ -19,6 +19,15 @@ Required software:
 - `xlip` / `wl-clipboard` - clipboard for x11/wayland
 - `fd` - for virtual env
 
+_Fonts_:
+
+- FiraCode Nerd Font
+- BlexMono Nerd Font
+- Gohu Nerd Font
+- Terminess Nerd Font
+- Iosevka Nerd Font
+- JetBrains Nerd Font
+
 > venv-selector don't find default poetry venvs (~/.cache/pypoetry/virtualenvs). So, i set `poetry config virtualenvs.in-project true`
 
 ## Command
