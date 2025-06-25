@@ -48,6 +48,12 @@ return {
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
+        -- ranger
+        ["<Leader>tr"] = {
+          function() require("astrocore").toggle_term_cmd { cmd = "ranger", direction = "float" } end,
+          desc = "ToggleTerm ranger",
+        },
+
         -- mappings seen under group name "Buffer"
         ["<Leader>bd"] = {
           function()
