@@ -8,7 +8,6 @@ return {
   { import = "astrocommunity.snippet.nvim-snippets" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.toml" },
-  -- { import = "astrocommunity.pack.python-ruff" }, -- -> plugins/python.lua
   { import = "astrocommunity.pack.rust" },
   -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
   -- { import = "astrocommunity.pack.vue" }, -- -> plugins/javascript.lua
