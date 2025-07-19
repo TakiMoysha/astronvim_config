@@ -36,9 +36,14 @@ _Fonts_:
 - `:Notification` - show session notifications
 - `:TodoQuickFix` - show todo quickfix
 
-## Shortcuts
+## Learning
 
--
+##### Commands
+
+`:'<,'>s/<old>/<new>/g` - replace all `<old>` to `<new>` from selected lines.
+
+##### Change mode
+
 
 ## References
 

@@ -5,7 +5,7 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
-  { import = "astrocommunity.snippet.nvim-snippets" },
+  { import = "astrocommunity.snippet.mini-snippets" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.pack.rust" },

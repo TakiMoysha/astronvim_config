@@ -9,6 +9,7 @@ vim.filetype.add {
   },
   filename = {
     ["Foofile"] = "fooscript",
+    ["just"] = "make",
   },
   pattern = {
     ["~/%.config/foo/.*"] = "fooscript",
