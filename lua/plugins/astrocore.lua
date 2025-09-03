@@ -32,6 +32,8 @@ return {
         wrap = false, -- sets vim.opt.wrap
       },
       g = { -- vim.g.<key>
+        -- neovide configs
+        neovide_increment_scale_factor = vim.g.neovide_increment_scale_factor or 0.1,
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
         -- This can be found in the `lua/lazy_setup.lua` file

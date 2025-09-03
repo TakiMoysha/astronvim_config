@@ -21,11 +21,12 @@ require "polish"
 
 if vim.g.neovide then
   -- vim.o.guifont = "FiraCode Nerd Font Mono:h9"
-  -- vim.o.guifont = "JetBrains Nerd Mono:h9"
-  vim.o.guifont = "Iosevka Nerd Font:h10"
+  vim.o.guifont = "JetBrainsMono Nerd Font:h9"
+  -- vim.o.guifont = "Iosevka Nerd Font Regular:h10" -- толстоват
   -- vim.o.guifont = "GohuFont 14 Nerd Font Mono:h9"
   -- vim.o.guifont = "BlexMono Nerd Font:h9"
-  -- vim.o.guifont = "Terminess Nerd Font:h9"
+  -- vim.o.guifont = "Terminess Nerd Font Propo:h10"
+  -- vim.o.guifont = "Source Code Pro:h12"
 end
 
 -- vim.api.nvim_create_autocmd("VimEnter", {
