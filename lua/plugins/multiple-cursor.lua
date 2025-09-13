@@ -13,18 +13,24 @@ return {
     "MultipleCursorsJumpNextMatch",
     "MultipleCursorsLock",
   },
+  opts = function(_, opts)
+    opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "multiple-cursors" })
+  end,
   dependencies = {
     { "AstroNvim/astroui", opts = { icons = { MultipleCursors = "󰗧" } } },
     {
-      "AstroNvim/astrolsp",
+      "AstroNvim/astrocore",
       opts = function(_, opts)
         ---@type AstroLSPOpts
         local maps = opts
-        maps.mappings.n["<S-j>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
-        maps.mappings.i["<S-j>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
+        maps.mappings.n["<S-Down>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
+        -- maps.mappings.i["<S-Down>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
 
-        maps.mappings.n["<S-k>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
-        maps.mappings.i["<S-k>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
+        maps.mappings.n["<S-Up>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
+        -- maps.mappings.i["<S-Up>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
+
+        maps.mappings.n["<S-n>"] = { "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", desc = "Jump cursor to next match" }
+        -- maps.mappings.i["<S-n>"] = { "<Cmd>MultipleCursorsJumpNextMatch<CR>", desc = "Add cursor up" }
 
         maps.mappings.n["<C-LeftMouse>"] = { "<Cmd>MultipleCursorsMouseAddDelete<CR>", desc = "Add cursor with mouse" }
         maps.mappings.i["<C-LeftMouse>"] = { "<Cmd>MultipleCursorsMouseAddDelete<CR>", desc = "Add cursor with mouse" }
