@@ -9,8 +9,10 @@ return {
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.pack.rust" },
-  -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
   -- { import = "astrocommunity.pack.vue" }, -- -> plugins/javascript.lua
+  -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
+  -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua
+  -- { import = "astrocommunity.editing-support.multicursors-nvim" }, -- -> plugins/multiple-cursor.lua
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.astro" },
   { import = "astrocommunity.pack.docker" },
@@ -19,6 +21,4 @@ return {
   { import = "astrocommunity.pack.sql" },
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.docker.lazydocker" },
-  { import = "astrocommunity.editing-support.multicursors-nvim" },
-  -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua
 }

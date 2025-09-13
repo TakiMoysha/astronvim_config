@@ -8,7 +8,6 @@ return {
     build = ":Cord udpate",
     event = "VeryLazy",
     enabled = true,
-    opts = {},
     config = function()
       require("cord").setup {
         timestamp = {

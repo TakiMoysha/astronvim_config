@@ -47,8 +47,8 @@ return {
         -- second key is the lefthand side of the map
 
         -- navigate buffer tabs
-        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        -- ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        -- ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
         -- -- ranger
         -- ["<Leader>tr"] = {
@@ -70,15 +70,6 @@ return {
           end,
           desc = "Close buffer from tabline",
         },
-
-        -- #Executor
-        ["<F2>"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
-        ["<Leader>Ee"] = { "<Cmd>ExecutorRun<CR>", desc = "Execute" },
-        ["<Leader>Es"] = { "<Cmd>ExecutorSetCommand<CR>", desc = "Set command" },
-        ["<Leader>Et"] = { "<Cmd>ExecutorToggleDetail<CR>", desc = "Toggle Detail" },
-        ["<Leader>ES"] = { "<Cmd>ExecutorSwapToSplit<CR>", desc = "Swap to Split" },
-        ["<Leader>EP"] = { "<Cmd>ExecutorSwapToPopup<CR>", desc = "Swap to Popup" },
-        ["<Leader>E"] = { desc = "Executor" },
       },
     },
   },
