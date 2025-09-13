@@ -1,4 +1,6 @@
--- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
+-- https://github.com/jake-stewart/multicursor.nvim
 
 ---@type LazySpec
 return {
@@ -19,23 +21,17 @@ return {
   dependencies = {
     { "AstroNvim/astroui", opts = { icons = { MultipleCursors = "󰗧" } } },
     {
-      "AstroNvim/astrocore",
+      "AstroNvim/astrolsp",
       opts = function(_, opts)
-        ---@type AstroLSPOpts
-        local maps = opts
-        maps.mappings.n["<S-Down>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
-        -- maps.mappings.i["<S-Down>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
-
-        maps.mappings.n["<S-Up>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
-        -- maps.mappings.i["<S-Up>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
-
-        maps.mappings.n["<S-n>"] = { "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", desc = "Jump cursor to next match" }
-        -- maps.mappings.i["<S-n>"] = { "<Cmd>MultipleCursorsJumpNextMatch<CR>", desc = "Add cursor up" }
-
-        maps.mappings.n["<C-LeftMouse>"] = { "<Cmd>MultipleCursorsMouseAddDelete<CR>", desc = "Add cursor with mouse" }
-        maps.mappings.i["<C-LeftMouse>"] = { "<Cmd>MultipleCursorsMouseAddDelete<CR>", desc = "Add cursor with mouse" }
-
+        ---@type AstroLSPMappings
+        local maps = opts.mappings
+        
         local prefix = "<Leader>m"
+
+        maps.n["<S-Down>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }
+        maps.n["<S-Up>"] = { "<Cmd>MultipleCursorsAddUp<CR>", desc = "Add cursor up" }
+        maps.n[prefix .. "n"] = { "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", desc = "Jump cursor to next match" }
+        maps.n["<C-LeftMouse>"] = { "<Cmd>MultipleCursorsMouseAddDelete<CR>", desc = "Add cursor with mouse" }
 
         for lhs, map in pairs {
           [prefix] = { desc = require("astroui").get_icon("MultipleCursors", 1, true) .. "MultipleCursors" },
@@ -45,8 +41,8 @@ return {
           [prefix .. "J"] = { "<Cmd>MultipleCursorsJumpNextMatch<CR>", desc = "Move cursor to next match" },
           [prefix .. "l"] = { "<Cmd>MultipleCursorsLock<CR>", desc = "Lock virtual cursors" },
         } do
-          maps.mappings.n[lhs] = map
-          maps.mappings.x[lhs] = map
+          maps.n[lhs] = map
+          maps.x[lhs] = map
         end
       end,
     },
