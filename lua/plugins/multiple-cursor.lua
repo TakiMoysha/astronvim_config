@@ -25,7 +25,6 @@ return {
       opts = function(_, opts)
         ---@type AstroLSPMappings
         local maps = opts.mappings
-        
         local prefix = "<Leader>m"
 
         maps.n["<S-Down>"] = { "<Cmd>MultipleCursorsAddDown<CR>", desc = "Add cursor down" }

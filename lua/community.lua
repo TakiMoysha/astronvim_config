@@ -6,6 +6,7 @@
 return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.snippet.mini-snippets" },
+  { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.toml" },
   { import = "astrocommunity.pack.rust" },
@@ -13,6 +14,7 @@ return {
   -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
   -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua
   -- { import = "astrocommunity.editing-support.multicursors-nvim" }, -- -> plugins/multiple-cursor.lua
+  -- { import = "astrocommunity.code-runner.overseer-nvim" }, -- -> plugins/overseer.lua
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.astro" },
   { import = "astrocommunity.pack.docker" },
