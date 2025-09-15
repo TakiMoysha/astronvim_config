@@ -8,8 +8,8 @@ return {
   { import = "astrocommunity.snippet.mini-snippets" },
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.pack.lua" },
-  { import = "astrocommunity.pack.toml" },
-  { import = "astrocommunity.pack.rust" },
+  -- { import = "astrocommunity.pack.toml" }, -- -> plugins/rust.lua
+  -- { import = "astrocommunity.pack.rust" }, -- -> plugins/rust.lua
   -- { import = "astrocommunity.pack.vue" }, -- -> plugins/javascript.lua
   -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
   -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua

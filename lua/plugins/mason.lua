@@ -11,11 +11,12 @@ return {
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         -- "tsserver", -- WARN: try starting in python projects
         "lua_ls",
+        -- # rust
+        -- "tombi",
         -- add more arguments for adding more language servers
       })
     end,
   },
-
   -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
   {
     "jay-babu/mason-null-ls.nvim",
@@ -30,13 +31,12 @@ return {
     end,
   },
   {
-    "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    optional = true,
     opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-        "python",
-        -- add more arguments for adding more debuggers
+        -- # rust
+        "tombi",
       })
     end,
   },
