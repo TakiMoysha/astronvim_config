@@ -12,8 +12,8 @@ return {
       "AstroNvim/astrocore",
       opts = {
         commands = {
-          MarkdownOpen = { function() require("peek").open() end, desc = "Open preview window" },
-          MarkdownClose = { function() require("peek").close() end, desc = "Close preview window" },
+          OpenMarkdown = { function() require("peek").open() end, desc = "Open preview window" },
+          CloseMarkdown = { function() require("peek").close() end, desc = "Close preview window" },
         },
       },
     },

@@ -45,6 +45,7 @@ return {
     mappings = {
       -- first key is the mode
       n = {
+        ["<Leader>l/R"] = { "<Cmd>LspRestart<CR>", desc = "Restart LSP" },
         -- second key is the lefthand side of the map
 
         -- navigate buffer tabs
