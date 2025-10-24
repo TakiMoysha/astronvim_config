@@ -42,7 +42,7 @@ return {
       opts = function(_, opts)
         ---@type AstroLSPMappings
         local maps = opts.mappings
-        local prefix = "<leader>M"
+        local prefix = "<leader>O"
         maps.n[prefix] = { desc = require("astroui").get_icon("Overseer", 1, true) .. "Overseer" }
 
         maps.n[prefix .. "t"] = { "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer" }
@@ -53,6 +53,7 @@ return {
         maps.n[prefix .. "i"] = { "<Cmd>OverseerInfo<CR>", desc = "Overseer Info" }
 
         maps.n["<F2>"] = { "<Cmd>OverseerRun<CR>", desc = "Run Task" }
+        maps.n["<F3>"] = { "<Cmd>OverseerQuickAction<CR>", desc = "Quick Action" }
         maps.n["<F8>"] = { "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer" }
 
       end,

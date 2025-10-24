@@ -17,20 +17,6 @@ return {
 
           settings = {
             basedpyright = {
-              -- analysis = {
-              --   typeCheckingMode = "basic",
-              --   autoImportCompletions = true,
-              --   diagnosticSeverityOverrides = {
-              --     reportUnusedImport = "information",
-              --     reportUnusedFunction = "information",
-              --     reportUnusedVariable = "information",
-              --     reportGeneralTypeIssues = "none",
-              --     reportOptionalMemberAccess = "none",
-              --     reportOptionalSubscript = "none",
-              --     reportPrivateImportUsage = "none",
-              --   },
-              -- },
-
               analysis = {
                 typeCheckingMode = "basic",
                 autoImportCompletions = true,
@@ -44,6 +30,9 @@ return {
                   reportPrivateImportUsage = "none",
                 },
               },
+            },
+            ruff = {
+              
             },
           },
 
