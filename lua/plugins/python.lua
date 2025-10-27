@@ -9,11 +9,11 @@ return {
       ---@diagnostic disable: missing-fields
       config = {
         basedpyright = {
-          before_init = function(_, config)
-            if not config.settings then config.settings = {} end
-            if not config.settings.python then config.settings.python = {} end
-            config.settings.python.pythonPath = vim.fn.exepath "python"
-          end,
+          -- before_init = function(_, config)
+          --   if not config.settings then config.settings = {} end
+          --   if not config.settings.python then config.settings.python = {} end
+          --   config.settings.python.pythonPath = vim.fn.exepath "python"
+          -- end,
 
           settings = {
             basedpyright = {
@@ -31,9 +31,7 @@ return {
                 },
               },
             },
-            ruff = {
-              
-            },
+            -- ruff = {},
           },
 
           ruff = {
@@ -83,30 +81,15 @@ return {
       )
     end,
   },
+
   {
     "linux-cultist/venv-selector.nvim",
-    branch = "regexp",
-    enabled = vim.fn.executable "fd" == 1 or vim.fn.executable "fdfind" == 1 or vim.fn.executable "fd-find" == 1,
-    dependencies = {
-      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
-      {
-        "AstroNvim/astrocore",
-        opts = {
-          mappings = {
-            n = {
-              ["<Leader>lv"] = { "<Cmd>VenvSelect<CR>", desc = "Select VirtualEnv" },
-            },
-          },
-        },
-      },
-    },
-    opts = {
-      auto_refresh = true,
-      -- search = true,
-      -- -- search_venv_managers = true,
-      -- name = { "venv", "env", ".venv" },
-    },
+    --   enabled = vim.fn.executable "fd" == 1,
     cmd = "VenvSelect",
+    opts = {},
+    keys = {
+      { "<leader>lv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" },
+    },
   },
   {
     "mfussenegger/nvim-dap",

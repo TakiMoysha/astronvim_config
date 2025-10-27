@@ -9,6 +9,7 @@ return {
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.night-owl-nvim" },
   { import = "astrocommunity.pack.lua" },
+  -- { import = "astrocommunity.pack.python-ruff" }, -- -> plugins/python.lua
   -- { import = "astrocommunity.pack.toml" }, -- -> plugins/rust.lua
   -- { import = "astrocommunity.pack.rust" }, -- -> plugins/rust.lua
   -- { import = "astrocommunity.pack.vue" }, -- -> plugins/javascript.lua
