@@ -4,14 +4,14 @@
 return {
   {
     "vyfor/cord.nvim",
-    branch = "client-server",
-    build = ":Cord udpate",
+    branch = "master",
+    build = ":Cord update",
     event = "VeryLazy",
     enabled = true,
     config = function()
       require("cord").setup {
         timestamp = {
-          enalbed = true,
+          enabled = true,
           reset_on_idle = false,
           reset_on_change = false,
         },
