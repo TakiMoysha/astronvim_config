@@ -1,8 +1,8 @@
 ---@type LazySpec
 return {
   { import = "astrocommunity.pack.typescript" },
-  -- { import = "astrocommunity.pack.typescript-deno" },
   { import = "astrocommunity.pack.vue" },
+  { import = "astrocommunity.pack.prettier" },
   {
     "AstroNvim/astrolsp",
     optional = true,

@@ -1,5 +1,5 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
---
+
 return {
   {
     "AstroNvim/astrolsp",
@@ -82,15 +82,24 @@ return {
     end,
   },
 
-  {
-    "linux-cultist/venv-selector.nvim",
-    --   enabled = vim.fn.executable "fd" == 1,
-    cmd = "VenvSelect",
-    opts = {},
-    keys = {
-      { "<leader>lv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" },
-    },
-  },
+  -- {
+  --   "linux-cultist/venv-selector.nvim",
+  --   --   enabled = vim.fn.executable "fd" == 1,
+  --   -- cmd = "VenvSelect",
+  --   opts = {
+  --     search = {
+  --       workspace = false,
+  --     },
+  --     -- TODO: added command
+  --     -- commands = {
+  --     --   VenvDeactivate = { function() require("venv-selector").deactivate() end, desc = "Deactivate VirtualEnv" },
+  --     -- }
+  --   },
+  --   keys = {
+  --     { "<leader>lv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" },
+  --     { "<leader>l/d", "<cmd>:VenvDeactivate<cr>", desc = "Deactivate VirtualEnv" },
+  --   },
+  -- },
   {
     "mfussenegger/nvim-dap",
     optional = true,

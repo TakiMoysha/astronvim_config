@@ -6,7 +6,7 @@
 `<M>` - ALT
 `<S>` - SHIFT
 
-### **How `opts` overriding workds?**
+### **How `opts` overriding works?**
 
 > [!note] https://docs.astronvim.com/configuration/customizing_plugins/
 

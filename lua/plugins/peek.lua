@@ -4,16 +4,18 @@
 return {
   {
     "toppair/peek.nvim",
-    url = "https://github.com/TakiMoysha/peek.nvim",
+    -- url = "https://github.com/TakiMoysha/peek.nvim",
+    dir = "~/workspace/projects/peek.nvim",
+    dev = false,
     -- version = '5820d93',
-    lazy = true,
-    build = "deno task --quiet build:fast",
+    lazy = false,
+    build = "bun install && bun run build",
     dependencies = {
       "AstroNvim/astrocore",
       opts = {
         commands = {
-          OpenMarkdown = { function() require("peek").open() end, desc = "Open preview window" },
-          CloseMarkdown = { function() require("peek").close() end, desc = "Close preview window" },
+          MarkdownOpen = { function() require("peek").open() end, desc = "Open preview window" },
+          MarkdownClose = { function() require("peek").close() end, desc = "Close preview window" },
         },
       },
     },
