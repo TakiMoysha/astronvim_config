@@ -18,8 +18,10 @@ return {
           settings = {
             basedpyright = {
               analysis = {
+                autoSearchPaths = true,
                 typeCheckingMode = "basic",
                 autoImportCompletions = true,
+                diagnosticMode = "openFilesOnly",
                 diagnosticSeverityOverrides = {
                   reportUnusedImport = "none",
                   reportUnusedFunction = "none",
