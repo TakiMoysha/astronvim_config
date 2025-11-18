@@ -1,3 +1,5 @@
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -47,17 +49,18 @@ return {
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
     config = {
-      rust_analyzer = {
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = {
-              extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
-              extraArgs = { "--profile", "rust-analyzer" },
-              -- check = { command = "check", extraArgs = {} },
-            },
-          },
-        },
-      },
+      -- TODO: audit required
+      -- rust_analyzer = {
+      --   settings = {
+      --     ["rust-analyzer"] = {
+      --       cargo = {
+      --         extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
+      --         extraArgs = { "--profile", "rust-analyzer" },
+      --         -- check = { command = "check", extraArgs = {} },
+      --       },
+      --     },
+      --   },
+      -- },
     },
     -- customize how language servers are attached
     handlers = {
@@ -89,24 +92,25 @@ return {
           end,
         },
       },
-      no_insert_inlay_hints = {
-        cond = vim.lsp.inlay_hint and "textDocument/inlayHint" or false,
-        {
-          event = "InsertEnter",
-          desc = "Disable inlay hints (buffer)",
-          callback = function(args)
-            local filter = { bufnr = args.buf }
-            if vim.lsp.inlay_hint.is_enabled(filter) then
-              -- vim.notify("Inlay hints disabled", vim.log.levels.INFO, { title = "AstroLSP" })
-              vim.lsp.inlay_hint.enable(false, filter)
-              vim.api.nvim_create_autocmd(
-                "InsertLeave",
-                { buffer = args.buf, once = true, callback = function() vim.lsp.inlay_hint.enable(true, filter) end }
-              )
-            end
-          end,
-        },
-      },
+      -- TODO: audit required
+      -- no_insert_inlay_hints = {
+      --   cond = vim.lsp.inlay_hint and "textDocument/inlayHint" or false,
+      --   {
+      --     event = "InsertEnter",
+      --     desc = "Disable inlay hints (buffer)",
+      --     callback = function(args)
+      --       local filter = { bufnr = args.buf }
+      --       if vim.lsp.inlay_hint.is_enabled(filter) then
+      --         -- vim.notify("Inlay hints disabled", vim.log.levels.INFO, { title = "AstroLSP" })
+      --         vim.lsp.inlay_hint.enable(false, filter)
+      --         vim.api.nvim_create_autocmd(
+      --           "InsertLeave",
+      --           { buffer = args.buf, once = true, callback = function() vim.lsp.inlay_hint.enable(true, filter) end }
+      --         )
+      --       end
+      --     end,
+      --   },
+      -- },
     },
     -- mappings to be set up on attaching of a language server
     mappings = {

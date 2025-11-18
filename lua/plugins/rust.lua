@@ -29,13 +29,7 @@ return {
       },
     },
   },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "codelldb" })
-    end,
-  },
+
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -55,7 +49,7 @@ return {
         enabled = true,
         on_attach = function(...) require("astrolsp").on_attach(...) end,
         actions = true,
-        -- completion = true, -- !TODO: error
+        completion = true, -- !TODO: error
         hover = true,
       },
     },
@@ -101,7 +95,7 @@ return {
         end
         adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
       else
-        adapter = cfg.get_codelldb_adapter()
+        adapter = cfg.get_codelldb_adapter(nil, nil)
       end
 
       local astrolsp_avail, astrolsp = pcall(require, "astrolsp")

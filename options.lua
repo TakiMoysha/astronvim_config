@@ -1,7 +1,7 @@
 return {
   opt = {
     -- clipboard = "",
-    colorcolumn = "80,100",
+    colorcolumn = "80,100,120",
     timeoutlen = 500,
     undofile = false,
     relativenumber = true,

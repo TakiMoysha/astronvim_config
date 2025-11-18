@@ -1,3 +1,5 @@
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 -- "devDependencies": {
 --   "@types/node": "^24.10.1",
 --   "@vitejs/plugin-vue": "^6.0.1",
@@ -27,75 +29,56 @@ return {
   {
     "AstroNvim/astrolsp",
     optional = true,
-    opts = {
-      config = {
-        ts_ls = {
-          root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
-          single_file_support = false,
-        },
-        -- VOLAR
-        volar = {
-          filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-          root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
-          single_file_support = false,
-          settings = {
-            -- config
-            vue = {
-              completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
-              diagnostic = { enable = true },
-              format = { enable = false }, -- only prettier
+    ---@type opts AstroLSPOpts
+    opts = function(_, opts)
+      -- if not opts.config then opts.config = {} end
+      opts.config.vtsls = {
+        filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+        root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
+        single_file_support = false,
+        settings = {
+          typescript = {
+            tsserver = {
+              pluginsPaths = {
+                "./node_modules"
+              },
+              -- globalPlugins = {
+              --   {
+              --     name = "@vue/typescript-plugin",
+              --     location = vim.fn.stdpath "data"
+              --       .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+              --     languages = { "vue" },
+              --     configNamespace = "typescript",
+              --     enableForWorkspaceTypeScriptVersions = true,
+              --   },
+              -- },
             },
           },
         },
-        -- vtsls = {
-        --   filetypes = { "vue", "javascript", "javascriptreact", "typescript", "typescriptreact" },
-        --   root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
-        --   -- single_file_support = true,
-        --   settings = {
-        --     vtsls = {
-        --       tsserver = {
-        --         globalPlugins = {},
-        --       }
-        --     },
-        --   },
-        --   before_init = function (_, config)
-        --       local registry_ok, registry = pcall(require, "mason-registry")
-        --       if not registry_ok then return end
-        --
-        --       if registry.is_installed "vue-language-server" then
-        --         local vue_plugin_config = {
-        --           name = "@vue/typescript-plugin",
-        --           location = vim.fn.expand "$MASON/packages/vue-language-server/node_modules/@vue/language-server",
-        --           languages = { "vue" },
-        --           configNamespace = "typescript",
-        --           enableForWorkspaceTypeScriptVersions = true,
-        --         }
-        --
-        --         require("astrocore").list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { vue_plugin_config })
-        --       end
-        --   end
-        -- },
-        -- ESLINT as LSP
-        eslint = {
-          filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-          root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
-          settings = {
-            -- esling and plugins
-            -- workingDirectory = { mode = "local" }, # for local eslint
+      }
+
+      -- vue_ls для Vue-специфичных функций (template, script setup и т.д.)
+      opts.config.vue_ls = {
+        filetypes = { "vue" },
+        root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
+        single_file_support = false,
+        settings = {
+          vue = {
+            completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
+            diagnostic = { enable = true },
+            format = { enable = false }, -- используем prettier
           },
         },
-      },
-    },
-  },
+      }
 
-  {
-    "williamboman/mason-lspconfig.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(
-        opts.ensure_installed or {},
-        { "volar", "eslint" } -- install for js projects
-      )
+      -- eslint
+      opts.config.eslint = {
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
+        settings = {},
+      }
+
+      return opts
     end,
   },
 
@@ -103,12 +86,40 @@ return {
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(
-        opts.ensure_installed or {},
-        { "volar", "eslint" } --
-      )
-    end,
+    opts = {
+      ensure_installed = { "vue-language-server", "vtsls", "prettierd", "eslint_d" },
+    },
+  },
+
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      vtsls = {
+
+        filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+        root_dir = function(...) return require("lspconfig.util").root_pattern "package.json"(...) end,
+        single_file_support = false,
+        settings = {
+          vtsls = {
+            tsserver = {
+              globalPlugins = {
+                {
+                  name = "@vue/typescript-plugin",
+                  location = vim.fn.stdpath "data"
+                    .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+                  languages = { "vue" },
+                  configNamespace = "typescript",
+                  enableForWorkspaceTypeScriptVersions = true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    dependencies = {
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+    },
   },
 
   -- prettier for files
@@ -207,14 +218,5 @@ return {
     "dmmulroy/tsc.nvim",
     cmd = "TSC",
     opts = {},
-  },
-  {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = { { "nvim-neotest/neotest-jest", config = function() end } },
-    opts = function(_, opts)
-      if not opts.adapters then opts.adapters = {} end
-      table.insert(opts.adapters, require "neotest-jest"(require("astrocore").plugin_opts "neotest-jest"))
-    end,
   },
 }

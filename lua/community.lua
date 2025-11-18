@@ -5,24 +5,16 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.snippet.mini-snippets" },
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.night-owl-nvim" },
-  { import = "astrocommunity.pack.lua" },
-  -- { import = "astrocommunity.pack.python-ruff" }, -- -> plugins/python.lua
-  -- { import = "astrocommunity.pack.toml" }, -- -> plugins/rust.lua
-  -- { import = "astrocommunity.pack.rust" }, -- -> plugins/rust.lua
-  -- { import = "astrocommunity.pack.vue" }, -- -> plugins/javascript.lua
-  -- { import = "astrocommunity.pack.typescript-all-in-one" }, -- -> plugins/javascript.lua
-  -- { import = "astrocommunity.completion.codeium-vim" }, -- -> plugins/codeium.lua
-  -- { import = "astrocommunity.editing-support.multicursors-nvim" }, -- -> plugins/multiple-cursor.lua
-  -- { import = "astrocommunity.code-runner.overseer-nvim" }, -- -> plugins/overseer.lua
+  { import = "astrocommunity.pack.vue" },
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.astro" },
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },
-  { import = "astrocommunity.pack.sql" },
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.docker.lazydocker" },
 }
