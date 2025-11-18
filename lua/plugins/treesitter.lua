@@ -11,6 +11,12 @@ return {
       "toml",
       "lua",
       "vim",
+      "vue",
+      "javascript",
+      "typescript",
+      "tsx",
+      "jsdoc",
+      "vue",
       -- add more arguments for adding more treesitter parsers
     })
   end,

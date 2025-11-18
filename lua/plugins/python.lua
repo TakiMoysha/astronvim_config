@@ -19,7 +19,7 @@ return {
             basedpyright = {
               analysis = {
                 autoSearchPaths = true,
-                typeCheckingMode = "basic",
+                typeCheckingMode = "standard",
                 autoImportCompletions = true,
                 diagnosticMode = "openFilesOnly",
                 diagnosticSeverityOverrides = {

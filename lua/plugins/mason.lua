@@ -9,7 +9,6 @@ return {
     opts = function(_, opts)
       -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-        -- "tsserver", -- WARN: try starting in python projects
         "typos_lsp", -- linting spellcheck
         "lua_ls",
         -- # rust
@@ -26,11 +25,27 @@ return {
       -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         "stylua",
-        "prettier",
+        "prettierd",
         -- add more arguments for adding more language servers
       })
     end,
   },
+
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "js" })
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar" })
+    end,
+  },
+
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -38,6 +53,10 @@ return {
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         -- # rust
         "tombi",
+        -- # javascript
+        "vue-language-server",
+        "js-debug-adapter",
+        "prettierd",
       })
     end,
   },
