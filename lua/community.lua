@@ -9,9 +9,7 @@ return {
   { import = "astrocommunity.snippet.mini-snippets" },
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.night-owl-nvim" },
-  { import = "astrocommunity.pack.vue" },
-  { import = "astrocommunity.pack.tailwindcss" },
-  { import = "astrocommunity.pack.astro" },
+
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },

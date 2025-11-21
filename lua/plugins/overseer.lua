@@ -39,25 +39,22 @@ return {
     { "AstroNvim/astroui", opts = { icons = { Overseer = "" } } },
     {
       "AstroNvim/astrocore",
+      ---@param opts AstroLSPMappings
       opts = function(_, opts)
-        ---@type AstroLSPMappings
-        local maps = opts.mappings
         local prefix = "<leader>O"
-        maps.n[prefix] = { desc = require("astroui").get_icon("Overseer", 1, true) .. "Overseer" }
+        opts.mappings.n[prefix] = { desc = require("astroui").get_icon("Overseer", 1, true) .. "Overseer" }
 
-        maps.n[prefix .. "t"] = { "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer" }
-        maps.n[prefix .. "c"] = { "<Cmd>OverseerRunCmd<CR>", desc = "Run Command" }
-        maps.n[prefix .. "r"] = { "<Cmd>OverseerRun<CR>", desc = "Run Task" }
-        maps.n[prefix .. "q"] = { "<Cmd>OverseerQuickAction<CR>", desc = "Quick Action" }
-        maps.n[prefix .. "a"] = { "<Cmd>OverseerTaskAction<CR>", desc = "Task Action" }
-        maps.n[prefix .. "i"] = { "<Cmd>OverseerInfo<CR>", desc = "Overseer Info" }
+        opts.mappings.n[prefix .. "t"] = { "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer" }
+        opts.mappings.n[prefix .. "c"] = { "<Cmd>OverseerRunCmd<CR>", desc = "Run Command" }
+        opts.mappings.n[prefix .. "r"] = { "<Cmd>OverseerRun<CR>", desc = "Run Task" }
+        opts.mappings.n[prefix .. "q"] = { "<Cmd>OverseerQuickAction<CR>", desc = "Quick Action" }
+        opts.mappings.n[prefix .. "a"] = { "<Cmd>OverseerTaskAction<CR>", desc = "Task Action" }
+        opts.mappings.n[prefix .. "i"] = { "<Cmd>OverseerInfo<CR>", desc = "Overseer Info" }
 
-        maps.n["<F2>"] = { "<Cmd>OverseerRun<CR>", desc = "Run Task" }
-        maps.n["<F3>"] = { "<Cmd>OverseerQuickAction<CR>", desc = "Quick Action" }
-        maps.n["<F8>"] = { "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer" }
-
+        opts.mappings.n["<F2>"] = { "<Cmd>OverseerRun<CR>", desc = "Run Task" }
+        opts.mappings.n["<F3>"] = { "<Cmd>OverseerQuickAction<CR>", desc = "Quick Action" }
+        opts.mappings.n["<F8>"] = { "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer" }
       end,
-
     },
   },
   specs = {

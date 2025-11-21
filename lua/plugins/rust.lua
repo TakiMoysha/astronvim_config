@@ -1,49 +1,58 @@
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 return {
+  { import = "astrocommunity.pack.toml" },
+  -- { import = "astrocommunity.pack.rust" },
+
   {
     "AstroNvim/astrolsp",
     optional = true,
     ---@param opts AstroLSPOpts
-    opts = {
-      handlers = { rust_analyzer = false }, -- disable setup of `rust_analyzer`
-      ---@diagnostic disable: missing-fields
-      config = {
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              files = {
-                excludeDirs = {
-                  ".direnv",
-                  ".git",
-                  "target",
-                },
+    opts = function(_, opts)
+      if not opts.handlers then opts.handlers = {} end
+      if not opts.config then opts.config = {} end
+
+      opts.handlers.rust_analyzer = false -- rustaceanvim handles this
+
+      opts.config.rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            files = {
+              excludeDirs = {
+                ".direnv",
+                ".git",
+                "target",
               },
-              check = {
-                command = "clippy",
-                extraArgs = {
-                  "--no-deps",
-                },
+            },
+            check = {
+              command = "clippy",
+              extraArgs = {
+                "--no-deps",
               },
             },
           },
         },
-      },
-    },
+      }
+
+      return opts
+    end,
   },
 
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "codelldb" })
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "codelldb", "rust-analyzer" })
     end,
   },
   {
-
     "Saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
     opts = {
       completion = {
         crates = { enabled = true },
+        cmp = { enabled = true },
       },
       lsp = {
         enabled = true,
@@ -65,7 +74,8 @@ return {
   },
   {
     "mrcjkb/rustaceanvim",
-    version = vim.fn.has "nvim-0.11" == 1 and "^6" or "^5",
+    version = "^6",
+    lazy = false,
     ft = "rust",
     specs = {
       {
@@ -122,5 +132,26 @@ return {
       }
     end,
     config = function(_, opts) vim.g.rustaceanvim = require("astrocore").extend_tbl(opts, vim.g.rustaceanvim) end,
+  },
+
+  {
+    "Saghen/blink.cmp",
+    event = "VimEnter",
+    opts = {
+      keymap = { preset = "enter" },
+      completion = {
+        list = { selection = { preselect = false } },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        providers = {
+          -- crates = { name = "crates", module = "crates_nvim.cmp" },
+          lazydev = { modele = "lazydev.integrations.blink", score_offset = 100 },
+        },
+      },
+      fuzzy = { implementation = "lua" },
+      signature = { enabled = true },
+    },
   },
 }
