@@ -13,6 +13,7 @@ return {
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },
+  { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.docker.lazydocker" },
 }

@@ -9,6 +9,7 @@ return {
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.astro" },
+  -- { import = "astrocommunity.pack.vue" },
 
   -- ====================================================================================================================================
   -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/typescript
@@ -145,7 +146,7 @@ return {
             },
           },
           init_options = {
-            hybridMode = false,
+            hybridMode = true,
           },
           on_init = function(client)
             client.handlers["tsserver/request"] = function(_, result, context)

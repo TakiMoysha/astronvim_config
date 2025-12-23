@@ -21,6 +21,7 @@ return {
         "lua-language-server",
         "stylua",
         -- #
+        "biome", -- TODO: migrate to biome, https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#biome
         "prettierd", -- formatter, mostly for js
         "typos-lsp", -- linting spellcheck
       },
