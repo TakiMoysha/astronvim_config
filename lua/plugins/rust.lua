@@ -147,7 +147,7 @@ return {
         default = { "lsp", "path", "snippets", "buffer", "lazydev" },
         providers = {
           -- crates = { name = "crates", module = "crates_nvim.cmp" },
-          lazydev = { modele = "lazydev.integrations.blink", score_offset = 100 },
+          lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
         },
       },
       fuzzy = { implementation = "lua" },

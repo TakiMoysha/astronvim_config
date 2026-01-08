@@ -12,7 +12,6 @@ return {
       "lua",
       "vim",
       "vue",
-      "javascript",
       "typescript",
       "tsx",
       "jsdoc",

@@ -18,11 +18,11 @@ return {
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/vue/
   -- ====================================================================================================================================
   -- migration to v5, draft
-  {
+  k
     "williamboman/mason-lspconfig.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar", "biome" })
     end,
   },
   -- Mason tool installer
@@ -30,7 +30,7 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, {
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         "vue-language-server", -- volar
         "vtsls",
         "tailwindcss-language-server",
@@ -39,8 +39,16 @@ return {
         "js-debug-adapter",
         "html-lsp",
         "emmet-ls",
+        "biome",
       })
     end,
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "biome" })
+    end
   },
 
   {
@@ -94,28 +102,6 @@ return {
         vtsls = {
           filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact", "vue" },
           settings = {
-            -- typescript = {
-            --   updateImportsOnFileMove = { enable = "always" },
-            --   inlayHints = {
-            --     parameterNames = { enabled = "all" },
-            --     parameterTypes = { enabled = false },
-            --     variableTypes = { enabled = true },
-            --     propertyDeclarationTypes = { enabled = true },
-            --     functionLikeReturnTypes = { enabled = true },
-            --     enumMemberValues = { enabled = true },
-            --   },
-            -- },
-            -- javascript = {
-            --   updateImportsOnFileMove = { enable = "always" },
-            --   inlayHints = {
-            --     parameterNames = { enabled = "literals" },
-            --     parameterTypes = { enabled = false },
-            --     variableTypes = { enabled = true },
-            --     propertyDeclarationTypes = { enabled = true },
-            --     functionLikeReturnTypes = { enabled = true },
-            --     enumMemberValues = { enabled = true },
-            --   },
-            -- },
             vtsls = {
               tsserver = {
                 globalPlugins = {
@@ -132,7 +118,7 @@ return {
             vue = {
               completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
               diagnostic = { enable = true },
-              format = { enable = false }, -- use prettier
+              format = { enable = false }, -- use prettier or biome
               server = {
                 vue = {
                   template = {
@@ -234,30 +220,33 @@ return {
     end,
   },
 
-  -- prettier for files
+  -- formatter for files
   {
     "stevearc/conform.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { "prettierd" },
-        javascriptreact = { "prettierd" },
-        typescript = { "prettierd" },
-        typescriptreact = { "prettierd" },
-        vue = { "prettierd" },
-        css = { "prettierd" },
-        scss = { "prettierd" },
-        html = { "prettierd" },
-        json = { "prettierd" },
-        jsonc = { "prettierd" },
-        yaml = { "prettierd" },
-        markdown = { "prettierd" },
-        astro = { "prettierd" },
-        ["markdown.mdx"] = { "prettierd" },
-      })
+      if not opts.formatters_by_ft then opts.formatters_by_ft = {} end
+      local supported_ft = {
+        "astro",
+        "css",
+        "scss",
+        "json",
+        "jsonc",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+        "markdown",
+        "markdown.mdx",
+      }
 
-      opts.format_on_save = false
-      opts.timeout_ms = 2000
+      local _formatters_by_ft = {}
+      for _, ft in ipairs(supported_ft) do
+        _formatters_by_ft[ft] = { "biome" } -- or "prettier"
+      end
+
+      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, ..._formatters_by_ft)
     end,
   },
 

@@ -15,7 +15,6 @@ return {
       ensure_installed = {
         -- # rust
         "tombi",
-        -- # javascript
         "prettierd",
         -- # lua
         "lua-language-server",
