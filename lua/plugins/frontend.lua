@@ -1,28 +1,32 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
--- WARN: issues: with commit
+-- WARN: issues
 -- - don't working comments in templates
+-- - https://github.com/vuejs/language-tools/wiki/Neovim
 
 ---@type LazySpec
 return {
   { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
+  --
   { import = "astrocommunity.pack.json" },
-  { import = "astrocommunity.pack.tailwindcss" },
-  { import = "astrocommunity.pack.astro" },
-  -- { import = "astrocommunity.pack.vue" },
-
-  -- ====================================================================================================================================
+  -- =========================================================================================
   -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/typescript
-  -- { import = "astrocommunity.pack.typescript" },
-  -- ====================================================================================================================================
+  { import = "astrocommunity.pack.typescript" },
+  -- =========================================================================================
+  { import = "astrocommunity.pack.vue" },
+  -- =========================================================================================
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/vue/
-  -- ====================================================================================================================================
+  -- =========================================================================================
   -- migration to v5, draft
-  k
+  {
     "williamboman/mason-lspconfig.nvim",
     optional = true,
+    dependencies = {
+      { "AstroNvim/astrolsp", opts = {} },
+    },
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar", "biome" })
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "volar", "astro", "biome" })
     end,
   },
   -- Mason tool installer
@@ -31,15 +35,14 @@ return {
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-        "vue-language-server", -- volar
         "vtsls",
         "tailwindcss-language-server",
+        "astro-language-server",
         "prettierd",
-        "eslint_d",
+        "vue-language-server", -- volar
         "js-debug-adapter",
         "html-lsp",
-        "emmet-ls",
-        "biome",
+        -- "biome",
       })
     end,
   },
@@ -48,7 +51,7 @@ return {
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "biome" })
-    end
+    end,
   },
 
   {
@@ -57,6 +60,7 @@ return {
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
         opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+          "astro",
           "vue",
           "typescript",
           "javascript",
@@ -93,14 +97,17 @@ return {
         location = vim.fn.stdpath "data" .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
         languages = { "vue" },
         configNamespace = "typescript",
+        enableForWorkspaceTypeScriptVersions = true,
       }
 
+      local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
+
       opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
-        html = { init_options = { provideFormatter = false } },
-        cssls = { init_options = { provideFormatter = false } },
+        biome = {
+        },
 
         vtsls = {
-          filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact", "vue" },
+          filetypes = tsserver_filetypes,
           settings = {
             vtsls = {
               tsserver = {
@@ -113,109 +120,57 @@ return {
         },
 
         volar = {
-          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+          filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact", "vue" },
           settings = {
             vue = {
-              completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
+              --   completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
               diagnostic = { enable = true },
               format = { enable = false }, -- use prettier or biome
-              server = {
-                vue = {
-                  template = {
-                    enable = true,
-                  },
-                  typescript = {
-                    enable = true,
-                  },
-                },
-              },
+              --   server = {
+              --     vue = {
+              --       template = {
+              --         enable = true,
+              --       },
+              --       typescript = {
+              --         enable = true,
+              --       },
+              --     },
+              --   },
             },
           },
           init_options = {
             hybridMode = true,
           },
-          on_init = function(client)
-            client.handlers["tsserver/request"] = function(_, result, context)
-              local clients = vim.lsp.get_clients { bufnr = context.bufnr, name = "vtsls" }
-              if #clients == 0 then
-                vim.notify(
-                  "Could not found `vtsls` lsp client, vue_lsp would not work without it.",
-                  vim.log.levels.ERROR
-                )
-                return
-              end
-              local ts_client = clients[1]
 
-              local param = unpack(result)
-              local id, command, payload = unpack(param)
-              ts_client:exec_cmd({
-                title = "vue_request_forward", -- You can give title anything as it's used to represent a command in the UI, `:h Client:exec_cmd`
-                command = "typescript.tsserverRequest",
-                arguments = {
-                  command,
-                  payload,
-                },
-              }, { bufnr = context.bufnr }, function(_, r)
-                local response_data = { { id, r.body } }
-                client:notify("tsserver/response", response_data)
-              end)
-            end
-          end,
+          -- on_init = function(client)
+          --   client.handlers["tsserver/request"] = function(_, result, context)
+          --     local vtsls_clients = vim.lsp.get_clients { bufnr = context.bufnr, name = "vtsls" }
+          --
+          --     if #vtsls_clients == 0 then
+          --       vim.notify(
+          --         "Could not found `vtsls` lsp client, vue_lsp would not work without it.",
+          --         vim.log.levels.ERROR
+          --       )
+          --       return
+          --     end
+          --     local ts_client = vtsls_clients[1]
+          --
+          --     local param = unpack(result)
+          --     local id, command, payload = unpack(param)
+          --     ts_client:exec_cmd({
+          --       title = "vue_request_forward", -- command name in the UI, `:h Client:exec_cmd`
+          --       command = "typescript.tsserverRequest",
+          --       arguments = {
+          --         command,
+          --         payload,
+          --       },
+          --     }, { bufnr = context.bufnr }, function(_, r)
+          --       local response_data = { { id, r and r.body } }
+          --       client:notify("tsserver/response", response_data)
+          --     end)
+          --   end
+          -- end,
         },
-
-        tailwindcss = {
-          filetypes = {
-            "html",
-            "css",
-            "scss",
-            "javascript",
-            "javascriptreact",
-            "typescript",
-            "typescriptreact",
-            "vue",
-          },
-          settings = {
-            tailwindcss = {
-              classAttributes = { "class", "className", "classList", "ngClass" },
-              lint = {
-                cssConflict = "warning",
-                invalidApply = "error",
-                invalidScreen = "error",
-                invalidVariant = "error",
-                invalidConfigPath = "error",
-                invalidTailwindDirective = "error",
-                recommendedVariantOrder = "warning",
-              },
-              experimental = {
-                classRegex = {
-                  "tw`([^`]*)",
-                  'tw="([^"]*)"',
-                  'tw={"([^"}]*)',
-                  "tw\\.\\w+`([^`]*)",
-                  "tw\\(.*?\\)`([^`]*)",
-                  "class=[\"']([^\"']*)[\"']",
-                },
-              },
-            },
-          },
-        },
-
-        eslint = {
-          filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-        },
-
-        -- emmet_ls = {
-        --   filetypes = { "html", "css", "scss", "javascript", "typescript", "vue" },
-        --   init_options = {
-        --     enable = true,
-        --   },
-        --   on_attach = function(client, bufnr)
-        --     client.server_capabilities.documentFormattingProvider = false
-        --     client.server_capabilities.documentRangeFormattingProvider = false
-        --     client.server_capabilities.workspaceSymbolProvider = false
-        --     client.server_capabilities.workspace = nil
-        --   end,
-        -- },
       })
     end,
   },
@@ -225,28 +180,25 @@ return {
     "stevearc/conform.nvim",
     optional = true,
     opts = function(_, opts)
-      if not opts.formatters_by_ft then opts.formatters_by_ft = {} end
-      local supported_ft = {
-        "astro",
-        "css",
-        "scss",
-        "json",
-        "jsonc",
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "vue",
-        "markdown",
-        "markdown.mdx",
-      }
-
-      local _formatters_by_ft = {}
-      for _, ft in ipairs(supported_ft) do
-        _formatters_by_ft[ft] = { "biome" } -- or "prettier"
-      end
-
-      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, ..._formatters_by_ft)
+      local formatter = "prettier" -- biome or prettier
+      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
+        javascript = { formatter },
+        javascriptreact = { formatter },
+        typescript = { formatter },
+        typescriptreact = { formatter },
+        astro = { formatter },
+        vue = { formatter },
+        css = { formatter },
+        scss = { formatter },
+        html = { formatter },
+        json = { formatter },
+        jsonc = { formatter },
+        yaml = { formatter },
+        graphql = { formatter },
+        markdown = { formatter },
+        markdownx = { formatter },
+        mdx = { formatter },
+      })
     end,
   },
 
@@ -259,43 +211,7 @@ return {
       enable_tailwind = true,
     },
   },
-  -- vue syntax for tree sitter
-  {
-    "echasnovski/mini.icons",
-    optional = true,
-    opts = function(_, opts)
-      opts.file = vim.tbl_deep_extend("force", opts.file or {}, {
-        [".nvmrc"] = { glyph = "", hl = "MiniIconsGreen" },
-        [".node-version"] = { glyph = "", hl = "MiniIconsGreen" },
-        ["package.json"] = { glyph = "", hl = "MiniIconsGreen" },
-        ["tsconfig.json"] = { glyph = "", hl = "MiniIconsAzure" },
-        ["tsconfig.build.json"] = { glyph = "", hl = "MiniIconsAzure" },
-        ["yarn.lock"] = { glyph = "", hl = "MiniIconsBlue" },
-        ["postcss"] = { glyph = "󰌜", hl = "MiniIconsOrange" },
-      })
-
-      local config_files = {
-        "eslint.config.js",
-        ".eslintrc.js",
-        ".eslintrc.cjs",
-        ".eslintrc.json",
-        ".eslintrc.yaml",
-        ".eslintrc.yml",
-        ".prettierrc",
-        ".prettierrc.cjs",
-        ".prettierrc.json",
-        ".prettierrc.yaml",
-        ".prettierrc.yml",
-        "prettier.config.js",
-        "prettier.config.cjs",
-      }
-
-      for _, filename in ipairs(config_files) do
-        opts.file[filename] = { glyph = "", hl = "MiniIconsPurple" }
-      end
-    end,
-  },
-  -- testing
+  -- testing: TODO: how to
   {
     "nvim-neotest/neotest",
     optional = true,
@@ -325,15 +241,16 @@ return {
     end,
   },
 
+  -- =========================================================================================
   {
     "vuki656/package-info.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {},
     event = "BufRead package.json",
   },
-  {
-    "dmmulroy/tsc.nvim",
-    cmd = "TSC",
-    opts = {},
-  },
+  -- {
+  --   "dmmulroy/tsc.nvim",
+  --   cmd = "TSC",
+  --   opts = {},
+  -- },
 }
