@@ -42,7 +42,7 @@ return {
         "vue-language-server", -- volar
         "js-debug-adapter",
         "html-lsp",
-        -- "biome",
+        "biome",
       })
     end,
   },
@@ -104,6 +104,7 @@ return {
 
       opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
         biome = {
+          filetypes = { "css", "scss" },
         },
 
         vtsls = {
@@ -181,6 +182,7 @@ return {
     optional = true,
     opts = function(_, opts)
       local formatter = "prettier" -- biome or prettier
+      local biome_formatter = "biome"
       opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
         javascript = { formatter },
         javascriptreact = { formatter },
@@ -188,16 +190,16 @@ return {
         typescriptreact = { formatter },
         astro = { formatter },
         vue = { formatter },
-        css = { formatter },
-        scss = { formatter },
-        html = { formatter },
+        css = { biome_formatter },
+        scss = { biome_formatter },
+        html = { biome_formatter },
         json = { formatter },
         jsonc = { formatter },
         yaml = { formatter },
         graphql = { formatter },
-        markdown = { formatter },
-        markdownx = { formatter },
-        mdx = { formatter },
+        markdown = { biome_formatter },
+        markdownx = { biome_formatter },
+        mdx = { biome_formatter },
       })
     end,
   },

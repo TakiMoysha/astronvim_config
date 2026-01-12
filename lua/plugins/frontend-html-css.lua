@@ -40,7 +40,7 @@ return {
     ft = { "html", "css", "scss", "less", "xml", "xsl", "xslt", "xsd", "xhtml", "jsx", "tsx", "vue", "svelte" },
     config = function()
       vim.g.user_emmet_mode = "inv" -- enable in insert, visual and normal mode
-      vim.g.user_emmet_leader_key = "<C-Z>"
+      -- vim.g.user_emmet_leader_key = "<C-Z>"
       vim.g.user_emmet_settings = {
         html = {
           default_attributes = {
