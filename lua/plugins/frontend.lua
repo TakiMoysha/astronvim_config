@@ -38,10 +38,10 @@ return {
         "vtsls",
         "tailwindcss-language-server",
         "astro-language-server",
-        "prettierd",
         "vue-language-server", -- volar
         "js-debug-adapter",
         "html-lsp",
+        "prettierd",
         "biome",
       })
     end,
@@ -104,7 +104,7 @@ return {
 
       opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
         biome = {
-          filetypes = { "css", "scss" },
+          filetypes = { "css", "scss", "astro" },
         },
 
         vtsls = {
@@ -181,25 +181,25 @@ return {
     "stevearc/conform.nvim",
     optional = true,
     opts = function(_, opts)
-      local formatter = "prettier" -- biome or prettier
-      local biome_formatter = "biome"
+      -- biome or prettier
       opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { formatter },
-        javascriptreact = { formatter },
-        typescript = { formatter },
-        typescriptreact = { formatter },
-        astro = { formatter },
-        vue = { formatter },
-        css = { biome_formatter },
-        scss = { biome_formatter },
-        html = { biome_formatter },
-        json = { formatter },
-        jsonc = { formatter },
-        yaml = { formatter },
-        graphql = { formatter },
-        markdown = { biome_formatter },
-        markdownx = { biome_formatter },
-        mdx = { biome_formatter },
+        javascript = { formatter = "prettier" },
+        javascriptreact = { formatter = "prettier" },
+        typescript = { formatter = "prettier" },
+        typescriptreact = { formatter = "prettier" },
+        vue = { formatter = "prettier" },
+        svelte = { formatter = "prettier" },
+        astro = { formatter = "biome" },
+        css = { formatter = "biome", },
+        scss = { formatter = "biome" },
+        html = { formatter = "biome" },
+        json = { formatter = "prettier" },
+        jsonc = { formatter = "prettier" },
+        yaml = { formatter = "prettier" },
+        graphql = { formatter = "prettier" },
+        markdown = { formatter = "biome" },
+        markdownx = { formatter = "biome" },
+        mdx = { formatter = "biome" },
       })
     end,
   },

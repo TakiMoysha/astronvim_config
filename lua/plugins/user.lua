@@ -63,4 +63,10 @@ return {
       )
     end,
   },
+
+  {
+    "NTBBloodbath/color-converter.nvim",
+    opts = {},
+    keys = {},
+  },
 }

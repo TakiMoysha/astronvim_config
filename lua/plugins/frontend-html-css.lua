@@ -126,6 +126,7 @@ return {
             "typescript",
             "typescriptreact",
             "vue",
+            "astro",
           },
           settings = {
             tailwindcss = {

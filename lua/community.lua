@@ -14,6 +14,10 @@ return {
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.just" },
   { import = "astrocommunity.pack.markdown" },
+  { import = "astrocommunity.pack.java" },
+
   { import = "astrocommunity.recipes.neovide" },
+  { import = "astrocommunity.recipes.picker-lsp-mappings"},
+
   { import = "astrocommunity.docker.lazydocker" },
 }
