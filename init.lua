@@ -26,6 +26,7 @@ end
 
 require "lazy_setup"
 require "polish"
+require "utils"
 
 -- vim.api.nvim_create_autocmd("VimEnter", {
 --   callback = function()
