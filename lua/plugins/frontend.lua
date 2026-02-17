@@ -17,7 +17,7 @@ return {
   -- =========================================================================================
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/vue/
   -- =========================================================================================
-  -- migration to v5, draft
+  -- installation lsp servers,
   {
     "williamboman/mason-lspconfig.nvim",
     optional = true,
@@ -29,7 +29,7 @@ return {
         require("astrocore").list_insert_unique(opts.ensure_installed, { "volar", "astro", "biome" })
     end,
   },
-  -- Mason tool installer
+  -- no-lsp tools installer
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -42,17 +42,19 @@ return {
         "js-debug-adapter",
         "html-lsp",
         "prettierd",
-        "biome",
+        -- "biome",
       })
     end,
   },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "biome" })
-    end,
-  },
+  -- compatibility with null-ls and mason (wrapper around cli tools without lsp)
+  -- biome have lsp
+  -- {
+  --   "jay-babu/mason-null-ls.nvim",
+  --   optional = true,
+  --   opts = function(_, opts)
+  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "biome" })
+  --   end,
+  -- },
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -103,8 +105,18 @@ return {
       local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
 
       opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
+        -- biome have experimental support vue, svelte and astro, see docs for more info
         biome = {
-          filetypes = { "css", "scss", "astro" },
+          formatter = {
+            enable = true,
+          },
+          linter = {
+            enable = true,
+          },
+        },
+        prettier = {
+          -- see conform
+          filetypes = { }
         },
 
         vtsls = {
@@ -121,7 +133,7 @@ return {
         },
 
         volar = {
-          filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact", "vue" },
+          filetypes = tsserver_filetypes,
           settings = {
             vue = {
               --   completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
@@ -189,13 +201,13 @@ return {
         typescriptreact = { formatter = "prettier" },
         vue = { formatter = "prettier" },
         svelte = { formatter = "prettier" },
-        astro = { formatter = "biome" },
-        css = { formatter = "biome", },
+        astro = { formatter = "prettier" },
+        css = { formatter = "biome" },
         scss = { formatter = "biome" },
         html = { formatter = "biome" },
-        json = { formatter = "prettier" },
-        jsonc = { formatter = "prettier" },
-        yaml = { formatter = "prettier" },
+        json = { formatter = "biome" },
+        jsonc = { formatter = "biome" },
+        yaml = { formatter = "biome" },
         graphql = { formatter = "prettier" },
         markdown = { formatter = "biome" },
         markdownx = { formatter = "biome" },

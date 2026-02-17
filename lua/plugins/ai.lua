@@ -1,0 +1,76 @@
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
+return {
+  -- { import = "astrocommunity.ai.opencode-nvim" }, -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/ai/opencode-nvim/init.lua
+
+  {
+    "NickvanDyke/opencode.nvim",
+    dependencies = {
+      {
+        "folke/snacks.nvim",
+        opts = { input = { enabled = true }, picker = { enabled = true }, terminal = { enabled = true } },
+      },
+    },
+    specs = {
+      {
+        "AstroNvim/astrocore",
+        ---@param opts AstroCoreOpts
+        opts = function(_, opts)
+          local oc = require "opencode"
+          local maps = assert(opts.mappings)
+          maps.n["<F6>"] = { oc.toggle, desc = "Toggle embedded" }
+
+          local prefix = "<Leader>a"
+          maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }
+          maps.n[prefix .. "t"] = {
+            function() require("opencode").toggle() end,
+            desc = "Toggle embedded",
+          }
+          maps.n[prefix .. "a"] = {
+            function() require("opencode").ask("@this: ", { submit = true }) end,
+            desc = "Ask about this",
+          }
+          maps.n[prefix .. "+"] = {
+            function() require("opencode").prompt("@buffer", { append = true }) end,
+            desc = "Add buffer to prompt",
+          }
+          maps.n[prefix .. "e"] = {
+            function() require("opencode").prompt("Explain @this and its context", { submit = true }) end,
+            desc = "Explain this code",
+          }
+          maps.n[prefix .. "n"] = {
+            function() require("opencode").command "session.new" end,
+            desc = "New session",
+          }
+          maps.n[prefix .. "s"] = {
+            function() require("opencode").select() end,
+            desc = "Select prompt",
+          }
+          maps.n["<S-C-u>"] = {
+            function() require("opencode").command "session.half.page.up" end,
+            desc = "Messages half page up",
+          }
+          maps.n["<S-C-d>"] = {
+            function() require("opencode").command "session.half.page.down" end,
+            desc = "Messages half page down",
+          }
+
+          maps.v[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "OpenCode" }
+          maps.v[prefix .. "a"] = {
+            function() require("opencode").ask("@this: ", { submit = true }) end,
+            desc = "Ask about selection",
+          }
+          maps.v[prefix .. "+"] = {
+            function() require("opencode").prompt "@this" end,
+            desc = "Add selection to prompt",
+          }
+          maps.v[prefix .. "s"] = {
+            function() require("opencode").select() end,
+            desc = "Select prompt",
+          }
+        end,
+      },
+      { "AstroNvim/astroui", opts = { icons = { OpenCode = "" } } },
+    },
+  },
+}
