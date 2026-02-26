@@ -56,16 +56,13 @@ return {
           capabilities = {
             general = { positionEncodings = { "utf-16" } },
           },
-          formatter = {
-            enabled = true,
-          },
-          linter = {
-            enabled = true,
-          },
+          -- formatter = {
+          --   enabled = false,
+          -- },
+          -- linter = {
+          --   enabled = false,
+          -- },
         },
-        -- conform
-        prettier = { enabled = false, filetypes = {} },
-        prettierd = { enabled = false, filetypes = {} },
 
         ---@diagnostic disable: missing-fields
         ---@type lspconfig.options.vtsls
@@ -159,28 +156,26 @@ return {
   -- formatter for files
   {
     "stevearc/conform.nvim",
-    optional = true,
     -- biome or prettier
     -- event = { "BufWritePre" },
     opts = function(_, opts)
       opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { formatter = "prettier" },
-        javascriptreact = { formatter = "prettier" },
-        typescript = { formatter = "prettier" },
-        typescriptreact = { formatter = "prettier" },
-        vue = { formatter = "prettier" },
-        svelte = { formatter = "prettier" },
-        astro = { formatter = "prettier" },
-        css = { formatter = "prettier" },
-        scss = { formatter = "prettier" },
-        html = { formatter = "prettier" },
-        json = { formatter = "prettier" },
-        jsonc = { formatter = "prettier" },
+        javascript = { formatter = "oxfmt" },
+        javascriptreact = { formatter = "oxfmt" },
+        typescript = { formatter = "oxfmt" },
+        typescriptreact = { formatter = "oxfmt" },
+        vue = { formatter = "oxfmt" },
+        css = { formatter = "oxfmt" },
+        scss = { formatter = "oxfmt" },
+        html = { formatter = "oxfmt" },
+        json = { formatter = "oxfmt" },
+        jsonc = { formatter = "oxfmt" },
       })
     end,
 
     format_on_save = {
-      lsp_fallback = true, -- if lsp is not available
+      format_on_save = false,
+      lsp_fallback = false, -- if lsp is not available
       async = false,
     },
   },
@@ -252,7 +247,6 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    optional = true,
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
         opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {

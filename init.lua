@@ -25,7 +25,7 @@ if not pcall(require, "lazy") then
 end
 
 require "lazy_setup"
-require "polish"
+require "after_setup"
 require "utils"
 
 -- vim.api.nvim_create_autocmd("VimEnter", {

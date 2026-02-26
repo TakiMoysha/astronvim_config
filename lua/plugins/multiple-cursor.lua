@@ -22,6 +22,7 @@ return {
     { "AstroNvim/astroui", opts = { icons = { MultipleCursors = "󰗧" } } },
     {
       "AstroNvim/astrolsp",
+      optional = true,
       opts = function(_, opts)
         ---@type AstroLSPMappings
         local maps = opts.mappings
