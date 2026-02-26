@@ -6,18 +6,214 @@
 
 ---@type LazySpec
 return {
-  { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
-  --
+  -- { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
   { import = "astrocommunity.pack.json" },
   -- =========================================================================================
   -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/typescript
   { import = "astrocommunity.pack.typescript" },
   -- =========================================================================================
-  { import = "astrocommunity.pack.vue" },
-  -- =========================================================================================
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/vue/
+  -- { import = "astrocommunity.pack.vue" },
+  -- =========================================================================================
+  {
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
+    opts = {
+      filetypes = {
+        extension = {
+          pcss = "postcss",
+          postcss = "postcss",
+        },
+      },
+    },
+  },
+  {
+    "AstroNvim/astrolsp",
+    optional = true,
+    ---@param opts AstroLSPOpts
+    opts = function(_, opts)
+      local astrocore = require "astrocore"
+      local vue_plugin_service = {
+        name = "@vue/language-service",
+        location = vim.fn.stdpath "data" .. "/mason/packages/vue-language-server/node_modules/@vue/language-service",
+        languages = { "vue" },
+        configNamespace = "typescript",
+        enableForWorkspaceTypeScriptVersions = true,
+      }
+      local vue_plugin_ts = {
+        name = "@vue/typescript-plugin",
+        location = vim.fn.stdpath "data" .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+        languages = { "vue" },
+        configNamespace = "typescript",
+        enableForWorkspaceTypeScriptVersions = true,
+      }
+
+      local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
+
+      opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
+        -- biome have experimental support vue, svelte and astro, see docs for more info
+        biome = {
+          capabilities = {
+            general = { positionEncodings = { "utf-16" } },
+          },
+          formatter = {
+            enabled = true,
+          },
+          linter = {
+            enabled = true,
+          },
+        },
+        -- conform
+        prettier = { enabled = false, filetypes = {} },
+        prettierd = { enabled = false, filetypes = {} },
+
+        ---@diagnostic disable: missing-fields
+        ---@type lspconfig.options.vtsls
+        vtsls = {
+          filetypes = tsserver_filetypes,
+          capabilities = {
+            semanticTokensProvider = false,
+          },
+          settings = {
+            typescript = {
+              updateImportsOnFileMove = { enabled = "prompt" },
+              inlayHints = {
+                enumMemberValues = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                parameterNames = { enabled = "all" },
+                parameterTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                variableTypes = { enabled = true },
+              },
+              globalPlugins = {},
+            },
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              tsserver = {
+                globalPlugins = {
+                  vue_plugin_service,
+                  vue_plugin_ts,
+                },
+              },
+            },
+          },
+        },
+
+        ---@type lspconfig.options.volar
+        volar = {
+          filetypes = tsserver_filetypes,
+          settings = {
+            vue = {
+              format = { enabled = false }, -- use prettier or biome
+              diagnostic = { enabled = true, enable_tailwind = true },
+              inlayHints = {
+                destructuredProps = true,
+                inlineHandlerLeading = true,
+                missingProps = true,
+                optionsWrapper = true,
+                vBindShorthand = true,
+              },
+            },
+          },
+
+          on_init = function(client)
+            client.handlers["tsserver/request"] = function(_, result, context)
+              local vtsls_clients = vim.lsp.get_clients { bufnr = context.bufnr, name = "vtsls" }
+
+              if #vtsls_clients == 0 then
+                vim.notify(
+                  "Could not found `vtsls` lsp client, vue_lsp would not work without it.",
+                  vim.log.levels.ERROR
+                )
+                return
+              end
+              local ts_client = vtsls_clients[1]
+
+              local param = unpack(result)
+              local id, command, payload = unpack(param)
+              ts_client:exec_cmd({
+                title = "vue_request_forward", -- command name in the UI, `:h Client:exec_cmd`
+                command = "typescript.tsserverRequest",
+                arguments = { command, payload },
+              }, { bufnr = context.bufnr }, function(err, r)
+                -- NOTE: if err or r is nil value, then return nil back (memory leak prevent)
+                if err then
+                  vim.notify("error: " .. vim.inspect(err), vim.log.levels.ERROR, { title = "AstroLSP" })
+                  return
+                end
+
+                if not r then return end
+
+                -- vim.notify("response: " .. vim.inspect(r), vim.log.levels.DEBUG, { title = "Volar Debug on_init" })
+                local response_data = { { id, r.body } }
+                ---@diagnostic disable-next-line: param-type-mismatch
+                client:notify("tsserver/response", response_data)
+              end)
+            end
+          end,
+        },
+      })
+    end,
+  },
+
+  -- formatter for files
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    -- biome or prettier
+    -- event = { "BufWritePre" },
+    opts = function(_, opts)
+      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
+        javascript = { formatter = "biome" },
+        javascriptreact = { formatter = "biome" },
+        typescript = { formatter = "biome" },
+        typescriptreact = { formatter = "biome" },
+        vue = { formatter = "biome" },
+        svelte = { formatter = "prettierd" },
+        astro = { formatter = "prettierd" },
+        css = { formatter = "biome" },
+        scss = { formatter = "biome" },
+        html = { formatter = "biome" },
+        json = { formatter = "biome" },
+        jsonc = { formatter = "biome" },
+      })
+    end,
+
+    format_on_save = {
+      lsp_fallback = true, -- if lsp is not available
+      async = false,
+    },
+  },
+  -- testing: TODO: how to
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      { "nvim-neotest/neotest-jest" },
+      { "nvim-neotest/neotest-vue" },
+    },
+    opts = function(_, opts)
+      opts.adapters = opts.adapters or {}
+      table.insert(
+        opts.adapters,
+        require "neotest-jest" {
+          jestCommand = "npm test --",
+          env = { CI = true },
+          cwd = function() return vim.fn.getcwd() end,
+        }
+      )
+      table.insert(opts.adapters, require "neotest-vue")
+    end,
+  },
+  {
+    "vuki656/package-info.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
+    event = "BufRead package.json",
+  },
   -- =========================================================================================
   -- installation lsp servers,
+
   {
     "williamboman/mason-lspconfig.nvim",
     optional = true,
@@ -42,7 +238,7 @@ return {
         "js-debug-adapter",
         "html-lsp",
         "prettierd",
-        -- "biome",
+        "biome",
       })
     end,
   },
@@ -62,10 +258,10 @@ return {
     opts = function(_, opts)
       if opts.ensure_installed ~= "all" then
         opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-          "astro",
-          "vue",
           "typescript",
           "javascript",
+          "astro",
+          "vue",
           "tsx",
           "jsdoc",
           "html",
@@ -76,177 +272,6 @@ return {
       end
     end,
   },
-
-  {
-    "AstroNvim/astrocore",
-    ---@type AstroCoreOpts
-    opts = {
-      filetypes = {
-        extension = {
-          pcss = "postcss",
-          postcss = "postcss",
-        },
-      },
-    },
-  },
-  {
-    "AstroNvim/astrolsp",
-    optional = true,
-    ---@param opts AstroLSPOpts
-    opts = function(_, opts)
-      local vue_plugin = {
-        name = "@vue/typescript-plugin",
-        location = vim.fn.stdpath "data" .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
-        languages = { "vue" },
-        configNamespace = "typescript",
-        enableForWorkspaceTypeScriptVersions = true,
-      }
-
-      local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
-
-      opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
-        -- biome have experimental support vue, svelte and astro, see docs for more info
-        biome = {
-          formatter = {
-            enable = true,
-          },
-          linter = {
-            enable = true,
-          },
-        },
-        prettier = {
-          -- see conform
-          filetypes = { }
-        },
-
-        vtsls = {
-          filetypes = tsserver_filetypes,
-          settings = {
-            vtsls = {
-              tsserver = {
-                globalPlugins = {
-                  vue_plugin,
-                },
-              },
-            },
-          },
-        },
-
-        volar = {
-          filetypes = tsserver_filetypes,
-          settings = {
-            vue = {
-              --   completion = { triggerCharacters = { ".", '"', "'", "`", "<", "/" } },
-              diagnostic = { enable = true },
-              format = { enable = false }, -- use prettier or biome
-              --   server = {
-              --     vue = {
-              --       template = {
-              --         enable = true,
-              --       },
-              --       typescript = {
-              --         enable = true,
-              --       },
-              --     },
-              --   },
-            },
-          },
-          init_options = {
-            hybridMode = true,
-          },
-
-          -- on_init = function(client)
-          --   client.handlers["tsserver/request"] = function(_, result, context)
-          --     local vtsls_clients = vim.lsp.get_clients { bufnr = context.bufnr, name = "vtsls" }
-          --
-          --     if #vtsls_clients == 0 then
-          --       vim.notify(
-          --         "Could not found `vtsls` lsp client, vue_lsp would not work without it.",
-          --         vim.log.levels.ERROR
-          --       )
-          --       return
-          --     end
-          --     local ts_client = vtsls_clients[1]
-          --
-          --     local param = unpack(result)
-          --     local id, command, payload = unpack(param)
-          --     ts_client:exec_cmd({
-          --       title = "vue_request_forward", -- command name in the UI, `:h Client:exec_cmd`
-          --       command = "typescript.tsserverRequest",
-          --       arguments = {
-          --         command,
-          --         payload,
-          --       },
-          --     }, { bufnr = context.bufnr }, function(_, r)
-          --       local response_data = { { id, r and r.body } }
-          --       client:notify("tsserver/response", response_data)
-          --     end)
-          --   end
-          -- end,
-        },
-      })
-    end,
-  },
-
-  -- formatter for files
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = function(_, opts)
-      -- biome or prettier
-      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { formatter = "prettier" },
-        javascriptreact = { formatter = "prettier" },
-        typescript = { formatter = "prettier" },
-        typescriptreact = { formatter = "prettier" },
-        vue = { formatter = "prettier" },
-        svelte = { formatter = "prettier" },
-        astro = { formatter = "prettier" },
-        css = { formatter = "biome" },
-        scss = { formatter = "biome" },
-        html = { formatter = "biome" },
-        json = { formatter = "biome" },
-        jsonc = { formatter = "biome" },
-        yaml = { formatter = "biome" },
-        graphql = { formatter = "prettier" },
-        markdown = { formatter = "biome" },
-        markdownx = { formatter = "biome" },
-        mdx = { formatter = "biome" },
-      })
-    end,
-  },
-
-  {
-    "brenoprata10/nvim-highlight-colors",
-    optional = true,
-    opts = {
-      render = "background",
-      enable_named_colors = true,
-      enable_tailwind = true,
-    },
-  },
-  -- testing: TODO: how to
-  {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = {
-      { "nvim-neotest/neotest-jest" },
-      { "nvim-neotest/neotest-vue" },
-    },
-    opts = function(_, opts)
-      opts.adapters = opts.adapters or {}
-      table.insert(
-        opts.adapters,
-        require "neotest-jest" {
-          jestCommand = "npm test --",
-          env = { CI = true },
-          cwd = function(path) return vim.fn.getcwd() end,
-        }
-      )
-      table.insert(opts.adapters, require "neotest-vue")
-    end,
-  },
-
   {
     "jay-babu/mason-nvim-dap.nvim",
     optional = true,
@@ -254,17 +279,4 @@ return {
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "js" })
     end,
   },
-
-  -- =========================================================================================
-  {
-    "vuki656/package-info.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = {},
-    event = "BufRead package.json",
-  },
-  -- {
-  --   "dmmulroy/tsc.nvim",
-  --   cmd = "TSC",
-  --   opts = {},
-  -- },
 }

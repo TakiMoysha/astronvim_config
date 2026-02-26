@@ -1,7 +1,7 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 return {
-  -- { import = "astrocommunity.ai.opencode-nvim" }, -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/ai/opencode-nvim/init.lua
+  -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/ai/opencode-nvim/init.lua
 
   {
     "NickvanDyke/opencode.nvim",
@@ -16,9 +16,8 @@ return {
         "AstroNvim/astrocore",
         ---@param opts AstroCoreOpts
         opts = function(_, opts)
-          local oc = require "opencode"
           local maps = assert(opts.mappings)
-          maps.n["<F6>"] = { oc.toggle, desc = "Toggle embedded" }
+          maps.n["<F6>"] = { require("opencode").toggle, desc = "Toggle embedded" }
 
           local prefix = "<Leader>a"
           maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }

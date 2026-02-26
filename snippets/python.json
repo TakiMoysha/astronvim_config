@@ -29,7 +29,10 @@
 	},
 	"structlogconf": {
 		"prefix": "structlogconf",
-		"body": ["import structlog", "logger = structlog.get_logger(__name__)"]
+		"body": [
+			"import structlog",
+			"logger = structlog.get_logger(__name__)"
+		]
 	},
 	"structlog setup": {
 		"prefix": "structlogsetup",
@@ -78,8 +81,15 @@
 			"# =========================================================== \n"
 		]
 	},
+	"django-bootstrap-settings": {
+		"body": "settings.configure(SECRET_KEY=\"secret\",ROOT_URLCONF=__name__,DMR_SETTINGS={},ALLOWED_HOSTS=\"*\",DEBUG=True,)"
+	},
 	"demo-complex": {
 		"prefix": "co",
-		"body": ["T1=${1:$RANDOM}", "T3=${3:$1_${2:$1}}", "T2=$2"]
+		"body": [
+			"T1=${1:$RANDOM}",
+			"T3=${3:$1_${2:$1}}",
+			"T2=$2"
+		]
 	}
 }
