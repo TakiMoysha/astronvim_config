@@ -164,18 +164,18 @@ return {
     -- event = { "BufWritePre" },
     opts = function(_, opts)
       opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { formatter = "biome" },
-        javascriptreact = { formatter = "biome" },
-        typescript = { formatter = "biome" },
-        typescriptreact = { formatter = "biome" },
-        vue = { formatter = "biome" },
-        svelte = { formatter = "prettierd" },
-        astro = { formatter = "prettierd" },
-        css = { formatter = "biome" },
-        scss = { formatter = "biome" },
-        html = { formatter = "biome" },
-        json = { formatter = "biome" },
-        jsonc = { formatter = "biome" },
+        javascript = { formatter = "prettier" },
+        javascriptreact = { formatter = "prettier" },
+        typescript = { formatter = "prettier" },
+        typescriptreact = { formatter = "prettier" },
+        vue = { formatter = "prettier" },
+        svelte = { formatter = "prettier" },
+        astro = { formatter = "prettier" },
+        css = { formatter = "prettier" },
+        scss = { formatter = "prettier" },
+        html = { formatter = "prettier" },
+        json = { formatter = "prettier" },
+        jsonc = { formatter = "prettier" },
       })
     end,
 
@@ -214,17 +214,16 @@ return {
   -- =========================================================================================
   -- installation lsp servers,
 
-  {
-    "williamboman/mason-lspconfig.nvim",
-    optional = true,
-    dependencies = {
-      { "AstroNvim/astrolsp", opts = {} },
-    },
-    opts = function(_, opts)
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "volar", "astro", "biome" })
-    end,
-  },
+  -- {
+  --   "williamboman/mason-lspconfig.nvim",
+  --   optional = true,
+  --   dependencies = {
+  --     { "AstroNvim/astrolsp", opts = {} },
+  --   },
+  --   opts = function(_, opts)
+  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar" })
+  --   end,
+  -- },
   -- no-lsp tools installer
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -232,13 +231,12 @@ return {
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         "vtsls",
-        "tailwindcss-language-server",
-        "astro-language-server",
         "vue-language-server", -- volar
         "js-debug-adapter",
-        "html-lsp",
         "prettierd",
         "biome",
+        "oxlint",
+        "oxfmt",
       })
     end,
   },

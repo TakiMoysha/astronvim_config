@@ -5,23 +5,25 @@
 ---@type LazySpec
 return {
   { import = "astrocommunity.pack.html-css" },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-        "tailwindcss",
-        "html",
-        "cssls",
-      })
-    end,
-  },
+  -- {
+  --   "williamboman/mason-lspconfig.nvim",
+  --   optional = true,
+  --   opts = function(_, opts)
+  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+  --       "tailwindcss", -- "tailwindcss-language-server"
+  --       "html", -- "html-lsp"
+  --       "cssls", -- "css-lsp"
+  --     })
+  --   end,
+  -- },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "tailwindcss-language-server" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(
+        opts.ensure_installed,
+        { "tailwindcss-language-server", "html-lsp", "css-lsp" }
+      )
     end,
   },
   {
