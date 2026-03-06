@@ -185,19 +185,17 @@ return {
     optional = true,
     dependencies = {
       { "nvim-neotest/neotest-jest" },
-      { "nvim-neotest/neotest-vue" },
     },
     opts = function(_, opts)
       opts.adapters = opts.adapters or {}
       table.insert(
         opts.adapters,
         require "neotest-jest" {
-          jestCommand = "npm test --",
+          jestCommand = "bun test --",
           env = { CI = true },
           cwd = function() return vim.fn.getcwd() end,
         }
       )
-      table.insert(opts.adapters, require "neotest-vue")
     end,
   },
   {

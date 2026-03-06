@@ -61,8 +61,20 @@ return {
     {
       "catppuccin",
       optional = true,
-      ---@type CatppuccinOptions
-      opts = { integrations = { overseer = true } },
+      opts = {
+        integrations = {
+          overseer = true,
+          sandwich = false,
+          noice = false,
+          mini = true,
+          leap = false,
+          markdown = true,
+          neotest = true,
+          cmp = true,
+          lsp_trouble = false,
+          rainbow_delimiters = false,
+        },
+      },
     },
   },
 }

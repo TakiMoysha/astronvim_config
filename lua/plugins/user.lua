@@ -9,7 +9,6 @@ return {
   { "wakatime/vim-wakatime", lazy = false },
   {
     "folke/snacks.nvim",
-    ---@type snacks.Config
     opts = {
       dashboard = { enable = true },
       styles = {

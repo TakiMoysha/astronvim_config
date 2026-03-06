@@ -25,10 +25,8 @@ return {
     -- passed to `vim.filetype.add`
     filetypes = {
       -- see `:h vim.filetype.add` for usage
-      extension = {
-      },
-      filename = {
-      },
+      extension = {},
+      filename = {},
       pattern = {
         ["just"] = "make",
       },
