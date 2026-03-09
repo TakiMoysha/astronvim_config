@@ -1,37 +1,27 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
+-- TODO: inspect
+---@module "rust"
+---@class plugins.rust.config: AstroLSPOpts
+
+---@type LazyPluginSpec[]
 return {
   { import = "astrocommunity.pack.toml" },
   -- { import = "astrocommunity.pack.rust" },
 
   -- TODO: not working
-  -- {
-  --   "neovim/nvim-lspconfig",
-  --   dependencies = {
-  --     {
-  --       "AstroNvim/astrolsp",
-  --       opts = {
-  --         filetypes = {
-  --           extension = {
-  --             ron = "ron",
-  --           },
-  --           filetypes = {
-  --             [".ron"] = "ron",
-  --           },
-  --         },
-  --       },
-  --     },
-  --   },
-  --   opts = function()
-  --     vim.lsp.config("ron-lsp", {
-  --       cmd = "ron-lsp",
-  --       filetypes = { "ron" },
-  --       root_dir = function(fname)
-  --         return require("lspconfig.util").root_pattern("Cargo.toml", ".git")(fname) or vim.loop.cwd()
-  --       end,
-  --     })
-  --   end,
-  -- },
+  {
+    "neovim/nvim-lspconfig",
+    opts = function()
+      vim.lsp.config("ron-lsp", {
+        cmd = { vim.fn.expand "ron-lsp" },
+        filetypes = { "ron" },
+        root_dir = function(fname)
+          return require("lspconfig.util").root_pattern("Cargo.toml", ".git")(fname) or vim.loop.cwd()
+        end,
+      })
+    end,
+  },
 
   {
     "AstroNvim/astrolsp",
