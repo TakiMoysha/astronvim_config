@@ -43,6 +43,8 @@ return {
                   ".direnv",
                   ".git",
                   "target",
+                  "sources",
+                  "references",
                 },
               },
               check = {
@@ -111,6 +113,7 @@ return {
         },
       },
     },
+    config = function(_, opts) vim.g.rustaceanvim = require("astrocore").extend_tbl(opts, vim.g.rustaceanvim) end,
     opts = function()
       local codelldb_avail, _ = pcall(function() return require("mason-registry").get_package "codelldb" end)
       local cfg = require "rustaceanvim.config"
@@ -143,7 +146,6 @@ return {
         tools = { enable_clippy = false },
       }
     end,
-    config = function(_, opts) vim.g.rustaceanvim = require("astrocore").extend_tbl(opts, vim.g.rustaceanvim) end,
   },
 
   {

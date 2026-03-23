@@ -10,29 +10,36 @@
 		"prefix": "logging-formatting-template",
 		"body": "\"%(asctime)s | %(levelname)-8s | %(message)s\""
 	},
+	"loggerforapp": {
+		"prefix": "loggingconfapp",
+		"body": [
+			"import logging",
+			"logging.basicConfig(format=\"%(asctime)s | %(levelname)-8s | %(message)s\", level=logging.WARNING)",
+			"logger = logging.getLogger(\"$TM_FILENAME_BASE\")",
+			"logger.setLevel(logging.INFO)",
+			"$0"
+		]
+	},
 	"console-logger-setup": {
 		"prefix": "fn-console-logger-setup",
 		"body": [
 			"def console_logger():",
-			"logging.basicConfig(format=\"%(levelname)s: %(message)s\", level=logging.INFO)",
-			"logger = logging.getLogger(name=\"__console_logger__\")",
-			"logger.setLevel(logging.INFO)",
+			"\tlogging.basicConfig(format=\"%(levelname)s: %(message)s\", level=logging.INFO)",
+			"\tlogger = logging.getLogger(name=\"__console_logger__\")",
+			"\tlogger.setLevel(logging.INFO)",
 			"",
-			"handler = logging.StreamHandler()",
-			"handler.setLevel(logging.INFO)",
-			"handler.setFormatter(logging.Formatter(\"%(levelname)s: %(message)s\"))",
+			"\thandler = logging.StreamHandler()",
+			"\thandler.setLevel(logging.INFO)",
+			"\thandler.setFormatter(logging.Formatter(\"%(levelname)s: %(message)s\"))",
 			"",
-			"logger.addHandler(handler)",
+			"\tlogger.addHandler(handler)",
 			"",
-			"return logging.getLogger(name=\"console\")"
+			"\treturn logging.getLogger(name=\"console\")"
 		]
 	},
 	"structlogconf": {
 		"prefix": "structlogconf",
-		"body": [
-			"import structlog",
-			"logger = structlog.get_logger(__name__)"
-		]
+		"body": ["import structlog", "logger = structlog.get_logger(__name__)"]
 	},
 	"structlog setup": {
 		"prefix": "structlogsetup",
@@ -70,11 +77,11 @@
 		"description": "Setup full chain structlog."
 	},
 	"comment-rapture": {
-		"prefix": "#comment-rapture",
+		"prefix": "comment-rapture",
 		"body": "# ==========================================================================================\n"
 	},
 	"comment-rapture-sign": {
-		"prefix": "#comment-rapture-sign",
+		"prefix": "comment-rapture-sign",
 		"body": [
 			"# =========================================================== ",
 			"# $1 ",
@@ -86,10 +93,6 @@
 	},
 	"demo-complex": {
 		"prefix": "co",
-		"body": [
-			"T1=${1:$RANDOM}",
-			"T3=${3:$1_${2:$1}}",
-			"T2=$2"
-		]
+		"body": ["T1=${1:$RANDOM}", "T3=${3:$1_${2:$1}}", "T2=$2"]
 	}
 }

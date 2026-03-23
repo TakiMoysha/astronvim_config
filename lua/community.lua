@@ -17,6 +17,7 @@ return {
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.java" },
+  { import = "astrocommunity.pack.typst" },
   { import = "astrocommunity.pack.just" },
 
   { import = "astrocommunity.recipes.neovide" },

@@ -1,0 +1,6 @@
+{
+	"setupvue3": {
+		"prefix": "#setupvue3",
+		"body": "<script setup lang=\"ts\">\n$1\n</script>\n\n<template>\n\n</template>"
+	}
+}
