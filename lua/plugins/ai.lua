@@ -17,7 +17,7 @@ return {
         ---@param opts AstroCoreOpts
         opts = function(_, opts)
           local maps = assert(opts.mappings)
-          maps.n["<F6>"] = { require("opencode").toggle, desc = "Toggle embedded" }
+          maps.n["<Leader>ta"] = { require("opencode").toggle, desc = "Toggle AI window" }
 
           local prefix = "<Leader>a"
           maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }

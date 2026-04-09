@@ -6,8 +6,8 @@
 
 vim.o.colorcolumn = "100,120"
 
-vim.opt.clipboard = ""
--- spellcheck, better use lsp (native checker check all ui)
+-- vim.opt.clipboard = ""
+-- spellcheck, better use lsp (native checker check all ui, working not good)
 vim.opt.spell = false
 
 -- tab settings
