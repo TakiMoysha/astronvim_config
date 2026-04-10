@@ -107,9 +107,8 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    version = "^9",
     -- version = "^6", -- stable
-    lazy = false,
+    version = "^9",
     ft = "rust",
     specs = {
       {
@@ -124,16 +123,27 @@ return {
     opts = function()
       local codelldb_avail, _ = pcall(function() return require("mason-registry").get_package "codelldb" end)
       local cfg = require "rustaceanvim.config"
-      local adapter =
-          codelldb_avail and cfg.get_codelldb_adapter(vim.fn.exepath "codelldb"), (function()
-            local this_os = vim.uv.os_uname().sysname
-            local liblldb_path = vim.fn.expand "$MASON/share/lldb"
-            if this_os:find "Windows" then return liblldb_path .. "\\bin\\lldb.dll" end
-            return liblldb_path .. "/lib/liblldb" .. (this_os == "Linux" and ".so" or ".dylib")
-          end)() or cfg.get_codelldb_adapter()
 
-      local astrolsp_avail, astrolsp = pcall(require, "astrolsp")
-      local astrolsp_opts = (astrolsp_avail and astrolsp.lsp_opts "rust_analyzer") or {}
+      local adapter
+
+      if codelldb_avail then
+        local codelldb_path = vim.fn.exepath "codelldb"
+        local this_os = vim.uv.os_uname().sysname
+
+        local liblldb_path = vim.fn.expand "$MASON/share/lldb"
+        if this_os:find "Windows" then
+          -- TODO: for windows
+          liblldb_path = liblldb_path .. "\\bin\\lidb.dll"
+        else
+          liblldb_path = liblldb_path .. "/lib/liblldb" .. (this_os == "Linux" and ".so" or ".dylib")
+        end
+        adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
+      else
+        ---@diagnostic disable-next-line: missing-parameter
+        adapter = cfg.get_codelldb_adapter()
+      end
+
+      local astrolsp_opts = vim.lsp.config["rust_analyzer"] or {}
 
       local server = {
         settings = function(project_root, default_settings)

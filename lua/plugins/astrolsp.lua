@@ -14,7 +14,7 @@ return {
     -- Configuration table of features provided by AstroLSP
     features = {
       autoformat = true,      -- auto formatting on start
-      codelens = true,        -- codelens refresh on start (reference and implementation count, code actions)
+      codelens = false,        -- codelens refresh on start (reference and implementation count, code actions)
       inlay_hints = true,     -- inlay hints on start (type hints,)
       semantic_tokens = true, -- semantic token highlighting
     },
@@ -49,6 +49,8 @@ return {
     config = {},
     handlers = {},
     autocmds = {
+      -- WARN: drop atuocommand after Neovim v0.11
+
       -- WIP: not verified
       -- fugitive = {
       --   {
