@@ -2,11 +2,13 @@
 
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {"python", "toml"})
-    end,
-  }
+    "AstroNvim/astrocore",
+    optional = true,
+    opts = {
+      treesitter = { ensure_installed = { "python", "toml" } },
+    },
+  },
+
   {
     "AstroNvim/astrolsp",
     optional = true,
@@ -87,7 +89,7 @@ return {
     dependencies = { "nvim-neotest/neotest-python", config = function() end },
     opts = function(_, opts)
       if not opts.adapters then opts.adapters = {} end
-      table.insert(opts.adapters, require "neotest-python"(require("astrocore").plugin_opts "neotest-python"))
+      table.insert(opts.adapters, require "neotest-python" (require("astrocore").plugin_opts "neotest-python"))
     end,
   },
   {

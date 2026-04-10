@@ -6,21 +6,12 @@
 
 ---@type LazyPluginSpec[]
 return {
-  { import = "astrocommunity.pack.toml" },
-  -- { import = "astrocommunity.pack.rust" },
-
-  -- TODO: not working
   {
-    "neovim/nvim-lspconfig",
-    opts = function()
-      vim.lsp.config("ron-lsp", {
-        cmd = { vim.fn.expand "ron-lsp" },
-        filetypes = { "ron" },
-        root_dir = function(fname)
-          return require("lspconfig.util").root_pattern("Cargo.toml", ".git")(fname) or vim.loop.cwd()
-        end,
-      })
-    end,
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
+    opts = {
+      treesitter = { ensure_installed = { "toml", "rust" } },
+    },
   },
 
   {
@@ -51,6 +42,12 @@ return {
                 command = "clippy",
                 extraArgs = { "--no-deps" },
               },
+              inlayHints = {
+                typeHints = { enable = true },
+                parameterHints = { enable = true },
+                closingBraceHints = { enable = true },
+                maxLength = 28,
+              },
             },
           },
         },
@@ -61,10 +58,19 @@ return {
   },
 
   {
+    "mason-org/mason-lspconfig.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "taplo" })
+    end,
+  },
+  {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+        "tombi",
+        "taplo",
         "codelldb",
         "rust-analyzer",
       })
@@ -101,7 +107,8 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    version = "^6",
+    version = "^9",
+    -- version = "^6", -- stable
     lazy = false,
     ft = "rust",
     specs = {
@@ -118,12 +125,12 @@ return {
       local codelldb_avail, _ = pcall(function() return require("mason-registry").get_package "codelldb" end)
       local cfg = require "rustaceanvim.config"
       local adapter =
-        codelldb_avail and cfg.get_codelldb_adapter(vim.fn.exepath "codelldb"), (function()
-          local this_os = vim.uv.os_uname().sysname
-          local liblldb_path = vim.fn.expand "$MASON/share/lldb"
-          if this_os:find "Windows" then return liblldb_path .. "\\bin\\lldb.dll" end
-          return liblldb_path .. "/lib/liblldb" .. (this_os == "Linux" and ".so" or ".dylib")
-        end)() or cfg.get_codelldb_adapter()
+          codelldb_avail and cfg.get_codelldb_adapter(vim.fn.exepath "codelldb"), (function()
+            local this_os = vim.uv.os_uname().sysname
+            local liblldb_path = vim.fn.expand "$MASON/share/lldb"
+            if this_os:find "Windows" then return liblldb_path .. "\\bin\\lldb.dll" end
+            return liblldb_path .. "/lib/liblldb" .. (this_os == "Linux" and ".so" or ".dylib")
+          end)() or cfg.get_codelldb_adapter()
 
       local astrolsp_avail, astrolsp = pcall(require, "astrolsp")
       local astrolsp_opts = (astrolsp_avail and astrolsp.lsp_opts "rust_analyzer") or {}
@@ -149,7 +156,7 @@ return {
   },
 
   {
-    "Saghen/blink.cmp",
+    "saghen/blink.cmp",
     event = "VimEnter",
     opts = {
       keymap = { preset = "enter" },
