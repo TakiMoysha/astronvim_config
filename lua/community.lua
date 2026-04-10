@@ -7,12 +7,12 @@ return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.mdx" },
-  { import = "astrocommunity.indent.snacks-indent-hlchunk" },
+  { import = "astrocommunity.indent.snacks-indent-hlchunk" }, -- scope indent highlight
 
-  { import = "astrocommunity.motion.nvim-surround" }, -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/motion/nvim-surround
+  { import = "astrocommunity.motion.nvim-surround" },         -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/motion/nvim-surround
   { import = "astrocommunity.snippet.mini-snippets" },
   { import = "astrocommunity.colorscheme.catppuccin" },
-  { import = "astrocommunity.colorscheme.night-owl-nvim" },
+  -- { import = "astrocommunity.colorscheme.night-owl-nvim" },
 
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.pack.terraform" },
@@ -21,7 +21,8 @@ return {
   { import = "astrocommunity.pack.just" },
 
   { import = "astrocommunity.recipes.neovide" },
-  { import = "astrocommunity.recipes.picker-lsp-mappings"},
+  { import = "astrocommunity.recipes.picker-lsp-mappings" },
+  -- { import = "astrocommunity.recipes.diagnostic-virtual-lines-current-line" },
 
   -- { import = "astrocommunity.media.pets-nvim" },
 }

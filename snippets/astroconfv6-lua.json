@@ -1,0 +1,14 @@
+{
+	"astrocore-conf": {
+		"prefix": "!astrocore-conf",
+		"body": [
+			"{",
+			"\t\"AstroNvim/astrocore\",",
+			"\t---@type AstroCoreOpts",
+			"\topts = {",
+			"\t\tensure_installed = {$1},",
+			"\t}",
+			"}"
+		]
+	}
+}

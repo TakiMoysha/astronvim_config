@@ -82,4 +82,4 @@ _Fonts_:
 1. https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
 2. https://astronvim.lazyman.dev
 3. https://github.com/mhinz/vim-galore
-4.
+4. https://github.com/AstroNvim/AstroNvim/blob/main/lua/astronvim/plugins
