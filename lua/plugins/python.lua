@@ -2,6 +2,12 @@
 
 return {
   {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {"python", "toml"})
+    end,
+  }
+  {
     "AstroNvim/astrolsp",
     optional = true,
     ---@type AstroLSPOpts
@@ -44,15 +50,6 @@ return {
     },
   },
 
-  -- {
-  --   "williamboman/mason-lspconfig.nvim",
-  --   optional = true,
-  --   opts = function(_, opts)
-  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-  --       "basedpyright",
-  --     })
-  --   end,
-  -- },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -68,24 +65,6 @@ return {
     end,
   },
 
-  -- {
-  --   "linux-cultist/venv-selector.nvim",
-  --   --   enabled = vim.fn.executable "fd" == 1,
-  --   -- cmd = "VenvSelect",
-  --   opts = {
-  --     search = {
-  --       workspace = false,
-  --     },
-  --     -- TODO: added command
-  --     -- commands = {
-  --     --   VenvDeactivate = { function() require("venv-selector").deactivate() end, desc = "Deactivate VirtualEnv" },
-  --     -- }
-  --   },
-  --   keys = {
-  --     { "<leader>lv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" },
-  --     { "<leader>l/d", "<cmd>:VenvDeactivate<cr>", desc = "Deactivate VirtualEnv" },
-  --   },
-  -- },
   {
     "mfussenegger/nvim-dap",
     optional = true,

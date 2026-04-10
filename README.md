@@ -72,9 +72,8 @@ _Fonts_:
 
 ## Learning
 
-##### Commands
-
-`:'<,'>s/<old>/<new>/g` - replace all `<old>` to `<new>` from selected lines.
+- `:'<,'>s/<old>/<new>/g` - replace all `<old>` to `<new>` from selected lines.
+- `J` - join next line to current, also can be combined with count (`3J`).
 
 ##### Change mode
 
@@ -83,4 +82,4 @@ _Fonts_:
 1. https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim
 2. https://astronvim.lazyman.dev
 3. https://github.com/mhinz/vim-galore
-4. 
+4.

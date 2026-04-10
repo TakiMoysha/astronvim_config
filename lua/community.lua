@@ -7,6 +7,7 @@ return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.mdx" },
+  { import = "astrocommunity.indent.snacks-indent-hlchunk" },
 
   { import = "astrocommunity.motion.nvim-surround" }, -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/motion/nvim-surround
   { import = "astrocommunity.snippet.mini-snippets" },
