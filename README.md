@@ -2,9 +2,9 @@
 
 ## Cheatsheet - about configuration
 
-`<C>` - CTRL
-`<M>` - ALT
-`<S>` - SHIFT
+- `<C>` - CTRL
+- `<M>` - ALT
+- `<S>` - SHIFT
 
 ### **How `opts` overriding works?**
 

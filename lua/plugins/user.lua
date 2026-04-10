@@ -9,6 +9,9 @@ return {
   { "wakatime/vim-wakatime", lazy = false },
   {
     "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
     opts = {
       dashboard = { enable = true },
       styles = {
@@ -18,10 +21,10 @@ return {
       },
     },
   },
+
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {},
     event = "User AstroFile",
     cmd = { "TodoQuickFix" },
     keys = {

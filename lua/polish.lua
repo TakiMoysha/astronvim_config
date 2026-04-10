@@ -1,12 +1,13 @@
 -- if true then return end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
+--- ========================================= OPTIONS
 -- This will run last in the setup process.
 -- This is just pure lua so anything that doesn't
 -- fit in the normal config locations above can go here
 
 vim.o.colorcolumn = "100,120"
 
--- vim.opt.clipboard = ""
+vim.opt.clipboard = "" -- see `:help clipboard-tool`
 -- spellcheck, better use lsp (native checker check all ui, working not good)
 vim.opt.spell = false
 
@@ -32,6 +33,7 @@ vim.opt.number = true
 --     undofile = false,
 --     signcolumn = "auto",
 
+--- ========================================= AUTO COMMANDS
 -- off expandtab for go files
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "go" },
@@ -46,3 +48,8 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     vim.opt_local.readonly = true
   end,
 })
+
+--- ======================================
+local utils = require "utils"
+
+vim.api.nvim_create_user_command("DumpKeymap", utils.dump_keymap, {})

@@ -22,5 +22,5 @@ return {
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.recipes.picker-lsp-mappings"},
 
-  { import = "astrocommunity.media.pets-nvim" },
+  -- { import = "astrocommunity.media.pets-nvim" },
 }

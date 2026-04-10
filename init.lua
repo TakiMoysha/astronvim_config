@@ -11,8 +11,8 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
     vim.fn.getchar()
     vim.cmd.quit()
   end
-end 
-vim.opt.rtp:prepend(lazypath)  
+end
+vim.opt.rtp:prepend(lazypath)
 
 -- validate that lazy is available
 if not pcall(require, "lazy") then
@@ -24,7 +24,6 @@ if not pcall(require, "lazy") then
 end
 
 -- require "../options"
-require "utils"
 require "lazy_setup"
 require "polish"
 
@@ -51,5 +50,3 @@ require "polish"
 -- guifont = "Source Code Pro:h12", -- The font used in graphical neovim applications
 -- guifont = "Terminess Nerd Font:h10", -- The font used in graphical neovim applications
 -- guifont = "Miracode:h12", -- Minecraft-like font
-
-
