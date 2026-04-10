@@ -1,4 +1,5 @@
--- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 -- INFO: https://github.com/wgsl-analyzer/wgsl-analyzer/tree/743b687d1732947cbb1d8bd73ab41eff47bc42e8?tab=readme-ov-file
 -- INFO: https://github.com/wgsl-analyzer/wgsl-analyzer/blob/f9ab311f/editors/code/README.md
 --   rg define_import_path -g '*.wgsl' --sort path | sd '^([^:]*):#define_import_path (.*)' ' "$2":' .. workdir .. ' "$1",'
