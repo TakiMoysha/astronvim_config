@@ -13,6 +13,7 @@ return {
           {
             event = "FileType",
             pattern = "markdown",
+            desc = "Enable wrap for markdown",
             callback = function() vim.opt_local.wrap = true end,
           },
         },

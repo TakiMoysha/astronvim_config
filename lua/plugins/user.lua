@@ -14,6 +14,13 @@ return {
     ---@type snacks.Config
     opts = {
       dashboard = { enable = true },
+      picker = {
+        win = {
+          preview = {
+            wo = { wrap = true },
+          },
+        },
+      },
       styles = {
         notification = {
           wo = { wrap = true },
@@ -70,5 +77,15 @@ return {
     "NTBBloodbath/color-converter.nvim",
     opts = {},
     keys = {},
+  },
+
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    optional = true,
+    opts = {
+      ensure_installed = {
+        "typos-lsp", -- linting spellcheck
+      },
+    },
   },
 }

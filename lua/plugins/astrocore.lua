@@ -11,16 +11,19 @@ return {
     -- Configure core features of AstroNvim
     features = {
       large_buf = { size = 1024 * 500, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
-    },
-    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
-    diagnostics = {
-      virtual_text = true,
-      underline = true,
+      autopairs = true,                                 -- enable autopairs at start
+      cmp = true,                                       -- enable completion at start
+      highlighturl = true,                              -- highlight URLs at start
+      notifications = true,                             -- enable notifications at start
+      diagnostics = {
+        virtual_text = true,
+        virtual_lines = false,
+      },
+      features = {
+      },
+      -- features = {
+      --   inlay_hints = true,
+      -- },
     },
     -- passed to `vim.filetype.add`
     filetypes = {
@@ -29,20 +32,18 @@ return {
         ron = "ron",
       },
       filename = {},
-      pattern = {
-        ["just"] = "make",
-      },
+      pattern = {},
     },
     -- vim options can be configured here
     options = {
-      opt = { -- vim.opt.<key>
+      opt = {                  -- vim.opt.<key>
         relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+        number = true,         -- sets vim.opt.number
+        spell = false,         -- sets vim.opt.spell
+        signcolumn = "yes",    -- sets vim.opt.signcolumn to yes
+        wrap = false,          -- sets vim.opt.wrap
       },
-      g = { -- vim.g.<key>
+      g = {                    -- vim.g.<key>
         -- neovide configs
         neovide_increment_scale_factor = vim.g.neovide_increment_scale_factor or 0.1,
         -- configure global vim variables (vim.g)

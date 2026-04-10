@@ -7,9 +7,9 @@
 
 vim.o.colorcolumn = "100,120"
 
-vim.opt.clipboard = "" -- see `:help clipboard-tool`
+-- vim.opt.clipboard = "" -- see `:help clipboard-tool` and astrocore.lua:options
 -- spellcheck, better use lsp (native checker check all ui, working not good)
-vim.opt.spell = false
+-- vim.opt.spell = false
 
 -- tab settings
 -- vim.opt.shiftwidth = 4
@@ -34,20 +34,21 @@ vim.opt.number = true
 --     signcolumn = "auto",
 
 --- ========================================= AUTO COMMANDS
+-- DEBUG: move to astrolsp.lua
 -- off expandtab for go files
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "go" },
-  callback = function() vim.opt.expandtab = false end,
-})
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+--   pattern = { "go" },
+--   callback = function() vim.opt.expandtab = false end,
+-- })
 
--- Avoid modifying fugitive diff buffers
-vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-  pattern = { "fugitive:///*//0/*" },
-  callback = function()
-    vim.opt_local.modifiable = false
-    vim.opt_local.readonly = true
-  end,
-})
+-- DEBUG: move to astrolsp.lua
+-- vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+--   pattern = { "fugitive:///*//0/*" },
+--   callback = function()
+--     vim.opt_local.modifiable = false
+--     vim.opt_local.readonly = true
+--   end,
+-- })
 
 --- ======================================
 local utils = require "utils"

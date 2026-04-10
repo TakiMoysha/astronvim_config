@@ -13,16 +13,16 @@ return {
   opts = {
     -- Configuration table of features provided by AstroLSP
     features = {
-      autoformat = true, -- enable or disable auto formatting on start
-      codelens = true, -- enable/disable codelens refresh on start
-      inlay_hints = true, -- enable/disable inlay hints on start
+      autoformat = true,      -- enable or disable auto formatting on start
+      codelens = true,        -- enable/disable codelens refresh on start
+      inlay_hints = true,     -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
     -- customize lsp formatting options
     formatting = {
       -- control auto formatting on save
       format_on_save = {
-        enabled = false, -- enable or disable format on save globally
+        enabled = false,    -- enable or disable format on save globally
         allow_filetypes = { -- enable format on save for specified filetypes only
           -- "go",
         },
@@ -60,18 +60,31 @@ return {
       --   },
       -- },
     },
-    -- customize how language servers are attached
-    handlers = {
-      -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
-      -- function(server, opts) require("lspconfig")[server].setup(opts) end
-
-      -- the key is the server that is being setup with `lspconfig`
-      -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
-      -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
-    },
-    -- Configure buffer local auto commands to add when attaching a language server
+    handlers = {},
     autocmds = {
-      -- first key is the `augroup` to add the auto commands to (:h augroup)
+      -- WIP: not verified
+      -- fugitive = {
+      --   {
+      --     event = { "BufReadPost" },
+      --     pattern = { "fugiive:///*//0/*"},
+      --     desc = "Avoid modifying fugitive diff buffers",
+      --     callback = function()
+      --       vim.opt_local.modifiable = false
+      --       vim.opt_local.readonly = true
+      --     end
+      --   }
+      -- },
+
+      -- WIP: not verified
+      -- no_expandtab = {
+      --   {
+      --     event = "FileType",
+      --     pattern = "go",
+      --     desc = "Disable expandtab for go failes",
+      --     callback = function() vim.opt.expandtab = false end,
+      --   }
+      -- },
+
       lsp_codelens_refresh = {
         -- Optional condition to create/delete auto command group
         -- can either be a string of a client capability or a function of `fun(client, bufnr): boolean`
