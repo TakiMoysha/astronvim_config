@@ -19,11 +19,6 @@ return {
         virtual_text = true,
         virtual_lines = false,
       },
-      features = {
-      },
-      -- features = {
-      --   inlay_hints = true,
-      -- },
     },
     -- passed to `vim.filetype.add`
     filetypes = {

@@ -15,7 +15,7 @@ return {
     features = {
       autoformat = true,      -- enable or disable auto formatting on start
       codelens = true,        -- enable/disable codelens refresh on start
-      inlay_hints = true,     -- enable/disable inlay hints on start
+      inlay_hints = true,    -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
     -- customize lsp formatting options
@@ -47,18 +47,18 @@ return {
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
     config = {
-      -- TODO: audit required
-      -- rust_analyzer = {
-      --   settings = {
-      --     ["rust-analyzer"] = {
-      --       cargo = {
-      --         extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
-      --         extraArgs = { "--profile", "rust-analyzer" },
-      --         -- check = { command = "check", extraArgs = {} },
-      --       },
-      --     },
-      --   },
-      -- },
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            inlayHints = {
+              typeHints = { enable = true },
+              parameterHints = { enable = false },
+              closingBraceHints = { enable = false },
+              maxLength = 25,
+            },
+          },
+        },
+      },
     },
     handlers = {},
     autocmds = {
