@@ -75,7 +75,9 @@ _Fonts_:
 - `:'<,'>s/<old>/<new>/g` - replace all `<old>` to `<new>` from selected lines.
 - `J` - join next line to current, also can be combined with count (`3J`).
 
-##### Change mode
+### Plugins
+
+- `codesettings.nvim` - более детальная настройка, например подключать плагин `mrcjkb/rustaceanvim` только на тяжелый проектах.
 
 ## References
 

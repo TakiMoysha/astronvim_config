@@ -119,6 +119,8 @@ return {
         },
       },
     },
+    dependencies = { "mrjones2014/codesettings.nvim" },
+    init = function() vim.g.rustaceanvim = {} end,
     config = function(_, opts) vim.g.rustaceanvim = require("astrocore").extend_tbl(opts, vim.g.rustaceanvim) end,
     opts = function()
       local codelldb_avail, _ = pcall(function() return require("mason-registry").get_package "codelldb" end)

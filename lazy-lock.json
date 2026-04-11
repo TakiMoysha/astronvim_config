@@ -12,6 +12,7 @@
   "catppuccin": { "branch": "main", "commit": "426dbebe06b5c69fd846ceb17b42e12f890aedf1" },
   "cmp-dap": { "branch": "master", "commit": "ea92773e84c0ad3288c3bc5e452ac91559669087" },
   "codeium.vim": { "branch": "main", "commit": "3c0a4f8a7be75113a6e19be13b7cc37210d6e26a" },
+  "codesettings.nvim": { "branch": "master", "commit": "9e1ae26a8ae3e0a2fcefc0eb82a0fe955af5e21d" },
   "color-converter.nvim": { "branch": "main", "commit": "5888e92cbccf0de202d2b617f6a8f3011a43bd52" },
   "conform.nvim": { "branch": "master", "commit": "086a40dc7ed8242c03be9f47fbcee68699cc2395" },
   "crates.nvim": { "branch": "main", "commit": "0f536967abd097d9a4275087483f15d012418740" },

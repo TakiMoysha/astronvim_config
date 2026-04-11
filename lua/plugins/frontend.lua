@@ -15,10 +15,25 @@ return {
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/vue/
   -- { import = "astrocommunity.pack.vue" },
   -- =========================================================================================
+  --
   {
     "AstroNvim/astrocore",
     ---@type AstroCoreOpts
     opts = {
+      treesitter = {
+        ensure_installed = {
+          "typescript",
+          "javascript",
+          "astro",
+          "vue",
+          "tsx",
+          "jsdoc",
+          "html",
+          "css",
+          "scss",
+          "styled",
+        },
+      },
       filetypes = {
         extension = {
           pcss = "postcss",
@@ -213,7 +228,7 @@ return {
   -- installation lsp servers,
 
   -- {
-  --   "williamboman/mason-lspconfig.nvim",
+  --   "mason-org/mason-lspconfig.nvim",
   --   optional = true,
   --   dependencies = {
   --     { "AstroNvim/astrolsp", opts = {} },
@@ -248,25 +263,6 @@ return {
   --   end,
   -- },
 
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      if opts.ensure_installed ~= "all" then
-        opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-          "typescript",
-          "javascript",
-          "astro",
-          "vue",
-          "tsx",
-          "jsdoc",
-          "html",
-          "css",
-          "scss",
-          "styled",
-        })
-      end
-    end,
-  },
   {
     "jay-babu/mason-nvim-dap.nvim",
     optional = true,
