@@ -69,6 +69,7 @@ _Fonts_:
 - `:Telescope notify` - telescope find session notifications
 - `:Notification` - show session notifications
 - `:TodoQuickFix` - show todo quickfix
+- `:ConformInfo` - show what used for buffer formatting.
 
 ## Learning
 

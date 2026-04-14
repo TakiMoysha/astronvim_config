@@ -5,17 +5,7 @@
 ---@type LazySpec
 return {
   { import = "astrocommunity.pack.html-css" },
-  -- {
-  --   "mason-org/mason-lspconfig.nvim",
-  --   optional = true,
-  --   opts = function(_, opts)
-  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-  --       "tailwindcss", -- "tailwindcss-language-server"
-  --       "html", -- "html-lsp"
-  --       "cssls", -- "css-lsp"
-  --     })
-  --   end,
-  -- },
+
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -46,8 +36,8 @@ return {
         cssls = {
           filetypes = { "css", "scss", "less" },
           init_options = {
-            provideFormatter = false, -- prettier or biome
-          },
+            provideFormatter = false, -- using lsp (prettier, biome, ox)
+           },
           settings = {
             css = {
               validate = false, -- disable built-in validation for prevent conflicts

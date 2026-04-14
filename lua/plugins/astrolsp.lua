@@ -49,8 +49,6 @@ return {
     config = {},
     handlers = {},
     autocmds = {
-      -- WARN: drop atuocommand after Neovim v0.11
-
       -- WIP: not verified
       -- fugitive = {
       --   {

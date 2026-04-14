@@ -20,25 +20,28 @@ return {
     "AstroNvim/astrolsp",
     optional = true,
     ---@param opts AstroLSPOpts
-    opts = {}
+    opts = function(_, opts)
+      opts.config = vim.tbl_deep_extend("force", opts.config or {}, {
+        volar = { filetypes = { "vue" } },
+      })
+    end,
   },
   -- formatter for files
   {
     "stevearc/conform.nvim",
-    -- biome or prettier
     -- event = { "BufWritePre" },
     opts = function(_, opts)
       opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { formatter = "oxfmt" },
-        javascriptreact = { formatter = "oxfmt" },
-        typescript = { formatter = "oxfmt" },
-        typescriptreact = { formatter = "oxfmt" },
-        vue = { formatter = "oxfmt" },
-        css = { formatter = "oxfmt" },
-        scss = { formatter = "oxfmt" },
-        html = { formatter = "oxfmt" },
-        json = { formatter = "oxfmt" },
-        jsonc = { formatter = "oxfmt" },
+        javascript = { "oxfmt" },
+        javascriptreact = { "oxfmt" },
+        typescript = { "oxfmt" },
+        typescriptreact = { "oxfmt" },
+        vue = { "oxfmt" },
+        css = { "oxfmt" },
+        scss = { "oxfmt" },
+        html = { "oxfmt" },
+        json = { "oxfmt" },
+        jsonc = { "oxfmt" },
       })
     end,
 
@@ -95,23 +98,11 @@ return {
         "vtsls",
         "vue-language-server", -- volar
         "js-debug-adapter",
-        "prettierd",
-        "biome",
         "oxlint",
         "oxfmt",
       })
     end,
   },
-  -- compatibility with null-ls and mason (wrapper around cli tools without lsp)
-  -- biome have lsp
-  -- {
-  --   "jay-babu/mason-null-ls.nvim",
-  --   optional = true,
-  --   opts = function(_, opts)
-  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "biome" })
-  --   end,
-  -- },
-
   {
     "jay-babu/mason-nvim-dap.nvim",
     optional = true,

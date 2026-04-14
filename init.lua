@@ -39,14 +39,14 @@ require "polish"
 --   end,
 -- })
 
--- vim.o.guifont = "Terminess Nerd Font:h12"
+-- vim.o.guifont = "Iosevka Nerd Font Regular:h10"
 -- vim.o.guifontwide = "Miracode:h9"
--- guifont = "JetBrainsMono Nerd Font:h9", -- The font used in graphical neovim applications
--- guifont = "FiraCode Nerd Font Mono:h9", -- The font used in graphical neovim applications
--- guifont = "Iosevka Nerd Font Regular:h10", -- The font used in graphical neovim applications
--- guifont = "GohuFont 14 Nerd Font Mono:h9", -- The font used in graphical neovim applications
--- guifont = "BlexMono Nerd Font:h9", -- The font used in graphical neovim applications
--- guifont = "Terminess Nerd Font Propo:h12", -- The font used in graphical neovim applications
--- guifont = "Source Code Pro:h12", -- The font used in graphical neovim applications
--- guifont = "Terminess Nerd Font:h10", -- The font used in graphical neovim applications
--- guifont = "Miracode:h12", -- Minecraft-like font
+-- vim.o.guifont = "JetBrainsMono Nerd Font:h9" -- The font used in graphical neovim applications
+vim.o.guifont = "FiraCode Nerd Font Mono:h9" -- The font used in graphical neovim applications
+-- vim.o.guifont = "Iosevka Nerd Font Regular:h10" -- The font used in graphical neovim applications
+-- vim.o.guifont = "GohuFont 14 Nerd Font Mono:h10" -- The font used in graphical neovim applications
+-- vim.o.guifont = "BlexMono Nerd Font:h9" -- The font used in graphical neovim applications
+-- vim.o.guifont = "Terminess Nerd Font Propo:h12" -- The font used in graphical neovim applications
+-- vim.o.guifont = "Source Code Pro:h10" -- The font used in graphical neovim applications
+-- vim.o.guifont = "Terminess Nerd Font:h10" -- The font used in graphical neovim applications
+-- vim.o.guifont = "Miracode:h10" -- Minecraft-like font
