@@ -6,6 +6,7 @@
 ---@type LazySpec
 return {
   { "EdenEast/nightfox.nvim" },
+  { "loctvl842/monokai-pro.nvim" },
   { "wakatime/vim-wakatime", lazy = false },
   {
     "folke/snacks.nvim",

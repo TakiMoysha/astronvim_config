@@ -54,3 +54,10 @@ vim.opt.number = true
 local utils = require "utils"
 
 vim.api.nvim_create_user_command("DumpKeymap", utils.dump_keymap, {})
+
+-- Delete without yanking
+vim.keymap.set("n", "s", '"_d', { desc = "Delete without yanking" })
+vim.keymap.set("n", "S", '"_d$', { desc = "Delete line without yanking" })
+
+-- Ctrl+Shift+V для вставки из буфера во всех основных режимах
+vim.keymap.set({ "i", "n", "v" }, "<c-s-v>", '"+p', { noremap = true, silent = true })

@@ -51,6 +51,8 @@ return {
     mappings = {
       -- first key is the mode
       n = {
+        -- ["s"] = { "\"_d", desc = "Delete without yank", silent = true },
+        -- ["S"] = { "\"_d$", desc = "Delete line without yank", silent = true },
         -- navigate buffer tabs
         -- ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         -- ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },

@@ -76,8 +76,12 @@ _Fonts_:
 - `:'<,'>s/<old>/<new>/g` - replace all `<old>` to `<new>` from selected lines.
 - `J` - join next line to current, also can be combined with count (`3J`).
 
+- `CTRL-\_CTRL-N` - переключение в normal mode из terminal mode.
+
 ### Plugins
 
+- `termopen` - для работы с терминалом.
+- `snacks.nvim` - для других окон, например pickle, opencode, etc. Может быть конфликт хоткеей, т.к. snacks перехватывает их.
 - `codesettings.nvim` - более детальная настройка, например подключать плагин `mrcjkb/rustaceanvim` только на тяжелый проектах.
 
 ## References

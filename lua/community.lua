@@ -6,6 +6,7 @@
 return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
+  { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.mdx" },
   { import = "astrocommunity.indent.snacks-indent-hlchunk" }, -- scope indent highlight
 

@@ -6,14 +6,9 @@
 
 ---@type LazySpec
 return {
-  -- { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
-  { import = "astrocommunity.pack.json" },
-  -- =========================================================================================
-  -- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack/typescript
-  { import = "astrocommunity.pack.typescript" },
   -- =========================================================================================
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/vue/
-  { import = "astrocommunity.pack.vue" },
+  { import = "astrocommunity.pack.vue" }, -- ← vue pack already imports typescript pack
   -- =========================================================================================
 
   {
@@ -46,9 +41,9 @@ return {
     end,
 
     format_on_save = {
-      format_on_save = false,
+      format_on_save = true,
       lsp_fallback = false, -- if lsp is not available
-      async = false,
+      async = true,
     },
   },
   -- testing: TODO: how to
@@ -79,24 +74,25 @@ return {
   -- =========================================================================================
   -- installation lsp servers,
 
-  -- {
-  --   "mason-org/mason-lspconfig.nvim",
-  --   optional = true,
-  --   dependencies = {
-  --     { "AstroNvim/astrolsp", opts = {} },
-  --   },
-  --   opts = function(_, opts)
-  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "volar" })
-  --   end,
-  -- },
+  {
+    "mason-org/mason-lspconfig.nvim",
+    optional = true,
+    dependencies = {
+      { "AstroNvim/astrolsp", opts = {} },
+    },
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "oxlint" })
+    end,
+  },
   -- no-lsp tools installer
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
+      -- only ensure if it installed (not setup)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         "vtsls",
-        "vue-language-server", -- volar
+        "vue-language-server",
         "js-debug-adapter",
         "oxlint",
         "oxfmt",
@@ -108,6 +104,13 @@ return {
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "js" })
+    end,
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "oxlint" })
     end,
   },
 }
