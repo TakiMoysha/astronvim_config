@@ -20,5 +20,8 @@ return {
     opts.sources = opts.sources or {}
     opts.sources.providers = opts.sources.providers or {}
     opts.sources.providers.snippets = opts.sources.providers.snippets or {}
+    opts.sources.providers.snippets.transform_items = function(_, items)
+      return vim.tbl_filter(function(item) return not item.label:match "^a%-ng" end, items)
+    end
   end,
 }

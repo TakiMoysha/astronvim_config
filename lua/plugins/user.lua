@@ -75,23 +75,6 @@ return {
   },
 
   {
-    "NTBBloodbath/color-converter.nvim",
-    opts = {},
-    keys = {},
-  },
-
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    optional = true,
-    opts = {
-      ensure_installed = {
-        "typos-lsp", -- linting spellcheck
-      },
-    },
-  },
-
-  {
-    -- swap values vice versa
     "AndrewRadev/switch.vim",
     keys = {
       { "gs", mode = { "n", "x" } },

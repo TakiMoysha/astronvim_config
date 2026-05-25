@@ -7,13 +7,17 @@ return {
   { import = "astrocommunity.pack.html-css" },
 
   {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    "mason-org/mason-lspconfig.nvim",
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = require("astrocore").list_insert_unique(
         opts.ensure_installed,
         { "tailwindcss-language-server", "html-lsp", "css-lsp" }
       )
+      -- исключить emmet_ls
+      -- opts.ensure_installed = vim.tbl_filter(function(server)
+      --   return server ~= "emmet_ls"
+      -- end, opts.ensure_installed)
     end,
   },
   {
