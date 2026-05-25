@@ -1,0 +1,62 @@
+{
+  "check": {
+    "command": "clippy",
+    "extraArgs": [
+      "--no-deps"
+    ]
+  },
+  "inlayHints": {
+    "maxLength": 24,
+    "typeHints": {
+      "enable": true,
+      "hideClosureInitialization": true
+    },
+    "expressionAdjustmentHints": {
+      "enable": "reborrow",
+      "hideOutsideUnsafe": true
+    },
+    "closureReturnTypeHints": {
+      "enable": "with_block"
+    },
+    "lifetimeElisionHints": {
+      "enable": "skip_trivial",
+      "useParameterNames": true
+    }
+  },
+  "runnables": {},
+  "lens": {
+    "enable": true,
+    "run": {
+      "enable": false
+    },
+    "debug": {
+      "enable": false
+    },
+    "updateTest": {
+      "enable": true
+    },
+    "references": false,
+    "implementations": {
+      "enable": false
+    }
+  },
+  "completion": {
+    "postfix": {
+      "enable": true
+    }
+  },
+  "imports": {
+    "granularity": {
+      "enforce": true
+    },
+    "prefix": "self"
+  },
+  "procMacro": {
+    "enable": true
+  },
+  "rustfmt": {
+    "extraArgs": [
+      "+nightly"
+    ]
+  }
+}

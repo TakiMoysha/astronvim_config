@@ -21,8 +21,14 @@ return {
   { import = "astrocommunity.pack.typst" },
   { import = "astrocommunity.pack.just" },
 
+  { import = "astrocommunity.test.neotest" },
+
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.recipes.picker-lsp-mappings" },
+
+  { import = "astrocommunity.utility.live-preview" },
+  { import = "astrocommunity.diagnostics.trouble-nvim" },
+
   -- { import = "astrocommunity.recipes.diagnostic-virtual-lines-current-line" },
 
   -- { import = "astrocommunity.media.pets-nvim" },

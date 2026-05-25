@@ -21,7 +21,7 @@ return {
       })
     end,
   },
-  -- formatter for files
+  -- -- formatter for files
   {
     "stevearc/conform.nvim",
     -- event = { "BufWritePre" },
@@ -41,50 +41,50 @@ return {
     end,
 
     format_on_save = {
-      format_on_save = true,
+      format_on_save = false,
       lsp_fallback = false, -- if lsp is not available
-      async = true,
+      async = false,
     },
   },
-  -- testing: TODO: how to
-  {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = {
-      { "nvim-neotest/neotest-jest" },
-    },
-    opts = function(_, opts)
-      opts.adapters = opts.adapters or {}
-      table.insert(
-        opts.adapters,
-        require "neotest-jest" {
-          jestCommand = "bun test --",
-          env = { CI = true },
-          cwd = function() return vim.fn.getcwd() end,
-        }
-      )
-    end,
-  },
-  {
-    "vuki656/package-info.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = {},
-    event = "BufRead package.json",
-  },
-  -- =========================================================================================
-  -- installation lsp servers,
-
-  {
-    "mason-org/mason-lspconfig.nvim",
-    optional = true,
-    dependencies = {
-      { "AstroNvim/astrolsp", opts = {} },
-    },
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "oxlint" })
-    end,
-  },
-  -- no-lsp tools installer
+  -- -- testing: TODO: how to
+  -- {
+  --   "nvim-neotest/neotest",
+  --   optional = true,
+  --   dependencies = {
+  --     { "nvim-neotest/neotest-jest" },
+  --   },
+  --   opts = function(_, opts)
+  --     opts.adapters = opts.adapters or {}
+  --     table.insert(
+  --       opts.adapters,
+  --       require "neotest-jest" {
+  --         jestCommand = "bun test --",
+  --         env = { CI = true },
+  --         cwd = function() return vim.fn.getcwd() end,
+  --       }
+  --     )
+  --   end,
+  -- },
+  -- {
+  --   "vuki656/package-info.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim" },
+  --   opts = {},
+  --   event = "BufRead package.json",
+  -- },
+  -- -- =========================================================================================
+  -- -- installation lsp servers,
+  --
+  -- {
+  --   "mason-org/mason-lspconfig.nvim",
+  --   optional = true,
+  --   dependencies = {
+  --     { "AstroNvim/astrolsp", opts = {} },
+  --   },
+  --   opts = function(_, opts)
+  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "oxlint" })
+  --   end,
+  -- },
+  -- -- no-lsp tools installer
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -92,20 +92,19 @@ return {
       -- only ensure if it installed (not setup)
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
         "vtsls",
-        "vue-language-server",
         "js-debug-adapter",
         "oxlint",
         "oxfmt",
       })
     end,
   },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "js" })
-    end,
-  },
+  -- {
+  --   "jay-babu/mason-nvim-dap.nvim",
+  --   optional = true,
+  --   opts = function(_, opts)
+  --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "js" })
+  --   end,
+  -- },
   {
     "jay-babu/mason-null-ls.nvim",
     optional = true,

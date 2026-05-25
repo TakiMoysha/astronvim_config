@@ -7,14 +7,14 @@
 return {
   { "EdenEast/nightfox.nvim" },
   { "loctvl842/monokai-pro.nvim" },
-  { "wakatime/vim-wakatime", lazy = false },
+  { "wakatime/vim-wakatime", lazy = false, optsd = { status_bar_enabled = true } },
   {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
     ---@type snacks.Config
     opts = {
-      dashboard = { enable = true },
+      dashboard = { enabled = true },
       picker = {
         win = {
           preview = {
@@ -87,6 +87,14 @@ return {
       ensure_installed = {
         "typos-lsp", -- linting spellcheck
       },
+    },
+  },
+
+  {
+    -- swap values vice versa
+    "AndrewRadev/switch.vim",
+    keys = {
+      { "gs", mode = { "n", "x" } },
     },
   },
 }

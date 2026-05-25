@@ -4,7 +4,7 @@
 ---@module "rust"
 ---@class plugins.rust.config: AstroLSPOpts
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/rust/init.lua
   { import = "astrocommunity.pack.rust" },
@@ -13,25 +13,41 @@ return {
     "AstroNvim/astrolsp",
     optional = true,
     ---@type AstroLSPOpts
+    ---@diagnostic disable: missing-fields
     opts = {
-      handlers = { rust_analyzer = false },
       config = {
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
               files = {
-                excludeDirs = {
-                  ".direnv",
-                  ".git",
-                  "target",
-                  "references",
-                },
+                excludeDirs = { ".direnv", ".git", "target" },
               },
+              check = { command = "clippy", extraArgs = { "--no-deps" } },
               inlayHints = {
-                typeHints = { enable = true },
-                parameterHints = { enable = true },
-                closingBraceHints = { enable = true },
-                maxLength = 28,
+                maxLength = 24,
+                closureReturnTypeHints = { enable = "with_block" },
+                typeHints = { enable = true, hideClosureInitialization = true },
+                expressionAdjustmentHints = { enable = "reborrow", hideOutsideUnsafe = true },
+                lifetimeElisionHints = { enable = "skip_trivial", useParameterNames = true },
+              },
+              runnables = {},
+              lens = {
+                enable = true,
+                run = { enable = false },
+                debug = { enable = false },
+                updateTest = { enable = true },
+                references = false,
+                implementations = { enable = false },
+              },
+              completion = { postfix = { enable = true } },
+              imports = {
+                granularity = { enforce = true },
+                prefix = "self",
+              },
+              procMacro = { enable = true },
+              rustfmt = { extraArgs = { "+nightly" } },
+              workspace = {
+                symbol = { search = { kind = "all_symbols", limit = 512 } },
               },
             },
           },
@@ -50,71 +66,5 @@ return {
         "rust-analyzer",
       })
     end,
-  },
-
-  -- issue: not working if import from astrocommunity.pack.rust
-  {
-    "mrcjkb/rustaceanvim",
-    version = "^9",
-    ft = "rust",
-    specs = {
-      {
-        "AstroNvim/astrolsp",
-        optional = true,
-        ---@type AstroLSPOpts
-        opts = {
-          handlers = { rust_analyzer = false }, -- disable setup of `rust_analyzer`
-        },
-      },
-    },
-    opts = function()
-      local adapter
-      local codelldb_installed = pcall(function() return require("mason-registry").get_package "codelldb" end)
-      local cfg = require "rustaceanvim.config"
-      if codelldb_installed then
-        local codelldb_path = vim.fn.exepath "codelldb"
-        local this_os = vim.uv.os_uname().sysname
-
-        local liblldb_path = vim.fn.expand "$MASON/share/lldb"
-        -- The path in windows is different
-        if this_os:find "Windows" then
-          liblldb_path = liblldb_path .. "\\bin\\lldb.dll"
-        else
-          -- The liblldb extension is .so for linux and .dylib for macOS
-          liblldb_path = liblldb_path .. "/lib/liblldb" .. (this_os == "Linux" and ".so" or ".dylib")
-        end
-        adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
-      else
-        adapter = cfg.get_codelldb_adapter()
-      end
-
-      local astrolsp_opts = vim.lsp.config["rust_analyzer"] or {}
-      -- Starting from AstroNvim v6, lsp_opts returns nvim-lspconfig's
-      -- root_dir(bufnr, on_dir) which is incompatible with rustaceanvim's
-      -- root_dir(file_name, default_fn) signature. Drop it so rustaceanvim
-      -- uses its own cargo-aware root detection.
-      astrolsp_opts.root_dir = nil
-      local server = {
-        ---@type table | (fun(project_root:string|nil, default_settings: table|nil):table) -- The rust-analyzer settings or a function that creates them.
-        settings = function(project_root, default_settings)
-          local astrolsp_settings = astrolsp_opts.settings or {}
-
-          local merge_table = require("astrocore").extend_tbl(default_settings or {}, astrolsp_settings)
-          local ra = require "rustaceanvim.config.server"
-          -- load_rust_analyzer_settings merges any found settings with the passed in default settings table and then returns that table
-          return ra.load_rust_analyzer_settings(project_root, {
-            settings_file_pattern = "rust-analyzer.json",
-            default_settings = merge_table,
-          })
-        end,
-      }
-      local final_server = require("astrocore").extend_tbl(astrolsp_opts, server)
-      return {
-        server = final_server,
-        dap = { adapter = adapter, load_rust_types = true },
-        tools = { enable_clippy = false },
-      }
-    end,
-    config = function(_, opts) vim.g.rustaceanvim = require("astrocore").extend_tbl(opts, vim.g.rustaceanvim) end,
   },
 }

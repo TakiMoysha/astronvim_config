@@ -1,16 +1,14 @@
 require("lazy").setup({
   {
     "AstroNvim/AstroNvim",
-    version = "^6", -- Remove version tracking to elect for nightly AstroNvim
     import = "astronvim.plugins",
-    opts = {
-    },
+    opts = {},
   },
   { import = "community" },
   { import = "plugins" },
 } --[[@as LazySpec]], {
   -- Configure any other `lazy.nvim` configuration options here
-  install = { colorscheme = { "duskfox", "astrodark", "carbonfox" } },
+  install = { colorscheme = { "duskfox", "astrodark", "carbonfox", "habamax" } },
   ui = { backdrop = 100 },
   performance = {
     rtp = {
@@ -25,4 +23,3 @@ require("lazy").setup({
     },
   },
 } --[[@as LazyConfig]])
-

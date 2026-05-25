@@ -40,4 +40,9 @@ function M.dump_keymap()
   vim.notify("Keymap exported to" .. export_filename)
 end
 
+function M.debug_lsp()
+  local debug_value = vim.lsp.config["rust_analyzer"] or vim.lsp.config
+  vim.notify(vim.inspect(debug_value))
+end
+
 return M
