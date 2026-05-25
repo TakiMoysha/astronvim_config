@@ -29,7 +29,7 @@ return {
   { import = "astrocommunity.utility.live-preview" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
 
-  -- { import = "astrocommunity.recipes.diagnostic-virtual-lines-current-line" },
+  -- { import = "astrocommunity.recipes.diagnostic-virtual-lines-current-line" }, -- ?
 
   -- { import = "astrocommunity.media.pets-nvim" },
 }
