@@ -75,12 +75,33 @@ return {
     -- mappings to be set up on attaching of a language server
     mappings = {
       n = {
-        -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
-        gD = {
-          function() vim.lsp.buf.declaration() end,
-          desc = "Declaration of current symbol",
-          cond = "textDocument/declaration",
-        },
+        -- gD = {
+        --   function() vim.lsp.buf.declaration() end,
+        --   desc = "Declaration of current symbol",
+        --   cond = "textDocument/declaration",
+        -- },
+        -- gd = {
+        --   function()
+        --     vim.lsp.buf_request(
+        --       0,
+        --       "textDocument/definition",
+        --       vim.lsp.util.make_position_params(0, "utf-8"),
+        --       function(_, result)
+        --         if not result then return end
+        --         local locations = type(result) == "table" and result or { result }
+        --         for _, loc in ipairs(locations) do
+        --           local uri = loc.targetUri or loc.uri
+        --           if uri and not uri:match "%.d%.ts$" then
+        --             return vim.lsp.util.show_document(loc, nil, { focus = true })
+        --           end
+        --           vim.lsp.util.show_document(locations[1], "utf-16", { focus = true })
+        --         end
+        --       end
+        --     )
+        --   end,
+        --   desc = "Go to definition (skip .d.ts)",
+        --   cond = "textDocument/definition",
+        -- },
         ["<Leader>r"] = {
           function() vim.lsp.codelens.run() end,
           desc = "Run CodeLens action",
@@ -92,6 +113,13 @@ return {
     -- takes two parameters `client` and `bufnr`  (`:h lspconfig-setup`)
     on_attach = function(client, bufnr)
       if client.name == "tsserver" or client.name == "typescript" or client.name == "vtsls" then
+        if vim.bo[bufnr].filetype == "vue" then
+          client.server_capabilities.documentHighlightProvider = nil
+          client.server_capabilities.signatureHelpProvider = nil
+        else
+          client.server_capabilities.semanticTokensProvider.full = true
+        end
+
         client.server_capabilities.inlayHintProvider = nil
       end
     end,

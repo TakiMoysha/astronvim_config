@@ -1,4 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- WARN: issues:
 
@@ -37,10 +37,13 @@ return {
           filetypes = { "css", "scss", "less" },
           init_options = {
             provideFormatter = false, -- using lsp (prettier, biome, ox)
-           },
+          },
           settings = {
             css = {
-              validate = false, -- disable built-in validation for prevent conflicts
+              validate = true, -- disable built-in validation for prevent conflicts (ex: vue = windcss)
+              lint = {
+                unknownAtRules = "ignore" -- if validate is true, disable warnings for @apply, @reference, etc.
+              },
               completion = {
                 triggerPropertyValueCompletion = true,
                 completePropertyWIthSemicolon = true,
@@ -52,38 +55,27 @@ return {
             },
           },
         },
-
-        jsonls = {
-          settings = {
-            json = {
-              schemas = {
-                {
-                  fileMatch = { "package.json" },
-                  url = "https://json.schemastore.org/package.json",
-                },
-                {
-                  fileMatch = { "tsconfig.json" },
-                  url = "https://json.schemastore.org/tsconfig.json",
-                },
-              },
+        tailwindcss = {
+          init_options = {
+            userLanguages = {
+              rust = "html",
+              ["vue"] = "html",
             },
           },
-        },
-
-        tailwindcss = {
           filetypes = {
             "html",
             "css",
             "scss",
+            "less",
             "javascript",
             "javascriptreact",
             "typescript",
             "typescriptreact",
             "vue",
-            "astro",
           },
           settings = {
             tailwindcss = {
+              validate = true,
               classAttributes = { "class", "className", "classList", "ngClass" },
               lint = {
                 cssConflict = "warning",
@@ -94,7 +86,6 @@ return {
                 invalidTailwindDirective = "error",
                 recommendedVariantOrder = "warning",
               },
-              validate = true,
               experimental = {
                 classRegex = {
                   "tw`([^`]*)",
@@ -104,12 +95,6 @@ return {
                   "tw\\(.*?\\)`([^`]*)",
                   "class=[\"']([^\"']*)[\"']",
                 },
-              },
-            },
-            init_options = {
-              userLanguages = {
-                rust = "html",
-                ["vue"] = "html",
               },
             },
           },
