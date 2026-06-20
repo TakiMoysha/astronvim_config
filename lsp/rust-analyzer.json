@@ -55,6 +55,7 @@
     "enable": true
   },
   "rustfmt": {
+    "max_width": 120,
     "extraArgs": [
       "+nightly"
     ]

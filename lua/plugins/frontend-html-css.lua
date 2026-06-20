@@ -1,7 +1,5 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
--- WARN: issues:
-
 ---@type LazySpec
 return {
   { import = "astrocommunity.pack.html-css" },
@@ -10,14 +8,21 @@ return {
     "mason-org/mason-lspconfig.nvim",
     optional = true,
     opts = function(_, opts)
+      -- нужные сервера
       opts.ensure_installed = require("astrocore").list_insert_unique(
         opts.ensure_installed,
         { "tailwindcss-language-server", "html-lsp", "css-lsp" }
       )
-      -- исключить emmet_ls
-      -- opts.ensure_installed = vim.tbl_filter(function(server)
-      --   return server ~= "emmet_ls"
-      -- end, opts.ensure_installed)
+      -- исключаем emmet_ls
+      opts.ensure_installed = vim.tbl_filter(function(server) return server ~= "emmet_ls" end, opts.ensure_installed)
+    end,
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    optional = true,
+    -- исключаем emmet_ls
+    opts = function(_, opts)
+      opts.ensure_installed = vim.tbl_filter(function(tool) return tool ~= "emmet-ls" end, opts.ensure_installed or {})
     end,
   },
   {
@@ -44,9 +49,9 @@ return {
           },
           settings = {
             css = {
-              validate = true, -- disable built-in validation for prevent conflicts (ex: vue = windcss)
+              validate = true,             -- disable built-in validation for prevent conflicts (ex: vue = windcss)
               lint = {
-                unknownAtRules = "ignore" -- if validate is true, disable warnings for @apply, @reference, etc.
+                unknownAtRules = "ignore", -- if validate is true, disable warnings for @apply, @reference, etc.
               },
               completion = {
                 triggerPropertyValueCompletion = true,

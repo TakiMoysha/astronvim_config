@@ -20,8 +20,9 @@ return {
     opts.sources = opts.sources or {}
     opts.sources.providers = opts.sources.providers or {}
     opts.sources.providers.snippets = opts.sources.providers.snippets or {}
-    opts.sources.providers.snippets.transform_items = function(_, items)
-      return vim.tbl_filter(function(item) return not item.label:match "^a%-ng" end, items)
+    opts.sources.providers.snippets.filter_snippets = function(ft, file)
+      -- ignore angular snippets
+      return not (string.match(file, "friendly.snippets") and string.match(file, "angular"))
     end
   end,
 }

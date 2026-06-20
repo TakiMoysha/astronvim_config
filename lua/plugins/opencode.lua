@@ -17,24 +17,23 @@ return {
         ---@param opts AstroCoreOpts
         opts = function(_, opts)
           local maps = assert(opts.mappings)
-          maps.n["<Leader>ta"] = { require("opencode").toggle, desc = "Toggle AI window" }
 
           local prefix = "<Leader>a"
           maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }
-          maps.n[prefix .. "t"] = {
-            function() require("opencode").toggle() end,
-            desc = "Toggle embedded",
+          maps.n[prefix .. "t" ] = {
+            function() require("opencode").start() end,
+            desc = "Start OpenCode",
           }
           maps.n[prefix .. "a"] = {
-            function() require("opencode").ask("@this: ", { submit = true }) end,
+            function() require("opencode").ask "@this:" end,
             desc = "Ask about this",
           }
           maps.n[prefix .. "+"] = {
-            function() require("opencode").prompt("@buffer", { append = true }) end,
+            function() require("opencode").prompt "@buffer " end,
             desc = "Add buffer to prompt",
           }
           maps.n[prefix .. "e"] = {
-            function() require("opencode").prompt("Explain @this and its context", { submit = true }) end,
+            function() require("opencode").prompt "Explain @this and its context" end,
             desc = "Explain this code",
           }
           maps.n[prefix .. "n"] = {
@@ -56,11 +55,11 @@ return {
 
           maps.v[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "OpenCode" }
           maps.v[prefix .. "a"] = {
-            function() require("opencode").ask("@this: ", { submit = true }) end,
+            function() require("opencode").ask "@this:" end,
             desc = "Ask about selection",
           }
           maps.v[prefix .. "+"] = {
-            function() require("opencode").prompt "@this" end,
+            function() require("opencode").prompt "@this " end,
             desc = "Add selection to prompt",
           }
           maps.v[prefix .. "s"] = {

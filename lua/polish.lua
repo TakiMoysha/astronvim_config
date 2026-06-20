@@ -61,3 +61,4 @@ vim.keymap.set("n", "S", '"_d$', { desc = "Delete line without yanking" })
 
 -- Ctrl+Shift+V для вставки из буфера во всех основных режимах
 vim.keymap.set({ "i", "n", "v" }, "<c-s-v>", '"+p', { noremap = true, silent = true })
+
