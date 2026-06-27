@@ -20,7 +20,7 @@ return {
 
           local prefix = "<Leader>a"
           maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }
-          maps.n[prefix .. "t" ] = {
+          maps.n[prefix .. "t"] = {
             function() require("opencode").start() end,
             desc = "Start OpenCode",
           }

@@ -3,17 +3,15 @@ return {
     "AstroNvim/astrocore",
     ---@type AstroCoreOpts
     opts = {
-      autocmds = {
-        just_as_make = {
-          {
-            event = "BufReadPost",
-            pattern = "*",
-            desc = "Set just as :make if workdir have justfile",
-            callback = function()
-              local justfile = vim.fn.findfile("justfile", ".;")
-              if justfile ~= "" then vim.bo.makeprg = "just" end
-            end,
-          },
+      commands = {
+        Just = {
+          desc = "Run just and populate quickfix like :make",
+          nargs = "*",
+          function(opts)
+            local args = opts.args:gsub("'", "'\\''")
+            vim.cmd("cexpr system('just " .. args .. "')")
+            vim.cmd "copen"
+          end,
         },
       },
     },
@@ -23,6 +21,23 @@ return {
     ---@type AstroLSPOpts
     opts = {
       automcds = {},
+    },
+  },
+  {
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
+    opts = {
+      autocmds = {
+        just_abbrev = {
+          {
+            event = "VimEnter",
+            desc = "Abbreviate :just to :Just",
+            callback = function()
+              vim.cmd "cnoreabbrev <expr> just getcmdtype() == ':' && getcmdline() == 'just' ? 'Just' : 'just'"
+            end,
+          },
+        },
+      },
     },
   },
 }
