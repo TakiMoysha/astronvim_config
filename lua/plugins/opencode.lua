@@ -18,6 +18,7 @@ return {
         opts = function(_, opts)
           local maps = assert(opts.mappings)
 
+          -- with space in the end  - APPEND (added to current session), otherwise SUBMIT (immidiatly ask)
           local prefix = "<Leader>a"
           maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }
           maps.n[prefix .. "t"] = {
@@ -25,7 +26,7 @@ return {
             desc = "Start OpenCode",
           }
           maps.n[prefix .. "a"] = {
-            function() require("opencode").ask "@this:" end,
+            function() require("opencode").ask "[@this]" end,
             desc = "Ask about this",
           }
           maps.n[prefix .. "+"] = {
@@ -33,8 +34,8 @@ return {
             desc = "Add buffer to prompt",
           }
           maps.n[prefix .. "e"] = {
-            function() require("opencode").prompt "Explain @this and its context" end,
-            desc = "Explain this code",
+            function() require("opencode").prompt "Explain @this and how fix/improve, " end,
+            desc = "Explain and how fix/improve",
           }
           maps.n[prefix .. "n"] = {
             function() require("opencode").command "session.new" end,
@@ -55,11 +56,11 @@ return {
 
           maps.v[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "OpenCode" }
           maps.v[prefix .. "a"] = {
-            function() require("opencode").ask "@this:" end,
+            function() require("opencode").ask "[@this]" end,
             desc = "Ask about selection",
           }
           maps.v[prefix .. "+"] = {
-            function() require("opencode").prompt "@this " end,
+            function() require("opencode").prompt "[@this] " end,
             desc = "Add selection to prompt",
           }
           maps.v[prefix .. "s"] = {

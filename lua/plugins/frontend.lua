@@ -72,7 +72,7 @@ return {
                 },
                 typescript = {
                   suggest = {
-                    autoImports = false,
+                    autoImports = true,
                     includePackageJsonAutoImports = "off",
                     includeCompletionsForModuleExports = false,
                     completeFunctionCalls = false,
@@ -80,7 +80,7 @@ return {
                 },
                 javascript = {
                   suggest = {
-                    autoImports = false,
+                    autoImports = true,
                     includePackageJsonAutoImports = "off",
                     includeCompletionsForModuleExports = false,
                     completeFunctionCalls = false,
@@ -134,7 +134,7 @@ return {
       async = false,
     },
   },
-  -- -- testing: TODO: how to
+  -- -- testing: TODO: find out how use 
   -- {
   --   "nvim-neotest/neotest",
   --   optional = true,
@@ -165,7 +165,7 @@ return {
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed =
-          require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "volar", "oxlint" })
+        require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "volar", "oxlint" })
     end,
   },
   -- no-lsp tools installer

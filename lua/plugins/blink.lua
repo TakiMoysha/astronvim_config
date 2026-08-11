@@ -7,7 +7,7 @@ return {
 
     opts.completion.menu.draw.columns = {
       { "kind_icon" },
-      { "label",      "label_description", gap = 1 },
+      { "label", "label_description", gap = 1 },
       { "source_name" },
     }
 
@@ -17,12 +17,13 @@ return {
       highlight = "BlinkCmpSource",
     }
 
-    opts.sources = opts.sources or {}
-    opts.sources.providers = opts.sources.providers or {}
-    opts.sources.providers.snippets = opts.sources.providers.snippets or {}
-    opts.sources.providers.snippets.filter_snippets = function(ft, file)
-      -- ignore angular snippets
-      return not (string.match(file, "friendly.snippets") and string.match(file, "angular"))
-    end
+    --- try remove angular snippets, unsuccessful
+    -- opts.sources = opts.sources or {}
+    -- opts.sources.providers = opts.sources.providers or {}
+    -- opts.sources.providers.snippets = opts.sources.providers.snippets or {}
+    -- opts.sources.providers.snippets.filter_snippets = function(ft, file)
+    --   -- ignore angular snippets
+    --   return not (string.match(file, "friendly.snippets") and string.match(file, "angular"))
+    -- end
   end,
 }

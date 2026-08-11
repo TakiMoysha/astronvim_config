@@ -100,6 +100,10 @@ _Fonts_:
 - `snacks.nvim` - для других окон, например pickle, opencode, etc. Может быть конфликт хоткеей, т.к. snacks перехватывает их.
 - `codesettings.nvim` - более детальная настройка, например подключать плагин `mrcjkb/rustaceanvim` только на тяжелый проектах.
 
+#### Snippets
+
+- [ ] Проблема с не python снипетами, почему то не работаеют.
+
 ## References
 
 1. https://askubuntu.com/questions/1486871/how-can-i-copy-and-paste-outside-of-neovim

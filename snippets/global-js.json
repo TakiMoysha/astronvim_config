@@ -1,0 +1,12 @@
+{
+  "docstring": {
+    "prefix": "docstring",
+    "description": "JS docstring with fields, more https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html",
+    "body": [
+      "/**",
+      " * $1",
+      " * @param {$2} $2 - $3",
+      " */"
+    ]
+  }
+}

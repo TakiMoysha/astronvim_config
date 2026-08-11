@@ -39,8 +39,6 @@ require "polish"
 --   end,
 -- })
 
--- vim.o.guifont = "Iosevka Nerd Font Regular:h10"
--- vim.o.guifontwide = "Miracode:h9"
 -- vim.o.guifont = "JetBrainsMono Nerd Font:h9" -- The font used in graphical neovim applications
 vim.o.guifont = "FiraCode Nerd Font Mono:h9" -- The font used in graphical neovim applications
 -- vim.o.guifont = "Iosevka Nerd Font Regular:h10" -- The font used in graphical neovim applications
