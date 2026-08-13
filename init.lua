@@ -23,28 +23,6 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
--- require "../options"
+require "utils"
 require "lazy_setup"
 require "polish"
-
--- vim.api.nvim_create_autocmd("VimEnter", {
---   callback = function()
---     vim.notify("1: " .. vim.fn.argv())
---     if vim.g.neovide then
--- local rs = require "resession"
--- local last_session = rs.list()[0]
--- vim.notify("Resession: ", vim.log.levels.INFO)
--- rs.load(last_session)
--- end
---   end,
--- })
-
--- vim.o.guifont = "JetBrainsMono Nerd Font:h9" -- The font used in graphical neovim applications
-vim.o.guifont = "FiraCode Nerd Font Mono:h9" -- The font used in graphical neovim applications
--- vim.o.guifont = "Iosevka Nerd Font Regular:h10" -- The font used in graphical neovim applications
--- vim.o.guifont = "GohuFont 14 Nerd Font Mono:h10" -- The font used in graphical neovim applications
--- vim.o.guifont = "BlexMono Nerd Font:h9" -- The font used in graphical neovim applications
--- vim.o.guifont = "Terminess Nerd Font Propo:h12" -- The font used in graphical neovim applications
--- vim.o.guifont = "Source Code Pro:h10" -- The font used in graphical neovim applications
--- vim.o.guifont = "Terminess Nerd Font:h10" -- The font used in graphical neovim applications
--- vim.o.guifont = "Miracode:h10" -- Minecraft-like font

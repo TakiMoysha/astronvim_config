@@ -96,13 +96,43 @@ _Fonts_:
 
 ### Plugins
 
-- `termopen` - для работы с терминалом.
-- `snacks.nvim` - для других окон, например pickle, opencode, etc. Может быть конфликт хоткеей, т.к. snacks перехватывает их.
+**Plugin manager**: `lazy.nvim`.
+
+- `astrocore` - оркестратор: автокоманды, маппинги, опции, управление сессиями (`treesitter` + `textobjects`);
+- `astrolsp` - (`vim.lsp.config`) абстракция над lsp: настраивает lsp, formatting, inlay hints;
+- `astroui` - иконки и gui, (ex: get_icon);
+
+- `mason.nvim` + `mason-lspconfig` + `mason-tool-installer` - lsp installation;
+- `nvim-lspconfig` - lsp configuration;
+- `blink.cmp` (`blink.compat`, `luasnip`, `friendly-snippets`, `mini.snippets`) - autocompletion/snippets;
+- `lazydev.nvim` - advanced lua api neovim & astronvim;
+- `none-ls.nvim` + `mason-null-ls` - non-lsp linters&formatters;
+- `nvim-treesitter` - download parsers (use embedded neovim parser);
+
+- `snacks.nvim` - custom windows, ex: dashboards, picker, notifier, zen, etc. Может быть конфликт хоткеей, т.к. snacks перехватывает их.
+- `neo-tree` - file explorer;
+- `heirline` - statuline/winbar;
+- `which-key` - mapping helper;
+- `gitsigns` - git integration (diff);
+- `nvim-dap` + `nvim-dap-ui` + `cmp-dap` - debugger;
+- `toggleterm` - terminal
+- [?] `termopen` - для работы с терминалом.
+- `resession` - sessions;
+- `nvim-window-picker`,  `smart-splits` - window navigation;
+
 - `codesettings.nvim` - более детальная настройка, например подключать плагин `mrcjkb/rustaceanvim` только на тяжелый проектах.
+
+#### LSP 
+
+- [?] `after/lsp/<lsp_name>.lua` - custom config for lsp, prefix `after` required due to override default config;
 
 #### Snippets
 
-- [ ] Проблема с не python снипетами, почему то не работаеют.
+For snippets add file to `snippets` folder with language name. I use `mini.snippets` [astrocommunity.snippet.mini-snippets](lua/community.lua), whick disable the `luasnip`:
+
+- `global.json`: snippets for all files;
+- `from_lang()`: find by pattern `snippets/<lang>.json`;
+- `.vscode/<project>.code-snippets` - for specific project;
 
 ## References
 

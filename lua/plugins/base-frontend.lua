@@ -49,7 +49,7 @@ return {
           },
           settings = {
             css = {
-              validate = true,             -- disable built-in validation for prevent conflicts (ex: vue = windcss)
+              validate = true, -- disable built-in validation for prevent conflicts (ex: vue = windcss)
               lint = {
                 unknownAtRules = "ignore", -- if validate is true, disable warnings for @apply, @reference, etc.
               },
