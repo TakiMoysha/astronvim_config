@@ -1,5 +1,3 @@
--- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- TODO: inspect
 ---@module "rust"
 ---@class plugins.rust.config: AstroLSPOpts
@@ -8,53 +6,6 @@
 return {
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/pack/rust/init.lua
   { import = "astrocommunity.pack.rust" },
-
-  {
-    "AstroNvim/astrolsp",
-    optional = true,
-    ---@type AstroLSPOpts
-    ---@diagnostic disable: missing-fields
-    opts = {
-      config = {
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              files = {
-                excludeDirs = { ".direnv", ".git", "target" },
-              },
-              check = { command = "clippy", extraArgs = { "--no-deps" } },
-              inlayHints = {
-                maxLength = 24,
-                closureReturnTypeHints = { enable = "with_block" },
-                typeHints = { enable = true, hideClosureInitialization = true },
-                expressionAdjustmentHints = { enable = "reborrow", hideOutsideUnsafe = true },
-                lifetimeElisionHints = { enable = "skip_trivial", useParameterNames = true },
-              },
-              runnables = {},
-              lens = {
-                enable = true,
-                run = { enable = false },
-                debug = { enable = false },
-                updateTest = { enable = true },
-                references = false,
-                implementations = { enable = false },
-              },
-              completion = { postfix = { enable = true } },
-              imports = {
-                granularity = { enforce = true },
-                prefix = "self",
-              },
-              procMacro = { enable = true },
-              rustfmt = { extraArgs = { "+nightly" } },
-              workspace = {
-                symbol = { search = { kind = "all_symbols", limit = 512 } },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
 
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -66,5 +17,18 @@ return {
         "rust-analyzer",
       })
     end,
+  },
+  {
+    "saecki/crates.nvim",
+    tag = "stable",
+    keys = {
+      { "<Leader>C", desc = "Crates" },
+      { "<Leader>Cr", function() require("crates").reload() end, desc = "Reload crates" },
+      { "<Leader>Cu", function() require("crates").update_crate() end, desc = "Update crate" },
+      { "<Leader>CU", function() require("crates").upgrade_crate() end, desc = "Upgrade crate" },
+      { "<Leader>CH", function() require("crates").show_versions_popup() end, desc = "Show crate versions" },
+      { "<Leader>Cc", function() require("crates").show_features_popup() end, desc = "Show crate features" },
+      { "<Leader>Cd", function() require("crates").show_dependencies_popup() end, desc = "Show crate dependencies" },
+    },
   },
 }

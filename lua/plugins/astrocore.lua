@@ -10,19 +10,20 @@ return {
   opts = {
     -- Configure core features of AstroNvim
     features = {
-      large_buf = { size = 1024 * 500, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true,                                 -- enable autopairs at start
-      cmp = true,                                       -- enable completion at start
-      highlighturl = true,                              -- highlight URLs at start
-      notifications = true,                             -- enable notifications at start
-      diagnostics = {
-        virtual_text = true,
-        virtual_lines = false,
-      },
+      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
+      autopairs = true, -- enable autopairs at start
+      cmp = true, -- enable completion at start
+      diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
+      highlighturl = true, -- highlight URLs at start
+      notifications = true, -- enable notifications at start
+    },
+    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
+    diagnostics = {
+      virtual_text = true,
+      underline = true,
     },
     -- passed to `vim.filetype.add`
     filetypes = {
-      -- see `:h vim.filetype.add` for usage
       extension = {
         ron = "ron",
       },
@@ -31,15 +32,14 @@ return {
     },
     -- vim options can be configured here
     options = {
-      opt = {                  -- vim.opt.<key>
+      opt = { -- vim.opt.<key>
         relativenumber = true, -- sets vim.opt.relativenumber
-        number = true,         -- sets vim.opt.number
-        spell = false,         -- sets vim.opt.spell
-        signcolumn = "yes",    -- sets vim.opt.signcolumn to yes
-        wrap = false,          -- sets vim.opt.wrap
+        number = true, -- sets vim.opt.number
+        spell = false, -- sets vim.opt.spell
+        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
+        wrap = false, -- sets vim.opt.wrap
       },
-      g = {                    -- vim.g.<key>
-        -- neovide configs
+      g = { -- vim.g.<key>
         neovide_increment_scale_factor = vim.g.neovide_increment_scale_factor or 0.1,
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
@@ -51,22 +51,11 @@ return {
     mappings = {
       -- first key is the mode
       n = {
-        -- ["s"] = { "\"_d", desc = "Delete without yank", silent = true },
-        -- ["S"] = { "\"_d$", desc = "Delete line without yank", silent = true },
-        -- navigate buffer tabs
-        -- ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        -- ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        -- second key is the lefthand side of the map
 
-        -- -- ranger
-        -- ["<Leader>tr"] = {
-        --   function() require("astrocore").toggle_term_cmd { cmd = "ranger", direction = "float" } end,
-        --   desc = "ToggleTerm ranger",
-        -- },
-        -- yazi
-        ["<Leader>ty"] = {
-          function() require("astrocore").toggle_term_cmd { cmd = "yazi", direction = "float" } end,
-          desc = "ToggleTerm Yazi",
-        },
+        -- navigate buffer tabs
+        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
         -- mappings seen under group name "Buffer"
         ["<Leader>bd"] = {
@@ -77,6 +66,17 @@ return {
           end,
           desc = "Close buffer from tabline",
         },
+
+        ["<Leader>ty"] = {
+          function() require("astrocore").toggle_term_cmd { cmd = "yazi", direction = "float" } end,
+          desc = "ToggleTerm Yazi",
+        },
+        -- tables with just a `desc` key will be registered with which-key if it's installed
+        -- this is useful for naming menus
+        -- ["<Leader>b"] = { desc = "Buffers" }, -- TODO: remove
+
+        -- setting a mapping to false will disable it
+        -- ["<C-S>"] = false,
       },
     },
   },

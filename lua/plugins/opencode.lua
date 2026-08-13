@@ -1,10 +1,12 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
+---@type LazySpec
 return {
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/ai/opencode-nvim/init.lua
 
   {
     "NickvanDyke/opencode.nvim",
+    version = ">=0.14",
     dependencies = {
       {
         "folke/snacks.nvim",
@@ -21,10 +23,6 @@ return {
           -- with space in the end  - APPEND (added to current session), otherwise SUBMIT (immidiatly ask)
           local prefix = "<Leader>a"
           maps.n[prefix] = { desc = require("astroui").get_icon("OpenCode", 1, true) .. "AI" }
-          maps.n[prefix .. "t"] = {
-            function() require("opencode").start() end,
-            desc = "Start OpenCode",
-          }
           maps.n[prefix .. "a"] = {
             function() require("opencode").ask "[@this]" end,
             desc = "Ask about this",
