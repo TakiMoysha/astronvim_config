@@ -21,7 +21,7 @@ return {
       completion = { postfix = { enable = true } },
       imports = { granularity = { enforce = true }, prefix = "self" },
       procMacro = { enable = true },
-      rustfmt = { max_width = 120, extraArgs = { "+nightly" } },
+      rustfmt = { extraArgs = { "+nightly" } },
     },
   },
 }

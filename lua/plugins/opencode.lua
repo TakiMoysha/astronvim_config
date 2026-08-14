@@ -43,6 +43,10 @@ return {
             function() require("opencode").select() end,
             desc = "Select prompt",
           }
+          maps.n[prefix .. "S"] = {
+            function() require("opencode").command "session.select" end,
+            desc = "Select session",
+          }
           maps.n["<S-C-u>"] = {
             function() require("opencode").command "session.half.page.up" end,
             desc = "Messages half page up",
