@@ -32,8 +32,7 @@ return {
         "typescript.tsx",
       }, { "vue" })
       return astrocore.extend_tbl(opts, {
-        -- только oxfmt форматирует frontend: отключаем format у конкурентов.
-        -- oxfmt в этот список НЕ добавляем.
+        -- отключаем форматеры кроме oxfmt
         formatting = {
           disabled = {
             "vtsls",
@@ -48,7 +47,6 @@ return {
         },
         ---@diagnostic disable: missing-fields
         config = {
-          -- NOTE: активный клиент у тебя `vue_ls` (id 20), а не legacy `volar`.
           -- on_init-форвардинг нужен именно на том ключе, который реально запускается.
           vue_ls = {
             on_init = function(client)
@@ -86,21 +84,43 @@ return {
                 tsserver = {
                   globalPlugins = {},
                 },
-                typescript = {
-                  suggest = {
-                    autoImports = true,
-                    includePackageJsonAutoImports = "off",
-                    includeCompletionsForModuleExports = false,
-                    completeFunctionCalls = false,
-                  },
+                experimental = {
+                  maxInlayHintLength = 60,
                 },
-                javascript = {
-                  suggest = {
-                    autoImports = true,
-                    includePackageJsonAutoImports = "off",
-                    includeCompletionsForModuleExports = false,
-                    completeFunctionCalls = false,
-                  },
+              },
+              typescript = {
+                -- для типов оставляем имена параметров и значения enum. Полный тип виден в hover (K).
+                inlayHints = {
+                  enumMemberValues = { enabled = true },
+                  functionLikeReturnTypes = { enabled = false },
+                  parameterNames = { enabled = "literals" },
+                  parameterTypes = { enabled = false },
+                  propertyDeclarationTypes = { enabled = false },
+                  variableTypes = { enabled = false },
+                },
+                suggest = {
+                  autoImports = true,
+                  completeFunctionCalls = false,
+                },
+                preferences = {
+                  includePackageJsonAutoImports = "off",
+                },
+              },
+              javascript = {
+                inlayHints = {
+                  enumMemberValues = { enabled = true },
+                  functionLikeReturnTypes = { enabled = false },
+                  parameterNames = { enabled = "literals" },
+                  parameterTypes = { enabled = false },
+                  propertyDeclarationTypes = { enabled = false },
+                  variableTypes = { enabled = false },
+                },
+                suggest = {
+                  autoImports = true,
+                  completeFunctionCalls = false,
+                },
+                preferences = {
+                  includePackageJsonAutoImports = "off",
                 },
               },
             },
@@ -109,11 +129,10 @@ return {
               if not registry_ok then return end
 
               if registry.is_installed "vue-language-server" then
+                config.settings = config.settings or {}
+                config.settings.vtsls = config.settings.vtsls or {}
+                config.settings.vtsls.tsserver = config.settings.vtsls.tsserver or {}
                 config.settings.vtsls.tsserver.globalPlugins = config.settings.vtsls.tsserver.globalPlugins or {}
-                -- list_insert_unique не дедуплицирует таблицы по содержимому,
-                -- а этот opts-функтор вызывается несколько раз
-                -- (pack.vue + этот файл) — отсюда у тебя x4 дубля в :checkhealth.
-                -- Проверяем по name вручную.
                 for _, p in ipairs(config.settings.vtsls.tsserver.globalPlugins) do
                   if p.name == "@vue/typescript-plugin" then return end
                 end
@@ -150,15 +169,10 @@ return {
         json = { "oxfmt" },
         jsonc = { "oxfmt" },
       })
-      -- ВАЖНО: это поля conform.setup(), а не LazySpec.
-      -- Раньше `format_on_save` лежал рядом с `opts` и игнорировался,
-      -- плюс была двойная вложенность `format_on_save.format_on_save`.
       opts.default_format_opts = vim.tbl_deep_extend("force", opts.default_format_opts or {}, {
         lsp_format = "never",
         timeout_ms = 1500,
       })
-      -- lsp_format="never": форматирует только conform/oxfmt.
-      -- Хочешь автоформат на :w — оставь таблицу; не хочешь — поставь false.
       opts.format_on_save = {
         lsp_format = "never",
         timeout_ms = 1500,
