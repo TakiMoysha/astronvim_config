@@ -32,9 +32,25 @@ return {
         "typescript.tsx",
       }, { "vue" })
       return astrocore.extend_tbl(opts, {
+        -- только oxfmt форматирует frontend: отключаем format у конкурентов.
+        -- oxfmt в этот список НЕ добавляем.
+        formatting = {
+          disabled = {
+            "vtsls",
+            "vue_ls",
+            "volar",
+            "emmet_ls",
+            "emmet_language_server",
+            "html",
+            "cssls",
+            "jsonls",
+          },
+        },
         ---@diagnostic disable: missing-fields
         config = {
-          volar = {
+          -- NOTE: активный клиент у тебя `vue_ls` (id 20), а не legacy `volar`.
+          -- on_init-форвардинг нужен именно на том ключе, который реально запускается.
+          vue_ls = {
             on_init = function(client)
               client.handlers["tsserver/request"] = function(_, result, context)
                 local clients = vim.lsp.get_clients { bufnr = context.bufnr, name = "vtsls" }
@@ -93,15 +109,21 @@ return {
               if not registry_ok then return end
 
               if registry.is_installed "vue-language-server" then
-                local vue_plugin_config = {
+                config.settings.vtsls.tsserver.globalPlugins = config.settings.vtsls.tsserver.globalPlugins or {}
+                -- list_insert_unique не дедуплицирует таблицы по содержимому,
+                -- а этот opts-функтор вызывается несколько раз
+                -- (pack.vue + этот файл) — отсюда у тебя x4 дубля в :checkhealth.
+                -- Проверяем по name вручную.
+                for _, p in ipairs(config.settings.vtsls.tsserver.globalPlugins) do
+                  if p.name == "@vue/typescript-plugin" then return end
+                end
+                table.insert(config.settings.vtsls.tsserver.globalPlugins, {
                   name = "@vue/typescript-plugin",
                   location = vim.fn.expand "$MASON/packages/vue-language-server/node_modules/@vue/language-server",
                   languages = { "vue" },
                   configNamespace = "typescript",
                   enableForWorkspaceTypeScriptVersions = true,
-                }
-
-                astrocore.list_insert_unique(config.settings.vtsls.tsserver.globalPlugins, { vue_plugin_config })
+                })
               end
             end,
           },
@@ -109,10 +131,12 @@ return {
       })
     end,
   },
-  -- -- formatter for files
+  -- formatter: только oxfmt, без fallback на LSP (vtsls/vue_ls)
   {
     "stevearc/conform.nvim",
-    -- event = { "BufWritePre" },
+    optional = true,
+    event = "User AstroFile",
+    cmd = "ConformInfo",
     opts = function(_, opts)
       opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
         javascript = { "oxfmt" },
@@ -126,13 +150,20 @@ return {
         json = { "oxfmt" },
         jsonc = { "oxfmt" },
       })
+      -- ВАЖНО: это поля conform.setup(), а не LazySpec.
+      -- Раньше `format_on_save` лежал рядом с `opts` и игнорировался,
+      -- плюс была двойная вложенность `format_on_save.format_on_save`.
+      opts.default_format_opts = vim.tbl_deep_extend("force", opts.default_format_opts or {}, {
+        lsp_format = "never",
+        timeout_ms = 1500,
+      })
+      -- lsp_format="never": форматирует только conform/oxfmt.
+      -- Хочешь автоформат на :w — оставь таблицу; не хочешь — поставь false.
+      opts.format_on_save = {
+        lsp_format = "never",
+        timeout_ms = 1500,
+      }
     end,
-
-    format_on_save = {
-      format_on_save = false,
-      lsp_fallback = false, -- if lsp is not available
-      async = false,
-    },
   },
   -- -- testing: TODO: find out how use 
   -- {
@@ -164,8 +195,9 @@ return {
     "mason-org/mason-lspconfig.nvim",
     optional = true,
     opts = function(_, opts)
+      -- vue_ls — актуальное имя (volar — legacy). oxfmt/oxlint — LSP, тоже отсюда.
       opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "volar", "oxlint" })
+        require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "vue_ls", "oxfmt", "oxlint" })
     end,
   },
   -- no-lsp tools installer
