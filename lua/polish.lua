@@ -1,5 +1,3 @@
-if true then return end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- if true then return end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 vim.o.colorcolumn = "100,120"
@@ -22,9 +20,6 @@ vim.opt.background = "dark"
 --
 vim.opt.completeopt = "menu,menuone,noselect,popup"
 
---
-vim.opt.relativenumber = true
-vim.opt.number = true
 
 --     timeoutlen = 500,
 --     undofile = false,
@@ -72,9 +67,9 @@ vim.keymap.set({ "i", "n", "v" }, "<c-s-v>", '"+p', { noremap = true, silent = t
 -- end
 --   end,
 -- })
-
--- vim.o.guifont = "JetBrainsMono Nerd Font:h9" -- The font used in graphical neovim applications
-vim.o.guifont = "FiraCode Nerd Font Mono:h9" -- The font used in graphical neovim applications
+-- => === != 
+vim.o.guifont = "JetBrainsMono Nerd Font:h9" -- The font used in graphical neovim applications
+-- vim.o.guifont = "FiraCode Nerd Font Mono:h9" -- The font used in graphical neovim applications
 -- vim.o.guifont = "Iosevka Nerd Font Regular:h10" -- The font used in graphical neovim applications
 -- vim.o.guifont = "GohuFont 14 Nerd Font Mono:h10" -- The font used in graphical neovim applications
 -- vim.o.guifont = "BlexMono Nerd Font:h9" -- The font used in graphical neovim applications
@@ -82,3 +77,4 @@ vim.o.guifont = "FiraCode Nerd Font Mono:h9" -- The font used in graphical neovi
 -- vim.o.guifont = "Source Code Pro:h10" -- The font used in graphical neovim applications
 -- vim.o.guifont = "Terminess Nerd Font:h10" -- The font used in graphical neovim applications
 -- vim.o.guifont = "Miracode:h10" -- Minecraft-like font
+--

@@ -2,9 +2,7 @@
 
 ## Cheatsheet - about configuration
 
-- `<C>` - CTRL
-- `<M>` - ALT
-- `<S>` - SHIFT
+`<C>` - CTRL; `<M>` - ALT; `<S>` - SHIFT
 
 ### Nvim-Surround
 
@@ -12,15 +10,15 @@
 `delete` - `ds{char}`
 `change` - `cs{target}{replacement}`
 
-    Old text                    Command         New text
---------------------------------------------------------------------------------
-    (surround_words)             ysiw)           (surround_words)
-    make strings               ys$"            "make strings"
-    [delete around me!]        ds]             delete around me!
-    remove <b>HTML tags</b>    dst             remove HTML tags
-    'change quot*es'            cs'"            "change quotes"
-    <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
-    delete(functi*on calls)     dsf             function calls
+| Old Text                | Command   | New Text              |
+| ----------------------- | --------- | --------------------- |
+| (surround_words)        | ysiw)     | (surround_words)      |
+| make strings            | ys"       | "make strings"        |
+| [delete around me!]     | ds]       | delete around me!     |
+| remove <b>HTML tags</b> | dst       | remove HTML tags      |
+| 'change quot*es'        | cs'"      | "change quotes"       |
+| <b>or tag* types</b>    | csth1<CR> | <h1>or tag types</h1> |
+| delete(functi*on calls) | dsf       | function calls        |
 
 ### How `opts` overriding works?
 
@@ -50,17 +48,6 @@ end
 Исполняется только когда плагин загружается → безопасен для `require(...)`.
 Позволяет вручную управлять слиянием, безопасно обновлять списки.
 
-## 🛠️ Installation
-
-#### Make a backup of your current nvim and shared folder
-
-```shell
-mv ~/.config/nvim ~/.config/nvim.bak
-mv ~/.local/share/nvim ~/.local/share/nvim.bak
-mv ~/.local/state/nvim ~/.local/state/nvim.bakg
-mv ~/.cache/nvim ~/.cache/nvim.bak
-```
-
 # Install
 
 Required software:
@@ -71,6 +58,7 @@ Required software:
 
 _Fonts_:
 
+- WDXLLubrifont SC
 - FiraCode Nerd Font
 - BlexMono Nerd Font
 - Gohu Nerd Font
@@ -118,11 +106,11 @@ _Fonts_:
 - `toggleterm` - terminal
 - [?] `termopen` - для работы с терминалом.
 - `resession` - sessions;
-- `nvim-window-picker`,  `smart-splits` - window navigation;
+- `nvim-window-picker`, `smart-splits` - window navigation;
 
 - `codesettings.nvim` - более детальная настройка, например подключать плагин `mrcjkb/rustaceanvim` только на тяжелый проектах.
 
-#### LSP 
+#### LSP
 
 - [?] `after/lsp/<lsp_name>.lua` - custom config for lsp, prefix `after` required due to override default config;
 
@@ -133,6 +121,15 @@ For snippets add file to `snippets` folder with language name. I use `mini.snipp
 - `global.json`: snippets for all files;
 - `from_lang()`: find by pattern `snippets/<lang>.json`;
 - `.vscode/<project>.code-snippets` - for specific project;
+
+## Make a backup of your current nvim and shared folder
+
+```shell
+mv ~/.config/nvim ~/.config/nvim.bak
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+mv ~/.local/state/nvim ~/.local/state/nvim.bakg
+mv ~/.cache/nvim ~/.cache/nvim.bak
+```
 
 ## References
 
