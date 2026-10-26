@@ -1,5 +1,24 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
+
+-- WARN: monkey patch (`--port flag`)
+local opencode_cmd = 'opencode'
+---@type snacks.terminal.Opts
+local snacks_terminal_opts = {
+  win = {
+    position = 'right',
+    enter = false,
+  },
+}
+
+---@type opencode.Opts
+vim.g.opencode_opts = {
+  server = {
+    start = function()
+      require('snacks.terminal').open(opencode_cmd, snacks_terminal_opts)
+    end,
+  },
+}
 ---@type LazySpec
 return {
   -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/ai/opencode-nvim/init.lua

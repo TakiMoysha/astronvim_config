@@ -47,36 +47,10 @@ return {
         },
         ---@diagnostic disable: missing-fields
         config = {
-          -- on_init-форвардинг нужен именно на том ключе, который реально запускается.
-          vue_ls = {
-            on_init = function(client)
-              client.handlers["tsserver/request"] = function(_, result, context)
-                local clients = vim.lsp.get_clients { bufnr = context.bufnr, name = "vtsls" }
-                if #clients == 0 then
-                  vim.notify(
-                    "Could not found `vtsls` lsp client, vue_lsp would not work without it.",
-                    vim.log.levels.ERROR
-                  )
-                  return
-                end
-                local ts_client = clients[1]
-
-                local param = unpack(result)
-                local id, command, payload = unpack(param)
-                ts_client:exec_cmd({
-                  title = "vue_request_forward", -- You can give title anything as it's used to represent a command in the UI, `:h Client:exec_cmd`
-                  command = "typescript.tsserverRequest",
-                  arguments = {
-                    command,
-                    payload,
-                  },
-                }, { bufnr = context.bufnr }, function(_, r)
-                  local response_data = { { id, r.body } }
-                  client:notify("tsserver/response", response_data)
-                end)
-              end
-            end,
-          },
+          -- hybrid mode: vue_ls отвечает за template/css, vtsls (с @vue/typescript-plugin) — за script.
+          -- NOTE: on_init-форвардинг tsserver/request НЕ переопределяем: стоковый nvim-lspconfig/lsp/vue_ls.lua
+          -- уже содержит его, причем с retry (10x100мс пока vtsls аттачится) и nil-safe `r and r.body`.
+          -- Кастомный on_init без retry ломал подсказки в .vue, если vue_ls стартовал раньше vtsls.
           vtsls = {
             filetypes = vtsls_ft,
             settings = {
@@ -92,18 +66,20 @@ return {
                 -- для типов оставляем имена параметров и значения enum. Полный тип виден в hover (K).
                 inlayHints = {
                   enumMemberValues = { enabled = true },
-                  functionLikeReturnTypes = { enabled = false },
+                  functionLikeReturnTypes = { enabled = true },
                   parameterNames = { enabled = "literals" },
                   parameterTypes = { enabled = false },
                   propertyDeclarationTypes = { enabled = false },
-                  variableTypes = { enabled = false },
+                  variableTypes = { enabled = true },
                 },
                 suggest = {
                   autoImports = true,
                   completeFunctionCalls = false,
                 },
                 preferences = {
-                  includePackageJsonAutoImports = "off",
+                  -- "off" убивает подсказки символов из node_modules (watch, defineModel из 'vue',
+                  -- Nuxt-автоимпорты) пока нет ручного import. Для perf не отключать, дефолт tsserver — "auto".
+                  includePackageJsonAutoImports = "auto",
                 },
               },
               javascript = {
@@ -120,7 +96,8 @@ return {
                   completeFunctionCalls = false,
                 },
                 preferences = {
-                  includePackageJsonAutoImports = "off",
+                  -- см. коммент выше: "off" ломает auto-import подсказки из node_modules
+                  includePackageJsonAutoImports = "auto",
                 },
               },
             },
@@ -138,7 +115,10 @@ return {
                 end
                 table.insert(config.settings.vtsls.tsserver.globalPlugins, {
                   name = "@vue/typescript-plugin",
-                  location = vim.fn.expand "$MASON/packages/vue-language-server/node_modules/@vue/language-server",
+                  -- путь через mason-registry уважает кастомный install_root_dir,
+                  -- в отличие от vim.fn.expand "$MASON/..." (зависит от порядка mason.setup())
+                  location = registry.get_package("vue-language-server"):get_install_path()
+                    .. "/node_modules/@vue/language-server",
                   languages = { "vue" },
                   configNamespace = "typescript",
                   enableForWorkspaceTypeScriptVersions = true,
@@ -157,29 +137,31 @@ return {
     event = "User AstroFile",
     cmd = "ConformInfo",
     opts = function(_, opts)
-      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
-        javascript = { "oxfmt" },
-        javascriptreact = { "oxfmt" },
-        typescript = { "oxfmt" },
-        typescriptreact = { "oxfmt" },
-        vue = { "oxfmt" },
-        css = { "oxfmt" },
-        scss = { "oxfmt" },
-        html = { "oxfmt" },
-        json = { "oxfmt" },
-        jsonc = { "oxfmt" },
-      })
+      opts.formatters_by_ft = opts.formatters_by_ft or {}
+      for _, ft in ipairs {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+        "css",
+        "scss",
+        "html",
+        "json",
+        "jsonc",
+      } do
+        opts.formatters_by_ft[ft] = { "oxfmt" }
+      end
       opts.default_format_opts = vim.tbl_deep_extend("force", opts.default_format_opts or {}, {
         lsp_format = "never",
         timeout_ms = 1500,
       })
-      opts.format_on_save = {
-        lsp_format = "never",
-        timeout_ms = 1500,
-      }
+      -- Автоформат на :w выключен. Форматируешь вручную:
+      -- <Leader>lf / :Format (через conform → oxfmt, LSP-формат отключен) или require("conform").format()
+      opts.format_on_save = false
     end,
   },
-  -- -- testing: TODO: find out how use 
+  -- -- testing: TODO: find out how use
   -- {
   --   "nvim-neotest/neotest",
   --   optional = true,
@@ -215,12 +197,14 @@ return {
     end,
   },
   -- no-lsp tools installer
+  -- имена здесь — Mason-имена (registry), не lspconfig-имена:
+  -- "vue-language-server" (Mason) == "vue_ls" (lspconfig/mason-lspconfig)
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
       -- only ensure if it installed (not setup)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, {
         "vtsls",
         "js-debug-adapter",
         "vue-language-server",
@@ -236,11 +220,6 @@ return {
   --     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed or {}, { "js" })
   --   end,
   -- },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "oxlint" })
-    end,
-  },
+  -- NOTE: mason-null-ls удален: none-ls.nvim отключен (lua/plugins/none-ls.lua),
+  -- oxlint работает как нативный LSP (см. mason-lspconfig выше).
 }

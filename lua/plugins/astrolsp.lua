@@ -76,21 +76,23 @@ return {
     -- A custom `on_attach` function to be run after the default `on_attach` function
     -- takes two parameters `client` and `bufnr`  (`:h lsp-attach`)
     on_attach = function(client, bufnr)
-      -- this would disable semanticTokensProvider for all clients
-      -- client.server_capabilities.semanticTokensProvider = nil
-      --
-
-      -- HACK: i'm try ...
-      -- if client.name == "tsserver" or client.name == "typescript" or client.name == "vtsls" then
-      --   if vim.bo[bufnr].filetype == "vue" then
-      --     client.server_capabilities.documentHighlightProvider = nil
-      --     client.server_capabilities.signatureHelpProvider = nil
-      --   else
-      --     client.server_capabilities.semanticTokensProvider.full = true
-      --   end
-      --
-      --   client.server_capabilities.inlayHintProvider = nil
-      -- end
+      -- vue: vtsls и vue_ls оба висят на одном буфере (hybrid mode).
+      -- Без этого получаем двойные semantic_tokens и шторм codelens-refresh
+      -- (InsertLeave/BufEnter) на каждый сейв — на Nuxt с project-references это секунды.
+      if vim.bo[bufnr].filetype == "vue" then
+        if client.name == "vtsls" then
+          -- семантику отдает vue_ls, дубли от vtsls не нужны
+          client.server_capabilities.semanticTokensProvider = nil
+        end
+        -- vue_ls/vtsls отдают hints со stale-позициями (маппинг виртуального .ts -> .vue):
+        -- на вводе это роняет провайдер с "Invalid 'col': out of range" (nvim/lsp/inlay_hint.lua).
+        -- В .ts hints остаются, в .vue гасим. Вызывается после дефолтного on_attach
+        -- (он включает hints по features.inlay_hints), причем на каждый attach — итог стабилен.
+        if vim.lsp.inlay_hint then pcall(vim.lsp.inlay_hint.enable, false, { bufnr = bufnr }) end
+        -- глушим buffer-local refresh группы lsp_codelens_refresh (см. autocmds выше):
+        -- кодлинзы в .vue почти не несут пользы, а tsserver-запросы на каждый сейв стоят дорого
+        pcall(vim.api.nvim_clear_autocmds, { group = "lsp_codelens_refresh", buffer = bufnr })
+      end
     end,
   },
 }

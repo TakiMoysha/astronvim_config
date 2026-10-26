@@ -82,7 +82,7 @@ return {
 
   -- AI autocomplete
   {
-    'Exafunction/windsurf.vim',
+    "Exafunction/windsurf.vim",
     event = "User AstroFile",
     config = function()
       vim.keymap.set("i", "<A-w>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
@@ -224,5 +224,11 @@ return {
         end,
       },
     },
+  },
+
+  {
+    "pustota-theme/pustota.nvim",
+    version = "*",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
 }
