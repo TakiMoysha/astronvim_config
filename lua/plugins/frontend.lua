@@ -17,6 +17,24 @@ return {
     },
   },
 
+  -- picker (snacks.nvim): не показываем артефакты сборки Nuxt в поиске файлов/grep.
+  -- NOTE: telescope в этой конфигурации не установлен — используется snacks.picker.
+  {
+    "folke/snacks.nvim",
+    optional = true,
+    opts = function(_, opts)
+      local astrocore = require "astrocore"
+      opts.picker = opts.picker or {}
+      opts.picker.sources = opts.picker.sources or {}
+      -- files — <Leader>ff, grep — <Leader>fw, grep_word — <Leader>fc
+      for _, source in ipairs { "files", "grep", "grep_word" } do
+        local cfg = opts.picker.sources[source] or {}
+        cfg.exclude = astrocore.list_insert_unique(cfg.exclude or {}, { ".nuxt" })
+        opts.picker.sources[source] = cfg
+      end
+    end,
+  },
+
   {
     "AstroNvim/astrolsp",
     optional = true,
