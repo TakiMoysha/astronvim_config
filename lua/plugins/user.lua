@@ -2,7 +2,7 @@
 return {
   { "EdenEast/nightfox.nvim" },
   { "loctvl842/monokai-pro.nvim" },
-  { "wakatime/vim-wakatime", lazy = false, optsd = { status_bar_enabled = true } },
+  { "wakatime/vim-wakatime", lazy = false, opts = { status_bar_enabled = true } },
 
   -- {
   --  TODO: delete
@@ -80,23 +80,34 @@ return {
     },
   },
 
-  -- AI autocomplete
+  -- AI autocomplete (GitHub Copilot)
   {
-    "Exafunction/windsurf.vim",
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
     event = "User AstroFile",
-    config = function()
-      vim.keymap.set("i", "<A-w>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
-      vim.keymap.set("i", "<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
-      vim.keymap.set("i", "<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
-      vim.keymap.set("i", "<c-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
-      vim.keymap.set("n", "<Leader>;", function()
-        if vim.g.codeium_enabled == true then
-          vim.cmd "CodeiumDisable"
-        else
-          vim.cmd "CodeiumEnable"
-        end
-      end, { noremap = true, desc = "Toggle Codeium active" })
-    end,
+    keys = {
+      {
+        "<Leader>;",
+        function()
+          if require("copilot.client").is_disabled() then
+            vim.cmd "Copilot enable"
+          else
+            vim.cmd "Copilot disable"
+          end
+        end,
+        desc = "Toggle Copilot active",
+      },
+    },
+    opts = {
+      -- suggestions are rendered by blink.cmp through blink-cmp-copilot
+      -- suggestion = { enabled = false },
+      -- panel = { enabled = false },
+    },
+  },
+  {
+    "giuxtaposition/blink-cmp-copilot",
+    dependencies = { "zbirenbaum/copilot.lua" },
+    module = "blink-cmp-copilot",
   },
 
   --
@@ -118,6 +129,35 @@ return {
         text = function(ctx) return ctx.item.source_name end,
         highlight = "BlinkCmpSource",
       }
+
+      -- GitHub Copilot as a completion source
+      opts.sources = opts.sources or {}
+      opts.sources.providers = opts.sources.providers or {}
+      opts.sources.providers.copilot = {
+        name = "copilot",
+        module = "blink-cmp-copilot",
+        score_offset = 100,
+        async = true,
+      }
+      opts.sources.default = opts.sources.default or {}
+      if not vim.tbl_contains(opts.sources.default, "copilot") then
+        table.insert(opts.sources.default, "copilot")
+      end
+
+      -- windsurf-like inline preview: virtual line at the cursor + multi-line block
+      opts.completion.ghost_text = {
+        enabled = true,
+        show_with_selection = true,
+        show_without_selection = true,
+        show_with_menu = true,
+        show_without_menu = true,
+      }
+      -- don't pop the menu on every keystroke; it stays available on <C-Space>
+      opts.completion.menu.auto_show = function(ctx) return ctx.mode == "cmdline" end
+
+      -- keep the old windsurf.vim accept key
+      opts.keymap = opts.keymap or {}
+      opts.keymap["<A-w>"] = { "select_and_accept", "fallback" }
 
       --- try remove angular snippets, unsuccessful
       -- opts.sources = opts.sources or {}
