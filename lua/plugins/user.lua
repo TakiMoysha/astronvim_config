@@ -80,36 +80,6 @@ return {
     },
   },
 
-  -- AI autocomplete (GitHub Copilot)
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "User AstroFile",
-    keys = {
-      {
-        "<Leader>;",
-        function()
-          if require("copilot.client").is_disabled() then
-            vim.cmd "Copilot enable"
-          else
-            vim.cmd "Copilot disable"
-          end
-        end,
-        desc = "Toggle Copilot active",
-      },
-    },
-    opts = {
-      -- suggestions are rendered by blink.cmp through blink-cmp-copilot
-      -- suggestion = { enabled = false },
-      -- panel = { enabled = false },
-    },
-  },
-  {
-    "giuxtaposition/blink-cmp-copilot",
-    dependencies = { "zbirenbaum/copilot.lua" },
-    module = "blink-cmp-copilot",
-  },
-
   --
   {
     "saghen/blink.cmp",
@@ -130,21 +100,20 @@ return {
         highlight = "BlinkCmpSource",
       }
 
-      -- GitHub Copilot as a completion source
+      -- minuet-ai as a completion source (LLM provider configured above)
       opts.sources = opts.sources or {}
       opts.sources.providers = opts.sources.providers or {}
-      opts.sources.providers.copilot = {
-        name = "copilot",
-        module = "blink-cmp-copilot",
-        score_offset = 100,
+      opts.sources.providers.minuet = {
+        name = "minuet",
+        module = "minuet.blink",
+        score_offset = 50,
         async = true,
+        timeout_ms = 3000, -- must match minuet request_timeout * 1000
       }
       opts.sources.default = opts.sources.default or {}
-      if not vim.tbl_contains(opts.sources.default, "copilot") then
-        table.insert(opts.sources.default, "copilot")
-      end
+      if not vim.tbl_contains(opts.sources.default, "minuet") then table.insert(opts.sources.default, "minuet") end
 
-      -- windsurf-like inline preview: virtual line at the cursor + multi-line block
+      -- phantom-подобный inline preview
       opts.completion.ghost_text = {
         enabled = true,
         show_with_selection = true,
@@ -155,9 +124,9 @@ return {
       -- don't pop the menu on every keystroke; it stays available on <C-Space>
       opts.completion.menu.auto_show = function(ctx) return ctx.mode == "cmdline" end
 
-      -- keep the old windsurf.vim accept key
+      -- ghost text accept key is owned by minuet (<A-w>), menu accept stays <C-y>
       opts.keymap = opts.keymap or {}
-      opts.keymap["<A-w>"] = { "select_and_accept", "fallback" }
+      opts.keymap["<A-w>"] = nil
 
       --- try remove angular snippets, unsuccessful
       -- opts.sources = opts.sources or {}
